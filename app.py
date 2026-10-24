@@ -2197,8 +2197,6 @@ def ticket_quantity():
 
 
 PAYPAL_API_BASE = "https://api-m.sandbox.paypal.com"
-# PAYPAL_CLIENT_ID = os.getenv("PAYPAL_CLIENT_ID")
-# PAYPAL_SECRET = os.getenv("PAYPAL_SECRET")
 PAYPAL_CLIENT_ID = os.getenv("PAYPAL_CLIENT_ID")
 PAYPAL_SECRET = os.getenv("PAYPAL_SECRET")
 

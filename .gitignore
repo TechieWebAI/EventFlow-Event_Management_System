@@ -17,3 +17,6 @@ images/
 
 images/
 **/images/
+
+node_modules/
+**/node_modules/
