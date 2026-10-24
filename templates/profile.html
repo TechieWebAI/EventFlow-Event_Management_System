@@ -1,0 +1,831 @@
+{% extends "base.html" %}
+
+{% block title %}My Account — EventFlow{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/pages/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="profile-page">
+
+    <!-- =====================================================
+         ACCOUNT HEADER
+    ====================================================== -->
+
+    <section class="account-header">
+
+        <div class="profile-container">
+
+            <div class="account-header-card">
+
+                <div class="account-user">
+
+                    <div class="profile-avatar">
+                        {{ user['username'][0] | upper }}
+                    </div>
+
+                    <div class="account-user-info">
+
+                        <span class="profile-eyebrow">
+                            MY ACCOUNT
+                        </span>
+
+                        <h1>
+                            Welcome back, {{ user['username'] }}
+                        </h1>
+
+                        <p>
+                            Manage your bookings and EventFlow experiences.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <a href="{{ url_for('index') }}#popular-events"
+                   class="profile-explore-top">
+
+                    Explore events
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+
+            <!-- =================================================
+                 ACCOUNT DETAILS
+            ================================================== -->
+
+            <div class="account-stats">
+
+                <div class="account-stat">
+
+                    <span class="summary-label">
+                        ACCOUNT
+                    </span>
+
+                    <strong>
+                        {{ user['username'] }}
+                    </strong>
+
+                </div>
+
+
+                <div class="account-stat">
+
+                    <span class="summary-label">
+                        EMAIL
+                    </span>
+
+                    <strong>
+                        {{ user['email'] }}
+                    </strong>
+
+                </div>
+
+
+                <div class="account-stat">
+
+                    <span class="summary-label">
+                        BOOKINGS
+                    </span>
+
+                    <strong>
+                        {{ bookings|length }}
+                    </strong>
+
+                </div>
+
+
+                <div class="account-stat">
+
+                    <span class="summary-label">
+                        WEDDINGS
+                    </span>
+
+                    <strong>
+                        {{ wedding_bookings|length }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         MAIN PROFILE CONTENT
+    ====================================================== -->
+
+    <main class="profile-main">
+
+        <div class="profile-container">
+
+
+            <!-- =================================================
+                 EVENT BOOKINGS
+            ================================================== -->
+
+            <section class="experience-section">
+
+                <div class="section-intro">
+
+                    <div>
+
+                        <span class="profile-eyebrow">
+                            YOUR EXPERIENCES
+                        </span>
+
+                        <h2>
+                            Event bookings
+                        </h2>
+
+                    </div>
+
+
+                    {% if bookings %}
+
+                    <span class="experience-count">
+
+                        {{ bookings|length }}
+
+                        {% if bookings|length == 1 %}
+                            booking
+                        {% else %}
+                            bookings
+                        {% endif %}
+
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                {% if bookings %}
+
+                <div class="booking-list">
+
+                    {% for event in bookings %}
+
+                    {# -------------------------------------------------
+                       NORMALIZE NORMAL EVENT STATUS
+
+                       Normal event statuses shown to users:
+                       Confirmed
+                       Completed
+                       Cancelled
+
+                       Pending is NOT shown for normal events.
+                       Wedding has its own separate status system.
+                    -------------------------------------------------- #}
+
+                    {% set booking_status = event['status']|lower %}
+
+
+                    <article class="booking-card
+                        {% if booking_status == 'completed' %}
+                            booking-completed
+                        {% elif booking_status == 'cancelled' %}
+                            booking-cancelled
+                        {% endif %}
+                    ">
+
+
+                        <div class="booking-card-main">
+
+
+                            <!-- =================================================
+                                 BOOKING ICON
+                            ================================================== -->
+
+                            <div class="booking-icon">
+
+                                {% if booking_status == 'cancelled' %}
+
+                                    <i class="fa-solid fa-xmark"></i>
+
+                                {% elif booking_status == 'completed' %}
+
+                                    <i class="fa-solid fa-check-double"></i>
+
+                                {% else %}
+
+                                    <i class="fa-solid fa-ticket"></i>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- =================================================
+                                 BOOKING INFORMATION
+                            ================================================== -->
+
+                            <div class="booking-info">
+
+
+                                <!-- =================================================
+                                     TITLE + STATUS
+                                ================================================== -->
+
+                                <div class="booking-title-row">
+
+                                    <div>
+
+                                        <span class="booking-type">
+                                            EVENT BOOKING
+                                        </span>
+
+                                        <h3>
+                                            {{ event['title'] }}
+                                        </h3>
+
+                                    </div>
+
+
+                                    <!-- =================================================
+                                         NORMAL EVENT STATUS
+                                    ================================================== -->
+
+                                    {% if booking_status == 'cancelled' %}
+
+                                        <span class="booking-status cancelled">
+                                            <span></span>
+                                            Cancelled
+                                        </span>
+
+                                    {% elif booking_status == 'completed' %}
+
+                                        <span class="booking-status completed">
+                                            <span></span>
+                                            Completed
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="booking-status active">
+                                            <span></span>
+                                            Confirmed
+                                        </span>
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                <!-- =================================================
+                                     EVENT META
+                                ================================================== -->
+
+                                <div class="booking-meta">
+
+
+                                    <div class="booking-meta-item">
+
+                                        <i class="fa-regular fa-calendar"></i>
+
+                                        <span>
+                                            {{ event['event_date'] }}
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="booking-meta-item">
+
+                                        <i class="fa-solid fa-location-dot"></i>
+
+                                        <span>
+                                            {{ event['location'] }}
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="booking-meta-item">
+
+                                        <i class="fa-solid fa-ticket"></i>
+
+                                        <span>
+
+                                            {{ event['ticket_quantity']|int }}
+
+                                            {% if event['ticket_quantity']|int == 1 %}
+                                                ticket 
+                                            {% else %}
+                                                tickets 
+                                            {% endif %}
+
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- =================================================
+                                     BOOKING FOOTER
+                                ================================================== -->
+
+                                <div class="booking-footer">
+
+
+                                    <!-- =================================================
+                                         BOOKED DATE
+                                    ================================================== -->
+
+                                    <div class="booking-date">
+
+                                        <span>
+                                            BOOKED ON
+                                        </span>
+
+                                        <strong>
+                                            {{ event['booking_date'] }}
+                                        </strong>
+
+                                    </div>
+
+
+                                    <!-- =================================================
+                                         TICKET HISTORY
+                                    ================================================== -->
+
+                                    <div class="booking-ticket-summary">
+
+
+                                        <!-- =================================================
+                                             FULLY CANCELLED
+                                        ================================================== -->
+
+                                        {% if booking_status == 'cancelled' %}
+
+                                            <div class="ticket-history cancelled-history">
+
+                                                <div class="ticket-history-item">
+
+                                                    <span>
+                                                        Booked
+                                                    </span>
+
+                                                    <strong>
+                                                        {{ event['original_ticket_quantity']|default(0, true)|int }}
+                                                    </strong>
+
+                                                </div>
+
+
+                                                <div class="ticket-history-item cancelled">
+
+                                                    <span>
+                                                        Cancelled
+                                                    </span>
+
+                                                    <strong>
+                                                        {{ event['original_ticket_quantity']|default(0, true)|int }}
+                                                    </strong>
+
+                                                </div>
+
+
+                                                <div class="ticket-history-item remaining">
+
+                                                    <span>
+                                                        Remaining
+                                                    </span>
+
+                                                    <strong>
+                                                        0
+                                                    </strong>
+
+                                                </div>
+
+                                            </div>
+
+
+                                        <!-- =================================================
+                                             COMPLETED
+                                        ================================================== -->
+
+                                        {% elif booking_status == 'completed' %}
+
+                                            <div class="ticket-history">
+
+                                                <div class="ticket-history-item">
+
+                                                    <span>
+                                                        Booked
+                                                    </span>
+
+                                                    <strong>
+                                                        {{ event['original_ticket_quantity']|default(event['ticket_quantity'], true)|int }}
+                                                    </strong>
+
+                                                </div>
+
+
+                                                <div class="ticket-history-item remaining">
+
+                                                    <span>
+                                                        Tickets
+                                                    </span>
+
+                                                    <strong>
+                                                        {{ event['ticket_quantity']|int }}
+                                                    </strong>
+
+                                                </div>
+
+                                            </div>
+
+
+                                        <!-- =================================================
+                                             ACTIVE / CONFIRMED
+                                        ================================================== -->
+
+                                        {% else %}
+
+                                            {% set original_tickets =
+                                                event['original_ticket_quantity']|default(event['ticket_quantity'], true)|int %}
+
+                                            {% set remaining_tickets =
+                                                event['ticket_quantity']|int %}
+
+                                            {% set cancelled_tickets =
+                                                original_tickets - remaining_tickets %}
+
+
+                                            <div class="ticket-history">
+
+
+                                                <div class="ticket-history-item">
+
+                                                    <span>
+                                                        Booked
+                                                    </span>
+
+                                                    <strong>
+                                                        {{ original_tickets }}
+                                                    </strong>
+
+                                                </div>
+
+
+                                                <div class="ticket-history-item cancelled">
+
+                                                    <span>
+                                                        Cancelled
+                                                    </span>
+
+                                                    <strong>
+                                                        {{ cancelled_tickets }}
+                                                    </strong>
+
+                                                </div>
+
+
+                                                <div class="ticket-history-item remaining">
+
+                                                    <span>
+                                                        Remaining
+                                                    </span>
+
+                                                    <strong>
+                                                        {{ remaining_tickets }}
+                                                    </strong>
+
+                                                </div>
+
+                                            </div>
+
+                                        {% endif %}
+
+                                    </div>
+
+
+                                    <!-- =================================================
+                                         ACTIONS
+                                    ================================================== -->
+
+                                    <div class="booking-actions">
+
+
+                                        <!-- VIEW EVENT -->
+
+                                        <a
+                                            href="{{ url_for(
+                                                'event_detail',
+                                                event_id=event['event_id'],
+                                                from_page='profile'
+                                            ) }}"
+                                            class="booking-view"
+                                        >
+
+                                            View event
+
+                                            <i class="fa-solid fa-arrow-right"></i>
+
+                                        </a>
+
+
+                                        <!-- =================================================
+                                             CANCEL BOOKING
+
+                                             GET ONLY:
+                                             Opens cancellation page.
+
+                                             It does NOT directly cancel.
+                                        ================================================== -->
+
+                                        {% if booking_status not in ['cancelled', 'completed']
+                                              and event['ticket_quantity']|int > 0 %}
+
+                                            <a
+                                                href="{{ url_for(
+                                                    'cancel_tickets',
+                                                    booking_id=event['booking_id']
+                                                ) }}"
+                                                class="booking-cancel"
+                                            >
+
+                                                <i class="fa-solid fa-ban"></i>
+
+                                                Cancel booking
+
+                                            </a>
+
+                                        {% endif %}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- =================================================
+                     NO EVENT BOOKINGS
+                ================================================== -->
+
+                {% else %}
+
+                <div class="profile-empty">
+
+                    <div class="profile-empty-icon">
+                        <i class="fa-solid fa-ticket"></i>
+                    </div>
+
+                    <h3>
+                        No event bookings yet
+                    </h3>
+
+                    <p>
+                        Discover something interesting and make your
+                        first booking.
+                    </p>
+
+                    <a
+                        href="{{ url_for('index') }}#popular-events"
+                        class="empty-action"
+                    >
+
+                        Explore events
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+                {% endif %}
+
+            </section>
+
+
+            <!-- =====================================================
+                 WEDDING EXPERIENCES
+
+                 DO NOT CHANGE THIS SECTION
+            ====================================================== -->
+
+            <section class="experience-section wedding-section">
+
+                <div class="section-intro">
+
+                    <div>
+
+                        <span class="profile-eyebrow">
+                            WEDDING EXPERIENCES
+                        </span>
+
+                        <h2>
+                            Your wedding bookings
+                        </h2>
+
+                    </div>
+
+
+                    {% if wedding_bookings %}
+
+                    <span class="experience-count">
+
+                        {{ wedding_bookings|length }}
+
+                        {% if wedding_bookings|length == 1 %}
+                            wedding
+                        {% else %}
+                            weddings
+                        {% endif %}
+
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                {% if wedding_bookings %}
+
+                <div class="wedding-list">
+
+                    {% for w in wedding_bookings %}
+
+                    <article class="wedding-card wedding-plan-card">
+
+  {% if w.theme_image_url %}
+  <div class="wedding-theme-image">
+    {% if '://' in w.theme_image_url or w.theme_image_url.startswith('/') %}
+      <img src="{{ w.theme_image_url }}" alt="{{ w.theme }} wedding theme">
+    {% else %}
+      <img src="{{ url_for('static', filename=w.theme_image_url) }}"
+           alt="{{ w.theme }} wedding theme">
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <div class="wedding-info">
+    <div class="wedding-title-row">
+      <div>
+        <span class="booking-type">WEDDING THEME</span>
+        <h3>{{ w.theme or 'Wedding plan' }}</h3>
+      </div>
+
+      <span class="booking-status {{ w.status_key }}">
+        <span></span>{{ w.status_label }}
+      </span>
+    </div>
+
+    {% if w.status_key == 'confirmed' %}
+      <p class="wedding-confirmation-message">
+        Your wedding request is confirmed. Your approved plan is ready to view.
+      </p>
+    {% elif w.status_key in ['new_request', 'under_review', 'changes_requested'] %}
+      <p class="wedding-pending-message">
+        Your request is being reviewed. We’ll update this booking when its status changes.
+      </p>
+    {% endif %}
+
+    <div class="wedding-details">
+      <div><span>WEDDING DATE</span><strong>{{ w.wedding_date or 'Not provided' }}</strong></div>
+      <div><span>VENUE</span><strong>{{ w.venue or 'Not provided' }}</strong></div>
+      <div><span>LOCATION</span><strong>{{ w.wedding_location_display }}</strong></div>
+      <div><span>WEDDING DAYS</span><strong>{{ w.wedding_days_display }}</strong></div>
+      <div><span>GUESTS</span><strong>{{ w.guest_count or 'Not provided' }}</strong></div>
+      <div><span>SUBMITTED</span><strong>{{ w.booked_on or w.booking_date or 'Not provided' }}</strong></div>
+    </div>
+
+    <div class="wedding-plan-details">
+      <h4>Selected events</h4>
+      <div class="wedding-plan-chips">
+        {% for event in w.selected_events_list %}
+          <span>{{ event }}</span>
+        {% else %}
+          <span class="wedding-plan-muted">Not provided</span>
+        {% endfor %}
+      </div>
+
+      {% if w.per_event_customization_data %}
+        <h4>Event services</h4>
+        {% for event_name, services in w.per_event_customization_data.items() %}
+          <p>
+            <strong>{{ event_name }}:</strong>
+            {% if services is sequence and services is not string %}
+              {{ services|join(', ') if services else 'Not provided' }}
+            {% else %}
+              {{ services or 'Not provided' }}
+            {% endif %}
+          </p>
+        {% endfor %}
+      {% endif %}
+
+      <h4>General services</h4>
+      <div class="wedding-plan-chips">
+        {% for service in w.general_services_list %}
+          <span>{{ service }}</span>
+        {% else %}
+          <span class="wedding-plan-muted">Not provided</span>
+        {% endfor %}
+      </div>
+
+      {% if w.optional_addons_list %}
+        <h4>Optional add-ons</h4>
+        <div class="wedding-plan-chips">
+          {% for addon in w.optional_addons_list %}
+            <span>{{ addon }}</span>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <h4>Preferences</h4>
+      <p>{{ w.preferences_display }}</p>
+
+      {% if w.contact_note_display != 'No additional note' %}
+        <h4>Your note</h4>
+        <p>{{ w.contact_note_display }}</p>
+      {% endif %}
+    </div>
+
+    <div class="wedding-actions">
+      {% if w.status_key == 'confirmed' %}
+        <a class="wedding-plan-pdf-link"
+           href="{{ url_for('customer_wedding_plan_pdf', booking_id=w.id) }}">
+          <i class="fa-regular fa-file-pdf"></i>
+          View / Download Wedding Plan PDF
+        </a>
+
+      {% else %}
+        <span class="waiting-message">
+          <i class="fa-regular fa-clock"></i>
+          The approved PDF will be available after confirmation.
+        </span>
+      {% endif %}
+    </div>
+  </div>
+</article>
+                    {% endfor %}
+
+                </div>
+
+
+                {% else %}
+
+                <div class="profile-empty wedding-empty">
+
+                    <div class="profile-empty-icon">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+
+                    <h3>
+                        No wedding experiences yet
+                    </h3>
+
+                    <p>
+                        Explore wedding themes and start planning
+                        your celebration.
+                    </p>
+
+                    <a
+                        href="{{ url_for('wedding_themes') }}"
+                        class="empty-action"
+                    >
+
+                        Explore weddings
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+                {% endif %}
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+
+
+{% endblock %}

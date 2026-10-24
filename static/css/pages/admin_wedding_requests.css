@@ -1,0 +1,638 @@
+.wedding-requests-page .admin-main {
+  min-width: 0;
+}
+
+.requests-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 66px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.requests-back-link {
+  color: var(--admin-text-soft);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.requests-back-link:hover {
+  color: var(--admin-accent);
+}
+
+.requests-content {
+  width: 100%;
+  max-width: 1700px;
+  margin: 0 auto;
+  padding-bottom: 24px;
+}
+
+.requests-heading {
+  margin-bottom: 18px;
+}
+
+.requests-heading h1 {
+  margin: 6px 0;
+  color: var(--admin-text);
+  font: 500 30px Georgia, "Times New Roman", serif;
+}
+
+.requests-heading p {
+  margin: 0;
+  color: var(--admin-text-muted);
+  font-size: 12px;
+}
+
+.requests-filters {
+  display: grid;
+  grid-template-columns: minmax(190px, 1.5fr) repeat(4, minmax(125px, 1fr)) auto;
+  gap: 10px;
+  align-items: end;
+  margin-bottom: 16px;
+  padding: 14px;
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  background: var(--admin-surface);
+}
+
+.requests-filters label {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--admin-text-muted);
+  font-size: 10px;
+}
+
+.requests-filters input,
+.requests-filters select {
+  width: 100%;
+  min-width: 0;
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  outline: none;
+  background: var(--admin-surface-2);
+  color: var(--admin-text);
+  font: inherit;
+  font-size: 11px;
+}
+
+.requests-filters input:focus,
+.requests-filters select:focus {
+  border-color: var(--admin-accent);
+}
+
+.requests-filter-button {
+  min-height: 38px;
+  padding: 0 13px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--admin-accent);
+  color: #211a0e;
+  font-size: 11px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.requests-filter-button:hover {
+  background: var(--admin-accent-hover);
+}
+
+.requests-clear-button {
+  grid-column: 1 / -1;
+  justify-self: end;
+  color: var(--admin-text-muted);
+  font-size: 10px;
+  text-decoration: none;
+}
+
+.requests-clear-button:hover {
+  color: var(--admin-accent);
+}
+
+.requests-list-panel {
+  min-width: 0;
+  padding: 16px;
+}
+
+.requests-list-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.requests-list-heading h2 {
+  margin: 5px 0 0;
+  color: var(--admin-text);
+  font: 500 18px Georgia, "Times New Roman", serif;
+}
+
+.requests-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.requests-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+}
+
+.requests-table th {
+  padding: 11px 10px;
+  border-bottom: 1px solid var(--admin-border);
+  background: var(--admin-surface-2);
+  color: var(--admin-text-muted);
+  font-size: 9px;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+
+.requests-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--admin-border-soft);
+  color: var(--admin-text-soft);
+  font-size: 11px;
+  vertical-align: middle;
+}
+
+.requests-table tbody tr:hover {
+  background: var(--admin-surface-2);
+}
+
+.requests-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.requests-customer-name,
+.requests-customer-email {
+  display: block;
+}
+
+.requests-customer-name {
+  color: var(--admin-text);
+  font-size: 11px;
+}
+
+.requests-customer-email {
+  margin-top: 3px;
+  color: var(--admin-text-muted);
+  font-size: 9px;
+}
+
+.booking-view-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px;
+  border: 1px solid var(--admin-accent-border);
+  border-radius: 7px;
+  color: var(--admin-accent-hover);
+  font-size: 10px;
+  font-weight: 750;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.booking-view-button:hover {
+  background: var(--admin-accent-soft);
+  border-color: var(--admin-accent);
+}
+
+.requests-empty {
+  padding: 30px !important;
+  color: var(--admin-text-muted) !important;
+  text-align: center;
+}
+
+@media (max-width: 1100px) {
+  .requests-filters {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .requests-search-field {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 650px) {
+  .requests-filters {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .requests-search-field {
+    grid-column: 1 / -1;
+  }
+
+  .requests-heading h1 {
+    font-size: 25px;
+  }
+
+  .requests-topbar .wedding-admin-label {
+    display: none;
+  }
+}
+
+
+.wedding-requests-page .admin-main {
+  min-width: 0;
+}
+
+.requests-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 66px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.requests-back-link {
+  color: var(--admin-text-soft);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.requests-back-link:hover {
+  color: var(--admin-accent);
+}
+
+.requests-content {
+  width: 100%;
+  max-width: 1700px;
+  margin: 0 auto;
+  padding-bottom: 24px;
+}
+
+.requests-heading {
+  margin-bottom: 18px;
+}
+
+.requests-heading h1 {
+  margin: 6px 0;
+  color: var(--admin-text);
+  font: 500 30px Georgia, "Times New Roman", serif;
+}
+
+.requests-heading p {
+  margin: 0;
+  color: var(--admin-text-muted);
+  font-size: 12px;
+}
+
+.requests-filters {
+  display: grid;
+  grid-template-columns: minmax(190px, 1.5fr) repeat(4, minmax(125px, 1fr)) auto;
+  gap: 10px;
+  align-items: end;
+  margin-bottom: 16px;
+  padding: 14px;
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  background: var(--admin-surface);
+}
+
+.requests-filters label {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--admin-text-muted);
+  font-size: 10px;
+}
+
+.requests-filters input,
+.requests-filters select {
+  width: 100%;
+  min-width: 0;
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  outline: none;
+  background: var(--admin-surface-2);
+  color: var(--admin-text);
+  font: inherit;
+  font-size: 11px;
+}
+
+.requests-filters input:focus,
+.requests-filters select:focus {
+  border-color: var(--admin-accent);
+}
+
+.requests-filter-button {
+  min-height: 38px;
+  padding: 0 13px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--admin-accent);
+  color: #211a0e;
+  font-size: 11px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.requests-filter-button:hover {
+  background: var(--admin-accent-hover);
+}
+
+.requests-clear-button {
+  grid-column: 1 / -1;
+  justify-self: end;
+  color: var(--admin-text-muted);
+  font-size: 10px;
+  text-decoration: none;
+}
+
+.requests-clear-button:hover {
+  color: var(--admin-accent);
+}
+
+.requests-list-panel {
+  min-width: 0;
+  padding: 16px;
+}
+
+.requests-list-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.requests-list-heading h2 {
+  margin: 5px 0 0;
+  color: var(--admin-text);
+  font: 500 18px Georgia, "Times New Roman", serif;
+}
+
+.requests-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.requests-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+}
+
+.requests-table th {
+  padding: 11px 10px;
+  border-bottom: 1px solid var(--admin-border);
+  background: var(--admin-surface-2);
+  color: var(--admin-text-muted);
+  font-size: 9px;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+
+.requests-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--admin-border-soft);
+  color: var(--admin-text-soft);
+  font-size: 11px;
+  vertical-align: middle;
+}
+
+.requests-table tbody tr:hover {
+  background: var(--admin-surface-2);
+}
+
+.requests-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.requests-customer-name,
+.requests-customer-email {
+  display: block;
+}
+
+.requests-customer-name {
+  color: var(--admin-text);
+  font-size: 11px;
+}
+
+.requests-customer-email {
+  margin-top: 3px;
+  color: var(--admin-text-muted);
+  font-size: 9px;
+}
+
+.booking-view-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px;
+  border: 1px solid var(--admin-accent-border);
+  border-radius: 7px;
+  color: var(--admin-accent-hover);
+  font-size: 10px;
+  font-weight: 750;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.booking-view-button:hover {
+  background: var(--admin-accent-soft);
+  border-color: var(--admin-accent);
+}
+
+.requests-empty {
+  padding: 30px !important;
+  color: var(--admin-text-muted) !important;
+  text-align: center;
+}
+
+@media (max-width: 1100px) {
+  .requests-filters {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .requests-search-field {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 650px) {
+  .requests-filters {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .requests-search-field {
+    grid-column: 1 / -1;
+  }
+
+  .requests-heading h1 {
+    font-size: 25px;
+  }
+
+  .requests-topbar .wedding-admin-label {
+    display: none;
+  }
+}
+
+/* Filled status pills for the wedding request list */
+.wedding-requests-page .request-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 25px;
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 750;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Amber: new request */
+.wedding-requests-page .status-new_request {
+  color: #fff2cf;
+  background: #805b18;
+  border-color: #a97820;
+}
+
+/* Blue: under review */
+.wedding-requests-page .status-under_review {
+  color: #e5f1ff;
+  background: #315a82;
+  border-color: #4777a5;
+}
+
+/* Purple: changes requested */
+.wedding-requests-page .status-changes_requested {
+  color: #f5e7ff;
+  background: #65417c;
+  border-color: #8559a1;
+}
+
+/* Green: confirmed */
+.wedding-requests-page .status-confirmed {
+  color: #e1ffed;
+  background: #246746;
+  border-color: #34885d;
+}
+
+/* Red: declined */
+.wedding-requests-page .status-declined {
+  color: #ffe6e6;
+  background: #79383b;
+  border-color: #a34b50;
+}
+
+/* Gray: cancelled */
+.wedding-requests-page .status-cancelled {
+  color: #eeeeee;
+  background: #454b53;
+  border-color: #626a74;
+}
+
+/* Orange: needs review */
+.wedding-requests-page .status-legacy {
+  color: #fff0db;
+  background: #75502d;
+  border-color: #9b6a3c;
+}
+
+/* Requests-page top bar matches the booking-detail page */
+.admin-main .requests-topbar {
+  min-height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 0 0 24px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.requests-topbar .requests-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--admin-text-soft);
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.requests-topbar .requests-back-link i {
+  color: var(--admin-accent);
+}
+
+.requests-topbar .requests-back-link:hover {
+  color: var(--admin-accent);
+  transform: translateX(-2px);
+}
+
+.requests-topbar .admin-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.requests-topbar .wedding-admin-label {
+  color: var(--admin-text-muted);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.requests-topbar .wedding-admin-label i {
+  margin: 0 7px;
+  color: var(--admin-accent);
+}
+
+@media (max-width: 620px) {
+  .admin-main .requests-topbar {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 13px 0;
+  }
+
+  .requests-topbar .admin-topbar-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .requests-topbar .wedding-admin-label {
+    font-size: 7px;
+  }
+}
+
+
+.requests-topbar .wedding-admin-avatar {
+  width: 35px;
+  height: 35px;
+  min-width: 35px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--admin-accent-border);
+  border-radius: 50%;
+  background: var(--admin-accent-soft);
+  color: var(--admin-accent);
+  font-size: 12px;
+  font-weight: 850;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.requests-topbar .wedding-admin-avatar:hover {
+  border-color: var(--admin-accent);
+  background: var(--admin-accent-soft);
+  color: var(--admin-accent);
+}

@@ -1,0 +1,437 @@
+{% extends "base.html" %}
+
+{% block title %}Cancel Tickets — EventFlow{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/pages/cancel_tickets.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="cancel-page">
+
+    <div class="cancel-container">
+
+        <!-- BACK -->
+
+        <a href="{{ url_for('profile') }}" class="cancel-back">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Back to My Bookings
+
+        </a>
+
+
+        <!-- MAIN CARD -->
+
+        <section class="cancel-card">
+
+
+            <!-- HEADER -->
+
+            <div class="cancel-header">
+
+                <div class="cancel-icon">
+
+                    <i class="fa-solid fa-ticket"></i>
+
+                </div>
+
+                <div>
+
+                    <span class="cancel-eyebrow">
+                        BOOKING MANAGEMENT
+                    </span>
+
+                    <h1>
+                        Cancel tickets
+                    </h1>
+
+                    <p class="cancel-intro">
+                        Select the number of tickets you no longer need.
+                        Any tickets you keep will remain booked.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- EVENT -->
+
+            <div class="cancel-event">
+
+                <div class="cancel-event-top">
+
+                    <div class="cancel-event-title">
+
+                        <span class="cancel-label">
+                            EVENT
+                        </span>
+
+                        <h2>
+                            {{ booking['event_title'] }}
+                        </h2>
+
+                    </div>
+
+                    <span class="cancel-booking-id">
+                        Booking #{{ booking['id'] }}
+                    </span>
+
+                </div>
+
+
+                <div class="cancel-event-details">
+
+                    <div class="cancel-detail">
+
+                        <span>
+                            <i class="fa-regular fa-calendar"></i>
+                            EVENT DATE
+                        </span>
+
+                        <strong>
+                            {{ booking['event_date'] }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="cancel-detail">
+
+                        <span>
+                            <i class="fa-solid fa-location-dot"></i>
+                            LOCATION
+                        </span>
+
+                        <strong>
+                            {{ booking['location'] }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="cancel-detail">
+
+                        <span>
+                            <i class="fa-solid fa-ticket"></i>
+                            CURRENT TICKETS
+                        </span>
+
+                        <strong>
+                            {{ booking['ticket_quantity'] }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CANCELLATION FORM -->
+
+            <form
+                method="POST"
+                action="{{ url_for(
+                    'cancel_tickets',
+                    booking_id=booking['id']
+                ) }}"
+                class="cancel-form"
+            >
+
+
+                <div class="cancel-form-header">
+
+                    <div>
+
+                        <label for="cancel_quantity">
+                            How many tickets would you like to cancel?
+                        </label>
+
+                        <p>
+                            You currently have
+                            <strong>{{ booking['ticket_quantity'] }}</strong>
+                            ticket(s) remaining.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUANTITY -->
+
+                <div class="cancel-quantity-row">
+
+                    <div class="cancel-input-wrap">
+
+                        <button
+                            type="button"
+                            class="quantity-btn"
+                            id="decrease-ticket"
+                            aria-label="Decrease tickets"
+                        >
+                            <i class="fa-solid fa-minus"></i>
+                        </button>
+
+
+                        <input
+                            type="number"
+                            id="cancel_quantity"
+                            name="cancel_quantity"
+                            min="1"
+                            max="{{ booking['ticket_quantity'] }}"
+                            value="1"
+                            required
+                        >
+
+
+                        <button
+                            type="button"
+                            class="quantity-btn"
+                            id="increase-ticket"
+                            aria-label="Increase tickets"
+                        >
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+
+                    </div>
+
+
+                    <div class="quantity-limit">
+
+                        <span>
+                            Maximum
+                        </span>
+
+                        <strong>
+                            {{ booking['ticket_quantity'] }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RESULT PREVIEW -->
+
+                <div class="cancel-preview">
+
+                    <div class="cancel-preview-item">
+
+                        <span>
+                            Current
+                        </span>
+
+                        <strong id="current-ticket-count">
+                            {{ booking['ticket_quantity'] }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="cancel-preview-operation">
+                        <i class="fa-solid fa-minus"></i>
+                    </div>
+
+
+                    <div class="cancel-preview-item cancelled">
+
+                        <span>
+                            Cancelling
+                        </span>
+
+                        <strong id="cancel-ticket-count">
+                            1
+                        </strong>
+
+                    </div>
+
+
+                    <div class="cancel-preview-operation">
+                        <i class="fa-solid fa-equals"></i>
+                    </div>
+
+
+                    <div class="cancel-preview-item remaining">
+
+                        <span>
+                            Remaining
+                        </span>
+
+                        <strong id="remaining-ticket-count">
+                            {{ booking['ticket_quantity']|int - 1 }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <p class="cancel-help">
+
+                    <i class="fa-solid fa-circle-info"></i>
+
+                    You can cancel between
+                    <strong>1</strong>
+                    and
+                    <strong>{{ booking['ticket_quantity'] }}</strong>
+                    ticket(s).
+
+                </p>
+
+
+                <!-- ACTIONS -->
+
+                <div class="cancel-actions">
+
+                    <a
+                        href="{{ url_for('profile') }}"
+                        class="cancel-keep"
+                    >
+                        Keep booking
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="cancel-confirm"
+                    >
+
+                        <i class="fa-solid fa-ban"></i>
+
+                        Confirm Cancellation
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     TICKET QUANTITY INTERACTION
+========================================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const input =
+        document.getElementById("cancel_quantity");
+
+    const decrease =
+        document.getElementById("decrease-ticket");
+
+    const increase =
+        document.getElementById("increase-ticket");
+
+    const currentCount =
+        document.getElementById("current-ticket-count");
+
+    const cancelCount =
+        document.getElementById("cancel-ticket-count");
+
+    const remainingCount =
+        document.getElementById("remaining-ticket-count");
+
+
+    if (
+        !input ||
+        !decrease ||
+        !increase ||
+        !currentCount ||
+        !cancelCount ||
+        !remainingCount
+    ) {
+        return;
+    }
+
+
+    const maximum =
+        parseInt(input.max, 10);
+
+
+    function updatePreview() {
+
+        let quantity =
+            parseInt(input.value, 10);
+
+
+        if (isNaN(quantity)) {
+            quantity = 1;
+        }
+
+
+        quantity =
+            Math.max(1, Math.min(quantity, maximum));
+
+
+        input.value = quantity;
+
+
+        currentCount.textContent = maximum;
+
+        cancelCount.textContent = quantity;
+
+        remainingCount.textContent =
+            maximum - quantity;
+
+
+        decrease.disabled =
+            quantity <= 1;
+
+        increase.disabled =
+            quantity >= maximum;
+
+    }
+
+
+    decrease.addEventListener("click", function () {
+
+        let value =
+            parseInt(input.value, 10) || 1;
+
+        if (value > 1) {
+            input.value = value - 1;
+            updatePreview();
+        }
+
+    });
+
+
+    increase.addEventListener("click", function () {
+
+        let value =
+            parseInt(input.value, 10) || 1;
+
+        if (value < maximum) {
+            input.value = value + 1;
+            updatePreview();
+        }
+
+    });
+
+
+    input.addEventListener("input", updatePreview);
+
+    input.addEventListener("change", updatePreview);
+
+
+    updatePreview();
+
+});
+
+</script>
+
+{% endblock %}

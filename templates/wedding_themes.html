@@ -1,0 +1,571 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Wedding Themes | EventFlow
+{% endblock %}
+
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/pages/wedding_themes.css') }}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<main class="wedding-page">
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    {% if themes %}
+
+        <section 
+            class="wf-hero" 
+            style="background-image: url('{{ url_for('static', filename='images/download.jpg') }}');"
+        >
+
+        <div class="wf-hero-overlay"></div>
+
+
+        <div class="wf-hero-content">
+
+            <span class="wf-eyebrow">
+                EVENTFLOW WEDDING COLLECTION
+            </span>
+
+
+            <h1>
+
+                Wedding themes
+                <br>
+
+                designed
+                <span>around</span>
+
+                <br>
+
+                <span>your celebration.</span>
+
+            </h1>
+
+
+            <p>
+
+                Explore wedding themes, discover the one that
+                feels right for your celebration, and continue
+                through the EventFlow wedding experience.
+
+            </p>
+
+
+            <div class="wf-hero-actions">
+
+                <a
+                    href="#wedding-themes"
+                    class="wf-btn wf-btn-primary"
+                >
+
+                    Explore themes
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </a>
+
+
+                {% if 'user_id' in session %}
+
+                    <a
+                        href="{{ url_for('profile') }}"
+                        class="wf-btn wf-btn-secondary"
+                    >
+
+                        My wedding plans
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                {% else %}
+
+                    <a
+                        href="{{ url_for('login') }}"
+                        class="wf-btn wf-btn-secondary"
+                    >
+
+                        My wedding plans
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             HERO INFORMATION
+             No invented wedding facts
+        ================================================== -->
+
+        <div class="wf-hero-bottom">
+
+            <div class="wf-hero-feature">
+
+                <span class="wf-feature-icon">
+                    <i class="fa-regular fa-image"></i>
+                </span>
+
+                <div>
+
+                    <strong>
+                        Wedding themes
+                    </strong>
+
+                    <small>
+                        Explore the EventFlow collection
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="wf-hero-feature">
+
+                <span class="wf-feature-icon">
+                    <i class="fa-regular fa-heart"></i>
+                </span>
+
+                <div>
+
+                    <strong>
+                        Choose your theme
+                    </strong>
+
+                    <small>
+                        Find a style that feels right
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="wf-hero-feature">
+
+                <span class="wf-feature-icon">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </span>
+
+                <div>
+
+                    <strong>
+                        Continue your plans
+                    </strong>
+
+                    <small>
+                        Explore your selected theme
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         THEME INTRO
+    ====================================================== -->
+
+    <section
+        class="wf-theme-intro"
+        id="wedding-themes"
+    >
+
+        <div class="wf-intro-decoration">
+
+            <span></span>
+            <span></span>
+
+        </div>
+
+
+        <span class="wf-section-label">
+            EXPLORE THEMES
+        </span>
+
+
+        <h2>
+            Find the style that feels like your story.
+        </h2>
+
+
+        <p>
+            Explore the wedding themes created for the EventFlow
+            wedding experience.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         THEME LIST
+    ====================================================== -->
+
+    <section class="wf-theme-list">
+
+        {% for theme in themes %}
+
+        <article
+            class="wf-theme-card
+            {% if loop.index is even %}
+                wf-image-right
+            {% else %}
+                wf-image-left
+            {% endif %}"
+        >
+
+            <!-- =================================================
+                 IMAGE
+            ================================================== -->
+
+            <div class="wf-theme-image-area">
+
+                <div class="wf-theme-image-box">
+
+                    <img
+                        src="{{ theme.image_url }}"
+                        alt="{{ theme.name }} wedding theme"
+                        loading="lazy"
+                    >
+
+
+                    <div class="wf-theme-number">
+
+                        {{ "%02d"|format(loop.index) }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 CONTENT
+            ================================================== -->
+
+            <div class="wf-theme-content">
+
+                <span class="wf-theme-category">
+                    EVENTFLOW WEDDING THEME
+                </span>
+
+
+                <h3>
+                    {{ theme.name }}
+                </h3>
+
+
+                <p>
+                    {{ theme.description }}
+                </p>
+
+                 <div class="wf-theme-style">
+                    <span class="wf-theme-style-label">STYLE</span>
+
+                    <div class="wf-theme-style-values">
+
+                        {% if theme.name == 'Royal Palace Theme' %}
+                            <span>Grand</span>
+                            <span>Regal</span>
+                            <span>Luxurious</span>
+
+                        {% elif theme.name == 'Beach Wedding Theme' %}
+                            <span>Coastal</span>
+                            <span>Relaxed</span>
+                            <span>Romantic</span>
+
+                        {% elif theme.name == 'Rustic Garden Theme' %}
+                            <span>Rustic</span>
+                            <span>Natural</span>
+                            <span>Intimate</span>
+
+                        {% elif theme.name == 'Traditional Culture Theme' %}
+                            <span>Cultural</span>
+                            <span>Traditional</span>
+                            <span>Vibrant</span>
+
+                        {% elif theme.name == 'Modern Minimalist Theme' %}
+                            <span>Minimal</span>
+                            <span>Modern</span>
+                            <span>Refined</span>
+
+                        {% else %}
+                            <span>Elegant</span>
+                            <span>Timeless</span>
+                            <span>Distinctive</span>
+                        {% endif %}
+
+                    </div>
+                </div>
+
+
+                <a
+                    href="{{ url_for('view_theme', theme_id=theme.id) }}"
+                    class="wf-theme-link"
+                >
+
+                    Explore this theme
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </section>
+
+
+    <!-- =====================================================
+         EXPERIENCE
+    ====================================================== -->
+
+    <section class="experience-section">
+
+        <div class="home-container">
+
+            <div class="experience-box">
+
+                <div class="experience-content">
+
+                    <span class="wf-section-label">
+                        ONE CONNECTED EXPERIENCE
+                    </span>
+
+
+                    <h2>
+                        Start with the
+                        <span>theme that feels right.</span>
+                    </h2>
+
+
+                    <p>
+                        Explore each wedding theme, open the one
+                        that catches your attention, and continue
+                        through the EventFlow wedding experience.
+                    </p>
+
+
+                    {% if 'user_id' in session %}
+
+                        <a
+                            href="{{ url_for('profile') }}"
+                            class="experience-btn"
+                        >
+
+                            View my wedding plans
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </a>
+
+                    {% else %}
+
+                        <a
+                            href="{{ url_for('login') }}"
+                            class="experience-btn"
+                        >
+
+                            View my wedding plans
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- =================================================
+                     EXPERIENCE STEPS
+                ================================================== -->
+
+                <div class="experience-steps">
+
+                    <div class="experience-step">
+
+                        <span class="step-number">
+                            01
+                        </span>
+
+                        <div>
+
+                            <h4>
+                                Explore
+                            </h4>
+
+                            <p>
+                                the wedding collection
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="experience-line"></div>
+
+
+                    <div class="experience-step">
+
+                        <span class="step-number">
+                            02
+                        </span>
+
+                        <div>
+
+                            <h4>
+                                Choose
+                            </h4>
+
+                            <p>
+                                a theme you like
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="experience-line"></div>
+
+
+                    <div class="experience-step">
+
+                        <span class="step-number">
+                            03
+                        </span>
+
+                        <div>
+
+                            <h4>
+                                Explore
+                            </h4>
+
+                            <p>
+                                the selected theme
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="experience-line"></div>
+
+
+                    <div class="experience-step">
+
+                        <span class="step-number">
+                            04
+                        </span>
+
+                        <div>
+
+                            <h4>
+                                Continue
+                            </h4>
+
+                            <p>
+                                with your wedding plans
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    {% else %}
+
+    <!-- =====================================================
+         EMPTY STATE
+    ====================================================== -->
+
+    <section class="wf-empty-state">
+
+        <span class="wf-section-label">
+            EVENTFLOW WEDDINGS
+        </span>
+
+
+        <h2>
+            Wedding themes are coming soon.
+        </h2>
+
+
+        <p>
+            We are preparing the wedding theme collection.
+            Please check back soon.
+        </p>
+
+
+        <a
+            href="{{ url_for('index') }}"
+            class="wf-theme-link"
+        >
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Back to events
+
+        </a>
+
+    </section>
+
+    {% endif %}
+
+</main>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    document.body.classList.add("wedding-page-active");
+
+});
+
+</script>
+
+{% endblock %}

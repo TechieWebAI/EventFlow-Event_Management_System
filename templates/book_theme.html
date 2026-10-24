@@ -1,0 +1,2289 @@
+{% extends "base.html" %}
+
+{% block title %}
+Customize Your Wedding Plan | EventFlow
+{% endblock %}
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/pages/book_theme.css') }}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="ewp-page">
+
+    <!-- =========================================================
+         FORM
+    ========================================================== -->
+
+    <form
+        method="POST"
+        action="{{ url_for('book_theme', theme_id=theme.id) }}"
+        id="weddingPlanForm"
+    >
+
+        <!-- =========================================================
+             PROGRESS
+        ========================================================== -->
+
+        <section class="ewp-progress-section">
+
+            <div class="ewp-page-heading">
+
+                <span class="ewp-kicker">
+                    EVENTFLOW WEDDINGS
+                </span>
+
+                <h1>
+                    Customize Your Wedding Plan
+                </h1>
+
+                <p>
+                    Build your celebration your way. Select your events,
+                    services and preferences before submitting your plan.
+                </p>
+
+            </div>
+
+
+            <div class="ewp-progress">
+
+                <div
+                    class="ewp-progress-item active"
+                    data-progress-step="1"
+                >
+                    <span>01</span>
+                    <strong>Details</strong>
+                </div>
+
+                <div class="ewp-progress-line"></div>
+
+                <div
+                    class="ewp-progress-item"
+                    data-progress-step="2"
+                >
+                    <span>02</span>
+                    <strong>Events</strong>
+                </div>
+
+                <div class="ewp-progress-line"></div>
+
+                <div
+                    class="ewp-progress-item"
+                    data-progress-step="3"
+                >
+                    <span>03</span>
+                    <strong>Services</strong>
+                </div>
+
+                <div class="ewp-progress-line"></div>
+
+                <div
+                    class="ewp-progress-item"
+                    data-progress-step="4"
+                >
+                    <span>04</span>
+                    <strong>Preferences</strong>
+                </div>
+
+                <div class="ewp-progress-line"></div>
+
+                <div
+                    class="ewp-progress-item"
+                    data-progress-step="5"
+                >
+                    <span>05</span>
+                    <strong>Review</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================================
+             MAIN CONTENT
+        ========================================================== -->
+
+        <main class="ewp-container">
+
+
+            <!-- =====================================================
+                 01 SELECTED THEME
+            ====================================================== -->
+
+            <section class="ewp-section ewp-theme-section">
+
+                <div class="ewp-section-heading">
+
+                    <div>
+
+                        <span class="ewp-number">
+                            01
+                        </span>
+
+                        <div>
+
+                            <span class="ewp-kicker">
+                                SELECTED THEME
+                            </span>
+
+                            <h2>
+                                Your Selected Theme
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="ewp-theme-card">
+
+                    <div class="ewp-theme-image">
+
+                        <img
+                            src="{{ theme.image_url }}"
+                            alt="{{ theme.name }}"
+                        >
+
+                    </div>
+
+
+                    <div class="ewp-theme-content">
+
+                        <span class="ewp-theme-label">
+                            YOUR WEDDING STYLE
+                        </span>
+
+                        <h3>
+                            {{ theme.name }}
+                        </h3>
+
+                        <p>
+                            {{ theme.description }}
+                        </p>
+
+                        <a
+                            href="{{ url_for('wedding_themes') }}"
+                            class="ewp-link-button"
+                        >
+                            <i class="fa-solid fa-arrow-left"></i>
+                            Change Theme
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =====================================================
+                 01 DETAILS
+            ====================================================== -->
+
+            <section
+                class="ewp-section"
+                data-wedding-step="1"
+                id="wedding-details-section"
+            >
+
+                <div class="ewp-section-heading">
+
+                    <div>
+
+                        <span class="ewp-number">
+                            02
+                        </span>
+
+                        <div>
+
+                            <span class="ewp-kicker">
+                                YOUR CELEBRATION
+                            </span>
+
+                            <h2>
+                                Wedding Details
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                    <p>
+                        Tell us the basic details so your wedding plan
+                        can be prepared correctly.
+                    </p>
+
+                </div>
+
+
+                <div class="ewp-form-grid">
+
+                    <!-- Wedding Date -->
+
+                    <div class="ewp-field">
+
+                        <label for="wedding_date">
+                            Wedding Date
+                        </label>
+
+                        <div class="ewp-input-wrap">
+
+                            <i class="fa-regular fa-calendar"></i>
+
+                            <input
+                                type="date"
+                                id="wedding_date"
+                                name="wedding_date"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Guests -->
+
+                    <div class="ewp-field">
+
+                        <label for="guest_count">
+                            Number of Guests
+                        </label>
+
+                        <div class="ewp-input-wrap">
+
+                            <i class="fa-solid fa-users"></i>
+
+                            <input
+                                type="number"
+                                id="guest_count"
+                                name="guest_count"
+                                min="1"
+                                placeholder="e.g. 250"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Location -->
+
+                    <div class="ewp-field">
+
+                        <label for="wedding_location">
+                            Wedding Location
+                        </label>
+
+                        <div class="ewp-input-wrap">
+
+                            <i class="fa-solid fa-location-dot"></i>
+
+                            <input
+                                type="text"
+                                id="wedding_location"
+                                name="wedding_location"
+                                placeholder="City / Area"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Venue -->
+
+                    <div class="ewp-field">
+
+                        <label for="venue">
+                            Venue
+                        </label>
+
+                        <div class="ewp-input-wrap">
+
+                            <i class="fa-solid fa-building"></i>
+
+                            <input
+                                type="text"
+                                id="venue"
+                                name="venue"
+                                placeholder="Venue name"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Wedding Days -->
+
+                    <div class="ewp-field">
+
+                        <label for="wedding_days">
+                            Number of Wedding Days
+                        </label>
+
+                        <div class="ewp-input-wrap">
+
+                            <i class="fa-regular fa-clock"></i>
+
+                            <input
+                                type="number"
+                                id="wedding_days"
+                                name="wedding_days"
+                                min="1"
+                                placeholder="e.g. 3"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =====================================================
+                 02 EVENTS
+            ====================================================== -->
+
+            <section
+                class="ewp-section"
+                data-wedding-step="2"
+                id="wedding-events-section"
+            >
+
+                <div class="ewp-section-heading">
+
+                    <div>
+
+                        <span class="ewp-number">
+                            03
+                        </span>
+
+                        <div>
+
+                            <span class="ewp-kicker">
+                                YOUR CELEBRATIONS
+                            </span>
+
+                            <h2>
+                                Choose Your Wedding Events
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                    <p>
+                        Select all the events you want included in your
+                        wedding plan.
+                    </p>
+
+                </div>
+
+
+                <div class="ewp-event-grid">
+
+                    <!-- Mehendi -->
+
+                    <label class="ewp-select-card">
+
+                        <input
+                            type="checkbox"
+                            name="events"
+                            value="Mehendi"
+                            checked
+                        >
+
+                        <span class="ewp-select-card-inner">
+
+                            <span class="ewp-card-icon">
+                                <i class="fa-solid fa-hand-sparkles"></i>
+                            </span>
+
+                            <strong>
+                                Mehendi
+                            </strong>
+
+                            <small>
+                                Mehendi celebration
+                            </small>
+
+                            <span class="ewp-check">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+
+                        </span>
+
+                    </label>
+
+
+                    <!-- Haldi -->
+
+                    <label class="ewp-select-card">
+
+                        <input
+                            type="checkbox"
+                            name="events"
+                            value="Haldi"
+                        >
+
+                        <span class="ewp-select-card-inner">
+
+                            <span class="ewp-card-icon">
+                                <i class="fa-solid fa-sun"></i>
+                            </span>
+
+                            <strong>
+                                Haldi
+                            </strong>
+
+                            <small>
+                                Haldi ceremony
+                            </small>
+
+                            <span class="ewp-check">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+
+                        </span>
+
+                    </label>
+
+
+                    <!-- Sangeet -->
+
+                    <label class="ewp-select-card">
+
+                        <input
+                            type="checkbox"
+                            name="events"
+                            value="Sangeet"
+                        >
+
+                        <span class="ewp-select-card-inner">
+
+                            <span class="ewp-card-icon">
+                                <i class="fa-solid fa-music"></i>
+                            </span>
+
+                            <strong>
+                                Sangeet
+                            </strong>
+
+                            <small>
+                                Music &amp; celebration
+                            </small>
+
+                            <span class="ewp-check">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+
+                        </span>
+
+                    </label>
+
+
+                    <!-- Wedding Ceremony -->
+
+                    <label class="ewp-select-card">
+
+                        <input
+                            type="checkbox"
+                            name="events"
+                            value="Wedding Ceremony"
+                        >
+
+                        <span class="ewp-select-card-inner">
+
+                            <span class="ewp-card-icon">
+                                <i class="fa-solid fa-rings-wedding"></i>
+                            </span>
+
+                            <strong>
+                                Wedding Ceremony
+                            </strong>
+
+                            <small>
+                                Main wedding ceremony
+                            </small>
+
+                            <span class="ewp-check">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+
+                        </span>
+
+                    </label>
+
+
+                    <!-- Reception -->
+
+                    <label class="ewp-select-card">
+
+                        <input
+                            type="checkbox"
+                            name="events"
+                            value="Reception"
+                        >
+
+                        <span class="ewp-select-card-inner">
+
+                            <span class="ewp-card-icon">
+                                <i class="fa-solid fa-champagne-glasses"></i>
+                            </span>
+
+                            <strong>
+                                Reception
+                            </strong>
+
+                            <small>
+                                Reception celebration
+                            </small>
+
+                            <span class="ewp-check">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+
+                        </span>
+
+                    </label>
+
+
+                    <!-- Other -->
+
+                    <label class="ewp-select-card">
+
+                        <input
+                            type="checkbox"
+                            name="events"
+                            value="Other Event"
+                        >
+
+                        <span class="ewp-select-card-inner">
+
+                            <span class="ewp-card-icon">
+                                <i class="fa-solid fa-plus"></i>
+                            </span>
+
+                            <strong>
+                                Other Event
+                            </strong>
+
+                            <small>
+                                Add another celebration
+                            </small>
+
+                            <span class="ewp-check">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =====================================================
+                 EVENT CUSTOMIZATION
+            ====================================================== -->
+
+            <section
+                class="ewp-section"
+                data-wedding-step="2"
+            >
+
+                <div class="ewp-section-heading">
+
+                    <div>
+
+                        <span class="ewp-number">
+                            04
+                        </span>
+
+                        <div>
+
+                            <span class="ewp-kicker">
+                                EVENT CUSTOMIZATION
+                            </span>
+
+                            <h2>
+                                Customize Your Events
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                    <p>
+                        Select what you would like EventFlow to arrange
+                        for each celebration.
+                    </p>
+
+                </div>
+
+
+                <div class="ewp-event-customization">
+
+                    <div class="ewp-custom-event">
+
+                        <div class="ewp-custom-event-header">
+
+                            <div>
+
+                                <span class="ewp-custom-event-number">
+                                    01
+                                </span>
+
+                                <div>
+
+                                    <h3>
+                                        Wedding Ceremony
+                                    </h3>
+
+                                    <p>
+                                        Select the services required for this event.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <span class="ewp-event-selected">
+                                Selected
+                            </span>
+
+                        </div>
+
+
+                        <div class="ewp-service-check-grid">
+
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="ceremony_services"
+                                    value="Decoration"
+                                >
+
+                                <span>
+                                    <i class="fa-solid fa-spa"></i>
+                                    Decoration
+                                </span>
+
+                            </label>
+
+
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="ceremony_services"
+                                    value="Catering"
+                                >
+
+                                <span>
+                                    <i class="fa-solid fa-utensils"></i>
+                                    Catering
+                                </span>
+
+                            </label>
+
+
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="ceremony_services"
+                                    value="Photography"
+                                >
+
+                                <span>
+                                    <i class="fa-solid fa-camera"></i>
+                                    Photography
+                                </span>
+
+                            </label>
+
+
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="ceremony_services"
+                                    value="Videography"
+                                >
+
+                                <span>
+                                    <i class="fa-solid fa-video"></i>
+                                    Videography
+                                </span>
+
+                            </label>
+
+
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="ceremony_services"
+                                    value="Makeup"
+                                >
+
+                                <span>
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                    Makeup
+                                </span>
+
+                            </label>
+
+
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="ceremony_services"
+                                    value="Music"
+                                >
+
+                                <span>
+                                    <i class="fa-solid fa-music"></i>
+                                    Music / Entertainment
+                                </span>
+
+                            </label>
+
+
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="ceremony_services"
+                                    value="Guest Management"
+                                >
+
+                                <span>
+                                    <i class="fa-solid fa-users"></i>
+                                    Guest Management
+                                </span>
+
+                            </label>
+
+
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="ceremony_services"
+                                    value="Transportation"
+                                >
+
+                                <span>
+                                    <i class="fa-solid fa-car"></i>
+                                    Transportation
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =====================================================
+                 03 SERVICES
+            ====================================================== -->
+
+            <section
+                class="ewp-section"
+                data-wedding-step="3"
+                id="wedding-services-section"
+            >
+
+                <div class="ewp-section-heading">
+
+                    <div>
+
+                        <span class="ewp-number">
+                            05
+                        </span>
+
+                        <div>
+
+                            <span class="ewp-kicker">
+                                EVENTFLOW SERVICES
+                            </span>
+
+                            <h2>
+                                Choose Services
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                    <p>
+                        Choose the services you would like EventFlow
+                        to arrange for your celebration.
+                    </p>
+
+                </div>
+
+
+                <div class="ewp-service-grid">
+
+                    <label class="ewp-service-card">
+
+                        <input
+                            type="checkbox"
+                            name="services"
+                            value="Decoration"
+                        >
+
+                        <span class="ewp-service-icon">
+                            <i class="fa-solid fa-spa"></i>
+                        </span>
+
+                        <span class="ewp-service-info">
+
+                            <strong>
+                                Decoration
+                            </strong>
+
+                            <small>
+                                Theme-based décor and setup
+                            </small>
+
+                        </span>
+
+                        <span class="ewp-service-check">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+
+                    </label>
+
+
+                    <label class="ewp-service-card">
+
+                        <input
+                            type="checkbox"
+                            name="services"
+                            value="Catering"
+                        >
+
+                        <span class="ewp-service-icon">
+                            <i class="fa-solid fa-utensils"></i>
+                        </span>
+
+                        <span class="ewp-service-info">
+
+                            <strong>
+                                Catering
+                            </strong>
+
+                            <small>
+                                Food and beverage planning
+                            </small>
+
+                        </span>
+
+                        <span class="ewp-service-check">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+
+                    </label>
+
+
+                    <label class="ewp-service-card">
+
+                        <input
+                            type="checkbox"
+                            name="services"
+                            value="Photography"
+                        >
+
+                        <span class="ewp-service-icon">
+                            <i class="fa-solid fa-camera"></i>
+                        </span>
+
+                        <span class="ewp-service-info">
+
+                            <strong>
+                                Photography &amp; Videography
+                            </strong>
+
+                            <small>
+                                Capture your wedding memories
+                            </small>
+
+                        </span>
+
+                        <span class="ewp-service-check">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+
+                    </label>
+
+
+                    <label class="ewp-service-card">
+
+                        <input
+                            type="checkbox"
+                            name="services"
+                            value="Makeup"
+                        >
+
+                        <span class="ewp-service-icon">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </span>
+
+                        <span class="ewp-service-info">
+
+                            <strong>
+                                Makeup &amp; Styling
+                            </strong>
+
+                            <small>
+                                Bridal and event styling
+                            </small>
+
+                        </span>
+
+                        <span class="ewp-service-check">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+
+                    </label>
+
+
+                    <label class="ewp-service-card">
+
+                        <input
+                            type="checkbox"
+                            name="services"
+                            value="Music"
+                        >
+
+                        <span class="ewp-service-icon">
+                            <i class="fa-solid fa-music"></i>
+                        </span>
+
+                        <span class="ewp-service-info">
+
+                            <strong>
+                                Music &amp; Entertainment
+                            </strong>
+
+                            <small>
+                                DJ, music and entertainment
+                            </small>
+
+                        </span>
+
+                        <span class="ewp-service-check">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+
+                    </label>
+
+
+                    <label class="ewp-service-card">
+
+                        <input
+                            type="checkbox"
+                            name="services"
+                            value="Event Staff"
+                        >
+
+                        <span class="ewp-service-icon">
+                            <i class="fa-solid fa-user-tie"></i>
+                        </span>
+
+                        <span class="ewp-service-info">
+
+                            <strong>
+                                Event Staff
+                            </strong>
+
+                            <small>
+                                Professional event support
+                            </small>
+
+                        </span>
+
+                        <span class="ewp-service-check">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+
+                    </label>
+
+
+                    <label class="ewp-service-card">
+
+                        <input
+                            type="checkbox"
+                            name="services"
+                            value="Guest Management"
+                        >
+
+                        <span class="ewp-service-icon">
+                            <i class="fa-solid fa-users"></i>
+                        </span>
+
+                        <span class="ewp-service-info">
+
+                            <strong>
+                                Guest Management
+                            </strong>
+
+                            <small>
+                                Guest coordination and hospitality
+                            </small>
+
+                        </span>
+
+                        <span class="ewp-service-check">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+
+                    </label>
+
+
+                    <label class="ewp-service-card">
+
+                        <input
+                            type="checkbox"
+                            name="services"
+                            value="Transportation"
+                        >
+
+                        <span class="ewp-service-icon">
+                            <i class="fa-solid fa-car"></i>
+                        </span>
+
+                        <span class="ewp-service-info">
+
+                            <strong>
+                                Transportation
+                            </strong>
+
+                            <small>
+                                Guest and event transportation
+                            </small>
+
+                        </span>
+
+                        <span class="ewp-service-check">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =====================================================
+                 04 PREFERENCES
+            ====================================================== -->
+
+            <section
+                class="ewp-section"
+                data-wedding-step="4"
+                id="wedding-preferences-section"
+            >
+
+                <div class="ewp-section-heading">
+
+                    <div>
+
+                        <span class="ewp-number">
+                            06
+                        </span>
+
+                        <div>
+
+                            <span class="ewp-kicker">
+                                YOUR VISION
+                            </span>
+
+                            <h2>
+                                Your Preferences
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                    <p>
+                        Tell us anything that will help us understand
+                        the wedding you have in mind.
+                    </p>
+
+                </div>
+
+
+                <div class="ewp-preference-box">
+
+                    <div class="ewp-preference-icon">
+                        <i class="fa-regular fa-message"></i>
+                    </div>
+
+
+                    <div class="ewp-preference-content">
+
+                        <label for="preferences">
+                            Tell us what you have in mind
+                        </label>
+
+                        <p>
+                            Share your ideas, preferences, special
+                            requirements, or anything you'd like our
+                            planning team to know.
+                        </p>
+
+                        <textarea
+                            id="preferences"
+                            name="preferences"
+                            rows="7"
+                            placeholder="Example: I would like traditional red and gold decoration, a grand bridal entry, live dhol and traditional food."
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =====================================================
+                 OPTIONAL ADD-ONS
+            ====================================================== -->
+
+            <section
+                class="ewp-section"
+                data-wedding-step="4"
+            >
+
+                <div class="ewp-section-heading">
+
+                    <div>
+
+                        <span class="ewp-number">
+                            07
+                        </span>
+
+                        <div>
+
+                            <span class="ewp-kicker">
+                                OPTIONAL EXTRAS
+                            </span>
+
+                            <h2>
+                                Optional Add-ons
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                    <p>
+                        Add something extra to make your celebration
+                        even more memorable.
+                    </p>
+
+                </div>
+
+
+                <div class="ewp-addon-grid">
+
+
+                    <label class="ewp-addon-card">
+
+                        <input
+                            type="checkbox"
+                            name="addons"
+                            value="Live Dhol"
+                        >
+
+                        <span class="ewp-addon-image">
+                            <i class="fa-solid fa-drum"></i>
+                        </span>
+
+                        <span>
+
+                            <strong>
+                                Live Dhol
+                            </strong>
+
+                            <small>
+                                Traditional live dhol performance
+                            </small>
+
+                        </span>
+
+                        <span class="ewp-addon-check">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+
+                    </label>
+
+
+                    <label class="ewp-addon-card">
+
+                        <input
+                            type="checkbox"
+                            name="addons"
+                            value="Bridal Entry"
+                        >
+
+                        <span class="ewp-addon-image">
+                            <i class="fa-solid fa-person-dress"></i>
+                        </span>
+
+                        <span>
+
+                            <strong>
+                                Bridal Entry
+                            </strong>
+
+                            <small>
+                                A memorable bridal entrance
+                            </small>
+
+                        </span>
+
+                        <span class="ewp-addon-check">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+
+                    </label>
+
+
+                    <label class="ewp-addon-card">
+
+                        <input
+                            type="checkbox"
+                            name="addons"
+                            value="Drone Photography"
+                        >
+
+                        <span class="ewp-addon-image">
+                            <i class="fa-solid fa-helicopter"></i>
+                        </span>
+
+                        <span>
+
+                            <strong>
+                                Drone Photography
+                            </strong>
+
+                            <small>
+                                Aerial wedding moments
+                            </small>
+
+                        </span>
+
+                        <span class="ewp-addon-check">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+
+                    </label>
+
+
+                    <label class="ewp-addon-card">
+
+                        <input
+                            type="checkbox"
+                            name="addons"
+                            value="Live Band"
+                        >
+
+                        <span class="ewp-addon-image">
+                            <i class="fa-solid fa-guitar"></i>
+                        </span>
+
+                        <span>
+
+                            <strong>
+                                Live Band
+                            </strong>
+
+                            <small>
+                                Live musical entertainment
+                            </small>
+
+                        </span>
+
+                        <span class="ewp-addon-check">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+
+                    </label>
+
+
+                    <label class="ewp-addon-card">
+
+                        <input
+                            type="checkbox"
+                            name="addons"
+                            value="Premium Floral Decor"
+                        >
+
+                        <span class="ewp-addon-image">
+                            <i class="fa-solid fa-seedling"></i>
+                        </span>
+
+                        <span>
+
+                            <strong>
+                                Premium Floral Décor
+                            </strong>
+
+                            <small>
+                                Elevated floral arrangements
+                            </small>
+
+                        </span>
+
+                        <span class="ewp-addon-check">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+
+                    </label>
+
+
+                    <label class="ewp-addon-card">
+
+                        <input
+                            type="checkbox"
+                            name="addons"
+                            value="Welcome Gifts"
+                        >
+
+                        <span class="ewp-addon-image">
+                            <i class="fa-solid fa-gift"></i>
+                        </span>
+
+                        <span>
+
+                            <strong>
+                                Welcome Gifts
+                            </strong>
+
+                            <small>
+                                Thoughtful gifts for your guests
+                            </small>
+
+                        </span>
+
+                        <span class="ewp-addon-check">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+
+                    </label>
+
+
+                    <label class="ewp-addon-card">
+
+                        <input
+                            type="checkbox"
+                            name="addons"
+                            value="Guest Transportation"
+                        >
+
+                        <span class="ewp-addon-image">
+                            <i class="fa-solid fa-van-shuttle"></i>
+                        </span>
+
+                        <span>
+
+                            <strong>
+                                Guest Transportation
+                            </strong>
+
+                            <small>
+                                Transportation for your guests
+                            </small>
+
+                        </span>
+
+                        <span class="ewp-addon-check">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =====================================================
+                 CONTACT DETAILS
+            ====================================================== -->
+
+            <section
+                class="ewp-section"
+                data-wedding-step="4"
+            >
+
+                <div class="ewp-section-heading">
+
+                    <div>
+
+                        <span class="ewp-number">
+                            08
+                        </span>
+
+                        <div>
+
+                            <span class="ewp-kicker">
+                                CONTACT INFORMATION
+                            </span>
+
+                            <h2>
+                                Your Contact Details
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                    <p>
+                        We'll use these details to contact you about
+                        your wedding plan.
+                    </p>
+
+                </div>
+
+
+                <div class="ewp-form-grid">
+
+
+                    <div class="ewp-field">
+
+                        <label for="full_name">
+                            Full Name
+                        </label>
+
+                        <div class="ewp-input-wrap">
+
+                            <i class="fa-regular fa-user"></i>
+
+                            <input
+                                type="text"
+                                id="full_name"
+                                name="full_name"
+                                placeholder="Your full name"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="ewp-field">
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+                        <div class="ewp-input-wrap">
+
+                            <i class="fa-regular fa-envelope"></i>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="you@example.com"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="ewp-field">
+
+                        <label for="phone">
+                            Phone Number
+                        </label>
+
+                        <div class="ewp-input-wrap">
+
+                            <i class="fa-solid fa-phone"></i>
+
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                placeholder="+91 XXXXX XXXXX"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="ewp-field">
+
+                        <label for="contact_method">
+                            Preferred Contact Method
+                        </label>
+
+                        <div class="ewp-input-wrap">
+
+                            <i class="fa-solid fa-comments"></i>
+
+                            <select
+                                id="contact_method"
+                                name="contact_method"
+                            >
+
+                                <option value="">
+                                    Select preference
+                                </option>
+
+                                <option value="Phone">
+                                    Phone
+                                </option>
+
+                                <option value="Email">
+                                    Email
+                                </option>
+
+                                <option value="WhatsApp">
+                                    WhatsApp
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="ewp-field ewp-field-full">
+
+                        <label for="contact_note">
+                            Additional Note
+                        </label>
+
+                        <textarea
+                            id="contact_note"
+                            name="contact_note"
+                            rows="4"
+                            placeholder="Anything else you would like us to know..."
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =====================================================
+                 05 REVIEW
+            ====================================================== -->
+
+            <section
+                class="ewp-review-section"
+                data-wedding-step="5"
+                id="wedding-review-section"
+            >
+
+                <div class="ewp-review-heading">
+
+                    <div>
+
+                        <span class="ewp-number">
+                            09
+                        </span>
+
+                        <div>
+
+                            <span class="ewp-kicker">
+                                FINAL CHECK
+                            </span>
+
+                            <h2>
+                                Review Your Wedding Plan
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                    <p>
+                        Review your selections before submitting your
+                        wedding planning request.
+                    </p>
+
+                </div>
+
+
+                <div class="ewp-review-card">
+
+
+                    <!-- Selected Theme -->
+
+                    <div class="ewp-review-theme">
+
+                        <img
+                            src="{{ theme.image_url }}"
+                            alt="{{ theme.name }}"
+                        >
+
+                        <div>
+
+                            <span>
+                                SELECTED THEME
+                            </span>
+
+                            <h3>
+                                {{ theme.name }}
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Review Grid -->
+
+                    <div class="ewp-review-grid">
+
+
+                        <div class="ewp-review-item">
+
+                            <span>
+                                Wedding Date
+                            </span>
+
+                            <strong id="review-date">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="ewp-review-item">
+
+                            <span>
+                                Guests
+                            </span>
+
+                            <strong id="review-guests">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="ewp-review-item">
+
+                            <span>
+                                Location
+                            </span>
+
+                            <strong id="review-location">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="ewp-review-item">
+
+                            <span>
+                                Venue
+                            </span>
+
+                            <strong id="review-venue">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="ewp-review-item">
+
+                            <span>
+                                Events
+                            </span>
+
+                            <strong id="review-events">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="ewp-review-item">
+
+                            <span>
+                                Services
+                            </span>
+
+                            <strong id="review-services">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="ewp-review-item">
+
+                            <span>
+                                Add-ons
+                            </span>
+
+                            <strong id="review-addons">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="ewp-review-item">
+
+                            <span>
+                                Wedding Days
+                            </span>
+
+                            <strong id="review-days">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="ewp-review-item">
+
+                            <span>
+                                Contact
+                            </span>
+
+                            <strong id="review-contact">
+                                —
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Preferences -->
+
+                    <div class="ewp-review-preferences">
+
+                        <span>
+                            Your Preferences
+                        </span>
+
+                        <p id="review-preferences">
+                            Your selected preferences will appear here
+                            before submission.
+                        </p>
+
+                    </div>
+
+
+                    <!-- Hidden backend-compatible field -->
+
+                    <input
+                        type="hidden"
+                        name="bride_name"
+                        value=""
+                    >
+
+                    <input
+                        type="hidden"
+                        name="groom_name"
+                        value=""
+                    >
+
+                    <input
+                        type="hidden"
+                        name="catering_preferences"
+                        id="catering_preferences"
+                        value=""
+                    >
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     SUBMIT
+                ================================================== -->
+
+                <div class="ewp-submit-area">
+
+                    <div class="ewp-submit-copy">
+
+                        <div class="ewp-submit-icon">
+
+                            <i class="fa-solid fa-paper-plane"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Ready to submit your plan?
+                            </h3>
+
+                            <p>
+                                Your plan will be reviewed by the EventFlow
+                                planning team. We'll check availability
+                                and confirm the arrangements with you.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="ewp-submit-button"
+                        id="submitWeddingPlan"
+                    >
+
+                        Submit Wedding Plan
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </form>
+
+</div>
+
+
+<!-- =============================================================
+     JAVASCRIPT
+     Functional only — no CSS/design changes
+============================================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form =
+        document.getElementById("weddingPlanForm");
+
+    const progressItems =
+        document.querySelectorAll(
+            ".ewp-progress-item"
+        );
+
+    const stepSections =
+        document.querySelectorAll(
+            "[data-wedding-step]"
+        );
+
+
+    /* =========================================================
+       PROGRESS
+       5 logical steps:
+       1 = Details
+       2 = Events
+       3 = Services
+       4 = Preferences
+       5 = Review
+    ========================================================== */
+
+    function updateProgress(step) {
+
+        progressItems.forEach(function (item) {
+
+            const itemStep =
+                Number(
+                    item.dataset.progressStep
+                );
+
+            item.classList.toggle(
+                "active",
+                itemStep <= step
+            );
+
+        });
+
+    }
+
+
+    function getCurrentStep() {
+
+        let currentStep = 1;
+        let closestDistance = Infinity;
+
+        stepSections.forEach(function (section) {
+
+            const rect =
+                section.getBoundingClientRect();
+
+            const distance =
+                Math.abs(rect.top - 150);
+
+            if (
+                rect.top <= 250 &&
+                distance < closestDistance
+            ) {
+
+                closestDistance = distance;
+
+                currentStep =
+                    Number(
+                        section.dataset.weddingStep
+                    );
+
+            }
+
+        });
+
+        return currentStep;
+    }
+
+
+    window.addEventListener(
+        "scroll",
+        function () {
+
+            updateProgress(
+                getCurrentStep()
+            );
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    updateProgress(1);
+
+
+
+    /* =========================================================
+       REVIEW HELPERS
+    ========================================================== */
+
+    function getValue(id) {
+
+        const element =
+            document.getElementById(id);
+
+        if (!element) {
+            return "";
+        }
+
+        return element.value.trim();
+
+    }
+
+
+    function getCheckedValues(name) {
+
+        return Array.from(
+            document.querySelectorAll(
+                'input[name="' + name + '"]:checked'
+            )
+        ).map(function (input) {
+
+            return input.value;
+
+        });
+
+    }
+
+
+    function displayValue(value) {
+
+        return value && value.trim()
+            ? value.trim()
+            : "—";
+
+    }
+
+
+    function displayList(values) {
+
+        if (!values.length) {
+            return "None selected";
+        }
+
+        return values.join(", ");
+
+    }
+
+
+    /* =========================================================
+       LIVE REVIEW
+    ========================================================== */
+
+    function updateReview() {
+
+        const date =
+            getValue("wedding_date");
+
+        const guests =
+            getValue("guest_count");
+
+        const location =
+            getValue("wedding_location");
+
+        const venue =
+            getValue("venue");
+
+        const days =
+            getValue("wedding_days");
+
+        const events =
+            getCheckedValues("events");
+
+        const services =
+            getCheckedValues("services");
+
+        const addons =
+            getCheckedValues("addons");
+
+        const fullName =
+            getValue("full_name");
+
+        const email =
+            getValue("email");
+
+        const phone =
+            getValue("phone");
+
+        const preferences =
+            getValue("preferences");
+
+
+        document.getElementById(
+            "review-date"
+        ).textContent =
+            displayValue(date);
+
+
+        document.getElementById(
+            "review-guests"
+        ).textContent =
+            displayValue(guests);
+
+
+        document.getElementById(
+            "review-location"
+        ).textContent =
+            displayValue(location);
+
+
+        document.getElementById(
+            "review-venue"
+        ).textContent =
+            displayValue(venue);
+
+
+        document.getElementById(
+            "review-events"
+        ).textContent =
+            displayList(events);
+
+
+        document.getElementById(
+            "review-services"
+        ).textContent =
+            displayList(services);
+
+
+        document.getElementById(
+            "review-addons"
+        ).textContent =
+            displayList(addons);
+
+
+        document.getElementById(
+            "review-days"
+        ).textContent =
+            displayValue(days);
+
+
+        const contactParts = [];
+
+        if (fullName) {
+            contactParts.push(fullName);
+        }
+
+        if (email) {
+            contactParts.push(email);
+        }
+
+        if (phone) {
+            contactParts.push(phone);
+        }
+
+        document.getElementById(
+            "review-contact"
+        ).textContent =
+            contactParts.length
+                ? contactParts.join(" | ")
+                : "—";
+
+
+        document.getElementById(
+            "review-preferences"
+        ).textContent =
+            preferences
+                ? preferences
+                : "No additional preferences added.";
+
+    }
+
+
+
+    /* =========================================================
+       UPDATE REVIEW WHEN USER FILLS FORM
+    ========================================================== */
+
+    form.querySelectorAll(
+        "input, select, textarea"
+    ).forEach(function (element) {
+
+        element.addEventListener(
+            "input",
+            updateReview
+        );
+
+        element.addEventListener(
+            "change",
+            updateReview
+        );
+
+    });
+
+
+    updateReview();
+
+
+
+    /* =========================================================
+       PREPARE EXISTING BACKEND'S
+       catering_preferences FIELD
+       
+       The existing route already stores this field.
+       We place the new customization information inside it
+       without changing the database schema.
+    ========================================================== */
+
+    form.addEventListener(
+        "submit",
+        function () {
+
+            const events =
+                getCheckedValues("events");
+
+            const ceremonyServices =
+                getCheckedValues(
+                    "ceremony_services"
+                );
+
+            const services =
+                getCheckedValues("services");
+
+            const addons =
+                getCheckedValues("addons");
+
+
+            const weddingData = {
+
+                wedding_location:
+                    getValue(
+                        "wedding_location"
+                    ),
+
+                wedding_days:
+                    getValue(
+                        "wedding_days"
+                    ),
+
+                events:
+                    events,
+
+                ceremony_services:
+                    ceremonyServices,
+
+                services:
+                    services,
+
+                addons:
+                    addons,
+
+                preferences:
+                    getValue(
+                        "preferences"
+                    ),
+
+                contact_method:
+                    getValue(
+                        "contact_method"
+                    ),
+
+                contact_note:
+                    getValue(
+                        "contact_note"
+                    )
+
+            };
+
+
+            document.getElementById(
+                "catering_preferences"
+            ).value =
+                JSON.stringify(
+                    weddingData
+                );
+
+        }
+    );
+
+});
+
+</script>
+
+{% endblock %}

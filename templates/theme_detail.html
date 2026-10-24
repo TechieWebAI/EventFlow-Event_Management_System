@@ -1,0 +1,1063 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ theme.name }} | EventFlow Weddings
+{% endblock %}
+
+{% block extra_css %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/pages/wedding_theme_details.css') }}"
+>
+{% endblock %}
+
+{% block content %}
+
+{% set journey_events = events
+    | selectattr('event_name', 'ne', 'Wedding Day')
+    | list
+%}
+
+<div class="wedding-detail-page">
+
+    <!-- =========================================================
+         HERO
+    ========================================================== -->
+
+    <section class="wtd-hero">
+
+        <div class="wtd-hero-media">
+
+            <!-- Main hero image -->
+            <img
+                id="wtdHeroImage"
+                src="{{ theme.image_url }}"
+                alt="{{ theme.name }}"
+                class="wtd-hero-main-image"
+            >
+
+            <div class="wtd-hero-overlay"></div>
+
+            <!-- Hero image gallery -->
+            <div class="wtd-gallery">
+
+                <!-- 01 — Theme -->
+                <button
+                    type="button"
+                    class="wtd-gallery-thumb is-active"
+                    data-gallery-image="{{ theme.image_url }}"
+                    data-gallery-alt="{{ theme.name }}"
+                    aria-label="View {{ theme.name }}"
+                >
+                    <img
+                        src="{{ theme.image_url }}"
+                        alt="{{ theme.name }}"
+                    >
+                </button>
+
+
+                <!-- 02 — Mehendi / First Event -->
+                {% if journey_events|length > 0 %}
+                <button
+                    type="button"
+                    class="wtd-gallery-thumb"
+                    data-gallery-image="{{ journey_events[0].image_url }}"
+                    data-gallery-alt="{{ journey_events[0].event_name }}"
+                    aria-label="View {{ journey_events[0].event_name }}"
+                >
+                    <img
+                        src="{{ journey_events[0].image_url }}"
+                        alt="{{ journey_events[0].event_name }}"
+                    >
+                </button>
+                {% endif %}
+
+
+                <!-- 03 — Haldi / Second Event -->
+                {% if journey_events|length > 1 %}
+                <button
+                    type="button"
+                    class="wtd-gallery-thumb"
+                    data-gallery-image="{{ journey_events[1].image_url }}"
+                    data-gallery-alt="{{ journey_events[1].event_name }}"
+                    aria-label="View {{ journey_events[1].event_name }}"
+                >
+                    <img
+                        src="{{ journey_events[1].image_url }}"
+                        alt="{{ journey_events[1].event_name }}"
+                    >
+                </button>
+                {% endif %}
+
+
+                <!-- 04 — Sangeet / Third Event -->
+                {% if journey_events|length > 2 %}
+                <button
+                    type="button"
+                    class="wtd-gallery-thumb"
+                    data-gallery-image="{{ journey_events[2].image_url }}"
+                    data-gallery-alt="{{ journey_events[2].event_name }}"
+                    aria-label="View {{ journey_events[2].event_name }}"
+                >
+                    <img
+                        src="{{ journey_events[2].image_url }}"
+                        alt="{{ journey_events[2].event_name }}"
+                    >
+                </button>
+                {% endif %}
+
+
+                <div class="wtd-gallery-count">
+                    <span>1</span>
+                    <span>/</span>
+                    <span>4</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Hero text -->
+        <div class="wtd-hero-content">
+
+            <a
+                href="{{ url_for('wedding_themes') }}"
+                class="wtd-back-link"
+            >
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to Themes
+            </a>
+
+
+            <div class="wtd-eyebrow">
+                PREMIUM THEME
+            </div>
+
+
+            <h1>
+                {{ theme.name }}
+            </h1>
+
+
+            <p class="wtd-hero-description">
+                {{ theme.description }}
+            </p>
+
+
+            <div class="wtd-hero-meta">
+
+                <span>
+                    <i class="fa-regular fa-calendar"></i>
+                    {{ journey_events|length + 1 }} Events
+                </span>
+
+                <span>
+                    <i class="fa-solid fa-sliders"></i>
+                    Customizable
+                </span>
+
+                <span>
+                    <i class="fa-solid fa-crown"></i>
+                    Royal Experience
+                </span>
+
+            </div>
+
+
+            <div class="wtd-hero-actions">
+
+                <a
+                    href="#wedding-plan"
+                    class="wtd-btn wtd-btn-primary"
+                >
+                    Build This Wedding Plan
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+                <a
+                    href="#wedding-events"
+                    class="wtd-btn wtd-btn-secondary"
+                >
+                    Customize Plan
+                    <i class="fa-solid fa-sliders"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         THEME OVERVIEW
+    ========================================================== -->
+
+    <section class="wtd-section wtd-overview">
+
+        <div class="wtd-overview-copy">
+
+            <div class="wtd-section-kicker">
+                THEME OVERVIEW
+            </div>
+
+            <h2>
+                Your Wedding Vision
+            </h2>
+
+            <p>
+                {{ theme.description }}
+            </p>
+
+            <p class="wtd-secondary-copy">
+                Every celebration is brought together through the
+                selected wedding style, creating a consistent experience
+                across the ceremony, celebrations, décor and guest
+                experience.
+            </p>
+
+            <a
+                href="#wedding-events"
+                class="wtd-outline-btn"
+            >
+                Explore Gallery
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+        </div>
+
+
+        <div class="wtd-vision-grid">
+
+            <div class="wtd-vision-card">
+                <i class="fa-solid fa-building-columns"></i>
+                <span>Royal<br>Architecture</span>
+            </div>
+
+            <div class="wtd-vision-card">
+                <i class="fa-solid fa-palette"></i>
+                <span>Rich<br>Colors</span>
+            </div>
+
+            <div class="wtd-vision-card">
+                <i class="fa-solid fa-spa"></i>
+                <span>Luxurious<br>Décor</span>
+            </div>
+
+            <div class="wtd-vision-card">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Elegant<br>Lighting</span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         WEDDING JOURNEY
+    ========================================================== -->
+
+    <section class="wtd-section wtd-journey">
+
+        <div class="wtd-centered-heading">
+
+            <div class="wtd-section-kicker">
+                YOUR WEDDING JOURNEY
+            </div>
+
+            <h2>
+                A well-planned journey for a perfect celebration
+            </h2>
+
+        </div>
+
+
+        <div class="wtd-timeline">
+
+            {% for event in journey_events %}
+
+            <a
+                href="#event-{{ event.id }}"
+                class="wtd-timeline-item"
+            >
+
+                <div class="wtd-timeline-image">
+
+                    <img
+                        src="{{ event.image_url }}"
+                        alt="{{ event.event_name }}"
+                    >
+
+                    <span>
+                        {{ "%02d"|format(loop.index) }}
+                    </span>
+
+                </div>
+
+                <h3>
+                    {{ event.event_name }}
+                </h3>
+
+                <p>
+                    {% if event.description %}
+                        {{ event.description }}
+                    {% else %}
+                        A beautifully planned celebration experience.
+                    {% endif %}
+                </p>
+
+            </a>
+
+            {% endfor %}
+
+
+            <!-- =================================================
+                 WEDDING DAY — SPECIAL FINAL JOURNEY EVENT
+            ================================================== -->
+
+            <a
+                href="#wedding-day"
+                class="wtd-timeline-item wtd-wedding-day-item"
+            >
+
+                <div class="wtd-timeline-image">
+
+                    <img
+                        src="{{ theme.image_url }}"
+                        alt="Wedding Day"
+                    >
+
+                    <span>
+                        {{ "%02d"|format(journey_events|length + 1) }}
+                    </span>
+
+                </div>
+
+                <h3>
+                    Wedding Day
+                </h3>
+
+                <p>
+                    The central celebration brought together
+                    through your selected wedding theme.
+                </p>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         EVENTS & DETAILS
+    ========================================================== -->
+
+    <section
+        class="wtd-section wtd-events-section"
+        id="wedding-events"
+    >
+
+        <div class="wtd-section-heading-row">
+
+            <div>
+
+                <div class="wtd-section-kicker">
+                    WEDDING EVENTS & DETAILS
+                </div>
+
+                <h2>
+                    Explore each celebration
+                </h2>
+
+                <p>
+                    Explore each event with its planned experience,
+                    services and details.
+                </p>
+
+            </div>
+
+
+            <a
+                href="#wedding-services"
+                class="wtd-outline-btn"
+            >
+                View All Events
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+        </div>
+
+
+        <div class="wtd-event-grid">
+
+            {% for event in journey_events %}
+
+            <article
+                class="wtd-event-card"
+                id="event-{{ event.id }}"
+            >
+
+                <div class="wtd-event-image">
+
+                    <img
+                        src="{{ event.image_url }}"
+                        alt="{{ event.event_name }}"
+                    >
+
+                    <span class="wtd-event-number">
+                        {{ "%02d"|format(loop.index) }}
+                    </span>
+
+                </div>
+
+
+                <div class="wtd-event-content">
+
+                    <h3>
+                        {{ event.event_name }}
+                    </h3>
+
+
+                    <p class="wtd-event-description">
+
+                        {% if event.description %}
+                            {{ event.description }}
+                        {% else %}
+                            A beautifully planned celebration
+                            experience.
+                        {% endif %}
+
+                    </p>
+
+
+                    <div class="wtd-event-services">
+
+                        {% if event.decoration %}
+                        <span>
+                            <i class="fa-solid fa-check"></i>
+                            Decoration
+                        </span>
+                        {% endif %}
+
+                        {% if event.catering %}
+                        <span>
+                            <i class="fa-solid fa-check"></i>
+                            Catering
+                        </span>
+                        {% endif %}
+
+                        {% if event.photography %}
+                        <span>
+                            <i class="fa-solid fa-check"></i>
+                            Photography
+                        </span>
+                        {% endif %}
+
+                        {% if event.makeup %}
+                        <span>
+                            <i class="fa-solid fa-check"></i>
+                            Makeup & Styling
+                        </span>
+                        {% endif %}
+
+                        {% if event.dj %}
+                        <span>
+                            <i class="fa-solid fa-check"></i>
+                            DJ / Music
+                        </span>
+                        {% endif %}
+
+                        {% if event.staff %}
+                        <span>
+                            <i class="fa-solid fa-check"></i>
+                            Event Staff
+                        </span>
+                        {% endif %}
+
+                    </div>
+
+
+                    <a
+                        href="#wedding-services"
+                        class="wtd-event-btn"
+                    >
+                        View Details
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </article>
+
+            {% endfor %}
+
+
+            <!-- =================================================
+                 WEDDING DAY CARD
+            ================================================== -->
+
+            <article
+                class="wtd-event-card wtd-wedding-day-card"
+                id="wedding-day"
+            >
+
+                <div class="wtd-event-image">
+
+                    <img
+                        src="{{ theme.image_url }}"
+                        alt="Wedding Day"
+                    >
+
+                    <span class="wtd-event-number">
+                        {{ "%02d"|format(journey_events|length + 1) }}
+                    </span>
+
+                </div>
+
+
+                <div class="wtd-event-content">
+
+                    <h3>
+                        Wedding Day
+                    </h3>
+
+                    <p class="wtd-event-description">
+                        The main celebration where the complete
+                        wedding experience comes together.
+                    </p>
+
+
+                    <div class="wtd-event-services">
+
+                        <span>
+                            <i class="fa-solid fa-check"></i>
+                            Venue Setup
+                        </span>
+
+                        <span>
+                            <i class="fa-solid fa-check"></i>
+                            Decoration
+                        </span>
+
+                        <span>
+                            <i class="fa-solid fa-check"></i>
+                            Guest Experience
+                        </span>
+
+                        <span>
+                            <i class="fa-solid fa-check"></i>
+                            Celebration Support
+                        </span>
+
+                    </div>
+
+
+                    <a
+                        href="#wedding-services"
+                        class="wtd-event-btn"
+                    >
+                        View Details
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         WHAT'S INCLUDED
+    ========================================================== -->
+
+    <section
+        class="wtd-section wtd-included"
+        id="wedding-services"
+    >
+
+        <div class="wtd-section-heading">
+
+            <div class="wtd-section-kicker">
+                WHAT'S INCLUDED
+            </div>
+
+            <h2>
+                Your wedding experience
+            </h2>
+
+            <p>
+                Complete service areas available throughout your
+                wedding planning experience.
+            </p>
+
+        </div>
+
+
+        <div class="wtd-service-grid">
+
+            <!-- 01 -->
+            <div class="wtd-service-card">
+
+                <i class="fa-solid fa-spa"></i>
+
+                <strong>
+                    Decoration
+                </strong>
+
+                <span>
+                    {% if theme.wedding_decoration %}
+                        {{ theme.wedding_decoration }}
+                    {% else %}
+                        Theme-based décor and setup
+                    {% endif %}
+                </span>
+
+            </div>
+
+
+            <!-- 02 -->
+            <div class="wtd-service-card">
+
+                <i class="fa-solid fa-utensils"></i>
+
+                <strong>
+                    Catering
+                </strong>
+
+                <span>
+                    {% if theme.wedding_catering %}
+                        {{ theme.wedding_catering }}
+                    {% else %}
+                        Food and beverage planning
+                    {% endif %}
+                </span>
+
+            </div>
+
+
+            <!-- 03 -->
+            <div class="wtd-service-card">
+
+                <i class="fa-solid fa-camera"></i>
+
+                <strong>
+                    Photography
+                </strong>
+
+                <span>
+                    {% if theme.wedding_photography %}
+                        {{ theme.wedding_photography }}
+                    {% else %}
+                        Wedding photography coverage
+                    {% endif %}
+                </span>
+
+            </div>
+
+
+            <!-- 04 -->
+            <div class="wtd-service-card">
+
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                <strong>
+                    Makeup & Styling
+                </strong>
+
+                <span>
+                    {% if theme.wedding_makeup %}
+                        {{ theme.wedding_makeup }}
+                    {% else %}
+                        Bridal and event styling
+                    {% endif %}
+                </span>
+
+            </div>
+
+
+            <!-- 05 -->
+            <div class="wtd-service-card">
+
+                <i class="fa-solid fa-music"></i>
+
+                <strong>
+                    Music & DJ
+                </strong>
+
+                <span>
+                    {% if theme.wedding_dj %}
+                        {{ theme.wedding_dj }}
+                    {% else %}
+                        Music and entertainment planning
+                    {% endif %}
+                </span>
+
+            </div>
+
+
+            <!-- 06 -->
+            <div class="wtd-service-card">
+
+                <i class="fa-solid fa-user-tie"></i>
+
+                <strong>
+                    Event Staff
+                </strong>
+
+                <span>
+                    {% if theme.wedding_staff %}
+                        {{ theme.wedding_staff }}
+                    {% else %}
+                        Professional event support
+                    {% endif %}
+                </span>
+
+            </div>
+
+
+            <!-- 07 -->
+            <div class="wtd-service-card">
+
+                <i class="fa-solid fa-users"></i>
+
+                <strong>
+                    Guest Management
+                </strong>
+
+                <span>
+                    Guest coordination and hospitality
+                </span>
+
+            </div>
+
+
+            <!-- 08 -->
+            <div class="wtd-service-card">
+
+                <i class="fa-solid fa-building"></i>
+
+                <strong>
+                    Venue Setup
+                </strong>
+
+                <span>
+                    Setup, arrangement and event logistics
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         BUILD YOUR WEDDING PLAN
+    ========================================================== -->
+
+    <section
+        class="wtd-section wtd-plan-builder"
+        id="wedding-plan"
+    >
+
+        <div class="wtd-plan-builder-copy">
+
+            <div class="wtd-section-kicker">
+                BUILD YOUR WEDDING PLAN
+            </div>
+
+            <h2>
+                Make it yours
+            </h2>
+
+            <p>
+                Personalize your celebration according to your
+                wedding plans. Choose the events and services you
+                want before receiving your personalized estimate.
+            </p>
+
+
+            <div class="wtd-plan-points">
+
+                <span>
+                    <i class="fa-solid fa-check"></i>
+                    Choose your wedding events
+                </span>
+
+                <span>
+                    <i class="fa-solid fa-check"></i>
+                    Select your services
+                </span>
+
+                <span>
+                    <i class="fa-solid fa-check"></i>
+                    Customize your experience
+                </span>
+
+                <span>
+                    <i class="fa-solid fa-check"></i>
+                    Review your personalized plan
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="wtd-plan-builder-action">
+
+            <div class="wtd-plan-action-icon">
+                <i class="fa-solid fa-sliders"></i>
+            </div>
+
+            <div>
+
+                <strong>
+                    Ready to personalize?
+                </strong>
+
+                <span>
+                    Build a wedding plan around your celebration.
+                </span>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('book_theme', theme_id=theme.id) }}"
+                class="wtd-btn wtd-btn-primary"
+            >
+                Customize Your Plan
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         MAKE YOUR CELEBRATION EVEN MORE SPECIAL
+    ========================================================== -->
+
+    <section class="wtd-section wtd-addons">
+
+        <div class="wtd-section-heading">
+
+            <div class="wtd-section-kicker">
+                MAKE YOUR CELEBRATION EVEN MORE SPECIAL
+            </div>
+
+            <h2>
+                Add the finishing touches
+            </h2>
+
+            <p>
+                Enhance your wedding experience with optional
+                celebration additions.
+            </p>
+
+        </div>
+
+
+        <div class="wtd-addon-grid">
+
+            <div class="wtd-addon-card">
+                <div class="wtd-addon-icon">
+                    <i class="fa-solid fa-drum"></i>
+                </div>
+
+                <div>
+                    <strong>Live Dhol</strong>
+                    <span>Energetic wedding celebration</span>
+                </div>
+
+                <i class="fa-solid fa-plus wtd-addon-plus"></i>
+            </div>
+
+
+            <div class="wtd-addon-card">
+                <div class="wtd-addon-icon">
+                    <i class="fa-solid fa-heart"></i>
+                </div>
+
+                <div>
+                    <strong>Bridal Entry</strong>
+                    <span>A memorable entrance moment</span>
+                </div>
+
+                <i class="fa-solid fa-plus wtd-addon-plus"></i>
+            </div>
+
+
+            <div class="wtd-addon-card">
+                <div class="wtd-addon-icon">
+                    <i class="fa-solid fa-microphone-lines"></i>
+                </div>
+
+                <div>
+                    <strong>Live Band</strong>
+                    <span>Live music for your celebration</span>
+                </div>
+
+                <i class="fa-solid fa-plus wtd-addon-plus"></i>
+            </div>
+
+
+            <div class="wtd-addon-card">
+                <div class="wtd-addon-icon">
+                    <i class="fa-solid fa-camera-retro"></i>
+                </div>
+
+                <div>
+                    <strong>Drone Photography</strong>
+                    <span>Aerial wedding moments</span>
+                </div>
+
+                <i class="fa-solid fa-plus wtd-addon-plus"></i>
+            </div>
+
+
+            <div class="wtd-addon-card">
+                <div class="wtd-addon-icon">
+                    <i class="fa-solid fa-spa"></i>
+                </div>
+
+                <div>
+                    <strong>Premium Floral Decor</strong>
+                    <span>Elevated floral styling</span>
+                </div>
+
+                <i class="fa-solid fa-plus wtd-addon-plus"></i>
+            </div>
+
+
+            <div class="wtd-addon-card">
+                <div class="wtd-addon-icon">
+                    <i class="fa-solid fa-wand-sparkles"></i>
+                </div>
+
+                <div>
+                    <strong>Fireworks</strong>
+                    <span>A grand celebration moment</span>
+                </div>
+
+                <i class="fa-solid fa-plus wtd-addon-plus"></i>
+            </div>
+
+
+            <div class="wtd-addon-card">
+                <div class="wtd-addon-icon">
+                    <i class="fa-solid fa-gift"></i>
+                </div>
+
+                <div>
+                    <strong>Welcome Gifts</strong>
+                    <span>A thoughtful guest welcome</span>
+                </div>
+
+                <i class="fa-solid fa-plus wtd-addon-plus"></i>
+            </div>
+
+
+            <div class="wtd-addon-card">
+                <div class="wtd-addon-icon">
+                    <i class="fa-solid fa-car"></i>
+                </div>
+
+                <div>
+                    <strong>Guest Transport</strong>
+                    <span>Convenient guest travel support</span>
+                </div>
+
+                <i class="fa-solid fa-plus wtd-addon-plus"></i>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+
+
+    <!-- =========================================================
+         CLOSING
+    ========================================================== -->
+
+    <div class="wtd-closing">
+
+        <span></span>
+
+        <i class="fa-solid fa-crown"></i>
+
+        <p>
+            Let EventFlow turn your dream wedding into a royal reality.
+        </p>
+
+        <i class="fa-solid fa-crown"></i>
+
+        <span></span>
+
+    </div>
+
+</div>
+
+
+<!-- =============================================================
+     HERO GALLERY INTERACTION
+============================================================== -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const heroImage =
+        document.getElementById("wtdHeroImage");
+
+    const thumbnails =
+        document.querySelectorAll(".wtd-gallery-thumb");
+
+    const counterCurrent =
+        document.querySelector(".wtd-gallery-count span:first-child");
+
+    thumbnails.forEach(function (thumbnail, index) {
+
+        thumbnail.addEventListener("click", function () {
+
+            const image =
+                thumbnail.getAttribute("data-gallery-image");
+
+            const alt =
+                thumbnail.getAttribute("data-gallery-alt");
+
+            if (!image || !heroImage) {
+                return;
+            }
+
+            heroImage.src = image;
+            heroImage.alt = alt || "";
+
+            thumbnails.forEach(function (item) {
+                item.classList.remove("is-active");
+            });
+
+            thumbnail.classList.add("is-active");
+
+            if (counterCurrent) {
+                counterCurrent.textContent = index + 1;
+            }
+
+        });
+
+    });
+
+});
+</script>
+
+{% endblock %}

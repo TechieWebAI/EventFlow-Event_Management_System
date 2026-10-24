@@ -1,0 +1,542 @@
+{% extends "base.html" %}
+
+{% block title %}{{ event.title }} · EventFlow{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/event_detail.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<main class="event-detail-page">
+
+    <div class="event-detail-shell">
+
+        <!-- =====================================================
+             BACK NAVIGATION
+        ====================================================== -->
+
+        <div class="event-back-row">
+
+            {% if from_page == 'profile' %}
+
+                <a href="{{ url_for('profile') }}" class="event-back-link">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Back to Profile</span>
+                </a>
+
+            {% elif event.category == 'Tech' %}
+
+                <a href="{{ url_for('tech_page') }}" class="event-back-link">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Back to Tech Events</span>
+                </a>
+
+            {% elif event.category == 'Art' %}
+
+                <a href="{{ url_for('art_page') }}" class="event-back-link">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Back to Art Events</span>
+                </a>
+
+            {% elif event.category == 'Culture' %}
+
+                <a href="{{ url_for('culture_page') }}" class="event-back-link">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Back to Culture Events</span>
+                </a>
+
+            {% elif event.category == 'Fitness' %}
+
+                <a href="{{ url_for('fitness_page') }}" class="event-back-link">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Back to Fitness Events</span>
+                </a>
+
+            {% else %}
+
+                <a href="{{ url_for('index') }}" class="event-back-link">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Back to Events</span>
+                </a>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =====================================================
+             COMPACT EVENT HERO
+        ====================================================== -->
+
+        <section class="event-hero-card">
+
+            <!-- IMAGE -->
+
+            <div class="event-hero-media">
+
+                <img
+                    src="{{ url_for('static', filename='images/' + event['image']) }}"
+                    alt="{{ event.title }}"
+                    class="event-hero-image"
+                >
+
+                <div class="event-hero-category">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span>{{ event.category }}</span>
+                </div>
+
+            </div>
+
+
+            <!-- EVENT INTRO -->
+
+            <div class="event-hero-content">
+
+                <div class="event-category-line">
+
+                    <span class="category-dot"></span>
+
+                    <span>{{ event.category }}</span>
+
+                </div>
+
+
+                <h1 class="event-detail-title">
+                    {{ event.title }}
+                </h1>
+
+
+                <p class="event-hero-description">
+                    {{ event.description }}
+                </p>
+
+
+                <!-- QUICK EVENT DETAILS -->
+
+                <div class="event-quick-details">
+
+                    <div class="quick-detail">
+
+                        <div class="quick-detail-icon">
+                            <i class="fa-regular fa-calendar"></i>
+                        </div>
+
+                        <div>
+                            <span>Event date</span>
+
+                            <strong>
+                                {{ event.event_date }}
+                            </strong>
+                        </div>
+
+                    </div>
+
+
+                    <div class="quick-detail">
+
+                        <div class="quick-detail-icon">
+                            <i class="fa-regular fa-clock"></i>
+                        </div>
+
+                        <div>
+                            <span>Time</span>
+
+                            <strong>
+                                {{ time_12 }}
+                            </strong>
+                        </div>
+
+                    </div>
+
+
+                    <div class="quick-detail">
+
+                        <div class="quick-detail-icon">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+
+                        <div>
+                            <span>Location</span>
+
+                            <strong>
+                                {{ event.location }}
+                            </strong>
+                        </div>
+
+                    </div>
+
+
+                    <div class="quick-detail">
+
+                        <div class="quick-detail-icon">
+                            <i class="fa-solid fa-ticket"></i>
+                        </div>
+
+                        <div>
+                            <span>Ticket price</span>
+
+                            <strong>
+                                ₹{{ event.price }}
+                            </strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             MAIN EVENT AREA
+        ====================================================== -->
+
+        <section class="event-main-grid">
+
+
+            <!-- =================================================
+                 LEFT — EVENT INFORMATION
+            ================================================== -->
+
+            <div class="event-main-content">
+
+
+                <!-- ABOUT -->
+
+                <section class="event-content-card">
+
+                    <div class="section-heading">
+
+                        <div>
+                            <span class="section-eyebrow">
+                                ABOUT THE EVENT
+                            </span>
+
+                            <h2>
+                                Experience something worth remembering.
+                            </h2>
+                        </div>
+
+                    </div>
+
+                    <div class="event-description">
+                        {{ event.description }}
+                    </div>
+
+                </section>
+
+
+                <!-- EVENT DETAILS -->
+
+                <section class="event-content-card">
+
+                    <div class="section-heading">
+
+                        <div>
+                            <span class="section-eyebrow">
+                                EVENT DETAILS
+                            </span>
+
+                            <h2>
+                                Everything you need to know
+                            </h2>
+                        </div>
+
+                    </div>
+
+
+                    <div class="event-details-grid">
+
+                        <div class="event-detail-item">
+
+                            <div class="detail-icon">
+                                <i class="fa-regular fa-calendar"></i>
+                            </div>
+
+                            <div>
+                                <span>Event date</span>
+
+                                <strong>
+                                    {{ event.event_date }}
+                                </strong>
+                            </div>
+
+                        </div>
+
+
+                        <div class="event-detail-item">
+
+                            <div class="detail-icon">
+                                <i class="fa-regular fa-clock"></i>
+                            </div>
+
+                            <div>
+                                <span>Time</span>
+
+                                <strong>
+                                    {{ time_12 }}
+                                </strong>
+                            </div>
+
+                        </div>
+
+
+                        <div class="event-detail-item">
+
+                            <div class="detail-icon">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+
+                            <div>
+                                <span>Location</span>
+
+                                <strong>
+                                    {{ event.location }}
+                                </strong>
+                            </div>
+
+                        </div>
+
+
+                        <div class="event-detail-item">
+
+                            <div class="detail-icon">
+                                <i class="fa-solid fa-layer-group"></i>
+                            </div>
+
+                            <div>
+                                <span>Category</span>
+
+                                <strong>
+                                    {{ event.category }}
+                                </strong>
+                            </div>
+
+                        </div>
+
+
+                        <div class="event-detail-item">
+
+                            <div class="detail-icon">
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </div>
+
+                            <div>
+                                <span>Schedule</span>
+
+                                <strong>
+                                    {{ event.start_date }}
+
+                                    {% if event.end_date and event.end_date != event.start_date %}
+                                        – {{ event.end_date }}
+                                    {% endif %}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="event-detail-item">
+
+                            <div class="detail-icon">
+                                <i class="fa-solid fa-ticket"></i>
+                            </div>
+
+                            <div>
+                                <span>Tickets available</span>
+
+                                <strong>
+                                    {{ available_tickets }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- EVENT NOTE -->
+
+                <div class="event-info-note">
+
+                    <div class="note-icon">
+                        <i class="fa-solid fa-circle-info"></i>
+                    </div>
+
+                    <div>
+                        <strong>
+                            Plan your visit
+                        </strong>
+
+                        <span>
+                            Keep your booking details handy and arrive on time
+                            for the event.
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 RIGHT — BOOKING PANEL
+            ================================================== -->
+
+            <aside class="event-booking-column">
+
+                <div class="event-booking-card">
+
+                    <div class="booking-card-header">
+
+                        <div>
+
+                            <span class="booking-card-label">
+                                TICKETS
+                            </span>
+
+                            <div class="event-price">
+
+                                <span class="currency">₹</span>{{ event.price }}
+
+                                <span class="price-unit">
+                                    / ticket
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="booking-ticket-icon">
+                            <i class="fa-solid fa-ticket"></i>
+                        </div>
+
+                    </div>
+
+
+                    <!-- AVAILABILITY -->
+
+                    <div class="ticket-availability">
+
+                        <div class="availability-header">
+
+                            <span>
+                                <i class="fa-solid fa-circle-check"></i>
+                                Tickets available
+                            </span>
+
+                            <strong>
+                                {{ available_tickets }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="availability-track">
+
+                            <div class="availability-fill"></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BOOKING ACTION -->
+
+                    <div class="booking-action">
+
+                        {% if 'user_id' in session %}
+
+                            <form
+                                action="{{ url_for('start_booking', event_id=event['id']) }}"
+                                method="get"
+                            >
+
+                                <button
+                                    type="submit"
+                                    class="event-book-button"
+                                >
+                                    <span>Book Event</span>
+
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+
+                            </form>
+
+                            <div class="booking-note">
+
+                                <i class="fa-solid fa-shield-halved"></i>
+
+                                <span>
+                                    Secure booking through EventFlow
+                                </span>
+
+                            </div>
+
+                        {% else %}
+
+                            <a
+                                href="{{ url_for('login') }}"
+                                class="event-book-button"
+                            >
+                                <span>Login to Book</span>
+
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+
+                            <div class="booking-note">
+
+                                <i class="fa-regular fa-user"></i>
+
+                                <span>
+                                    Login is required to book this event.
+                                </span>
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- TRUST CARD -->
+
+                <div class="event-trust-card">
+
+                    <div class="trust-icon">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+
+                    <div class="trust-content">
+
+                        <strong>
+                            Simple & secure booking
+                        </strong>
+
+                        <span>
+                            Reserve your tickets and manage your booking
+                            from your EventFlow profile.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </section>
+
+    </div>
+
+</main>
+
+{% endblock %}

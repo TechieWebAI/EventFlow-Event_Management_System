@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+
+{% block title %}Create account — EventFlow{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/auth.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<section class="auth-page auth-signup-page">
+    <div class="auth-shell">
+
+        <!-- LEFT BRAND PANEL -->
+        <div class="auth-intro">
+            <a href="{{ url_for('index') }}" class="auth-brand">
+                <span class="auth-brand-mark">E</span>
+                <span>EventFlow</span>
+            </a>
+
+            <div class="auth-intro-content">
+                <span class="auth-kicker">
+                    <i class="fa-solid fa-arrow-up-right"></i>
+                    START EXPLORING
+                </span>
+
+                <h1>
+                    Your next
+                    <span>experience starts here.</span>
+                </h1>
+
+                <p>
+                    Create your EventFlow account and start discovering
+                    events that are worth your time.
+                </p>
+
+                <div class="auth-intro-points">
+
+                    <div>
+                        <span class="auth-point-icon">
+                            <i class="fa-solid fa-compass"></i>
+                        </span>
+
+                        <div>
+                            <strong>Discover experiences</strong>
+                            <span>Explore events across different categories.</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <span class="auth-point-icon">
+                            <i class="fa-solid fa-bookmark"></i>
+                        </span>
+
+                        <div>
+                            <strong>Book with confidence</strong>
+                            <span>Keep your event bookings connected to your account.</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="auth-intro-footer">
+                <span>Discover.</span>
+                <span>Experience.</span>
+                <span>Remember.</span>
+            </div>
+        </div>
+
+
+        <!-- SIGNUP CARD -->
+        <div class="auth-card-wrap">
+
+            <div class="auth-card auth-card-signup">
+
+                <div class="auth-card-header">
+                    <span class="auth-mobile-kicker">ACCOUNT</span>
+
+                    <h2>Create your account</h2>
+
+                    <p>
+                        Join EventFlow and start exploring.
+                    </p>
+                </div>
+
+
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="auth-messages">
+                            {% for message in messages %}
+                                <div class="auth-message">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                    <span>{{ message }}</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+
+                <form method="POST" class="auth-form">
+
+                    <div class="auth-field">
+                        <label for="username">
+                            Username
+                        </label>
+
+                        <div class="auth-input-wrap">
+                            <i class="fa-regular fa-user"></i>
+
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                placeholder="Choose a username"
+                                autocomplete="username"
+                                required
+                            >
+                        </div>
+                    </div>
+
+
+                    <div class="auth-field">
+                        <label for="email">
+                            Email address
+                        </label>
+
+                        <div class="auth-input-wrap">
+                            <i class="fa-regular fa-envelope"></i>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="you@example.com"
+                                autocomplete="email"
+                                required
+                            >
+                        </div>
+                    </div>
+
+
+                    <div class="auth-form-row">
+
+                        <div class="auth-field">
+                            <label for="password">
+                                Password
+                            </label>
+
+                            <div class="auth-input-wrap">
+                                <i class="fa-solid fa-lock"></i>
+
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    placeholder="Create password"
+                                    autocomplete="new-password"
+                                    required
+                                >
+
+                                <button
+                                    type="button"
+                                    class="password-toggle"
+                                    data-target="password"
+                                    aria-label="Show password"
+                                >
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+
+                        <div class="auth-field">
+                            <label for="confirm_password">
+                                Confirm password
+                            </label>
+
+                            <div class="auth-input-wrap">
+                                <i class="fa-solid fa-lock"></i>
+
+                                <input
+                                    type="password"
+                                    id="confirm_password"
+                                    name="confirm_password"
+                                    placeholder="Repeat password"
+                                    autocomplete="new-password"
+                                    required
+                                >
+
+                                <button
+                                    type="button"
+                                    class="password-toggle"
+                                    data-target="confirm_password"
+                                    aria-label="Show password"
+                                >
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <button type="submit" class="auth-submit">
+                        Create account
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+
+                </form>
+
+
+                <div class="auth-divider">
+                    <span>Already have an account?</span>
+                </div>
+
+
+                <a href="{{ url_for('login') }}" class="auth-secondary-btn">
+                    Sign in
+                </a>
+
+
+                <p class="auth-legal">
+                    By creating an account, you agree to use EventFlow
+                    responsibly and keep your account information secure.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.querySelectorAll('.password-toggle').forEach(function(button) {
+    button.addEventListener('click', function() {
+        const input = document.getElementById(this.dataset.target);
+        const icon = this.querySelector('i');
+
+        if (!input) return;
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+            this.setAttribute('aria-label', 'Hide password');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+            this.setAttribute('aria-label', 'Show password');
+        }
+    });
+});
+</script>
+{% endblock %}

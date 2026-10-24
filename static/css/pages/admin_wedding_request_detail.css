@@ -1,0 +1,1100 @@
+/* EventFlow Wedding Booking Details
+   Dedicated page styles. Shared sidebar and admin shell remain controlled
+   by admin_shell.css. */
+
+.wedding-detail-page {
+  --detail-gold: var(--admin-accent);
+  --detail-card-bg: var(--admin-surface);
+  --detail-card-raised: var(--admin-surface-2);
+  --detail-line: var(--admin-border);
+  --detail-line-soft: var(--admin-border-soft);
+  --detail-heading: var(--admin-text);
+  --detail-copy: var(--admin-text-soft);
+  --detail-muted: var(--admin-text-muted);
+  --detail-shadow: 0 14px 38px rgba(0, 0, 0, 0.12);
+}
+
+.wedding-detail-page .admin-main {
+  min-width: 0;
+  padding-top: 0;
+}
+
+.detail-content {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding-bottom: 26px;
+}
+
+/* Top bar */
+
+.detail-topbar {
+  min-height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 24px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.detail-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--admin-text-soft);
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.detail-back-link i {
+  color: var(--admin-accent);
+}
+
+.detail-back-link:hover {
+  color: var(--admin-accent);
+  transform: translateX(-2px);
+}
+
+.detail-topbar .admin-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.wedding-admin-label {
+  color: var(--admin-text-muted);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.wedding-admin-label i {
+  margin: 0 7px;
+  color: var(--admin-accent);
+}
+
+.wedding-admin-avatar {
+  width: 35px;
+  height: 35px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--admin-accent-border);
+  border-radius: 50%;
+  background: var(--admin-accent-soft);
+  color: var(--admin-accent);
+  font-size: 12px;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+/* Heading and current status */
+
+.detail-title-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+.detail-title-row .panel-eyebrow {
+  margin: 0 0 7px;
+  color: var(--admin-accent);
+  font-size: 8px;
+  font-weight: 850;
+  letter-spacing: 0.16em;
+}
+
+.detail-title-row h1 {
+  margin: 0;
+  color: var(--admin-text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(27px, 3vw, 36px);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+
+.detail-title-row p {
+  margin: 6px 0 0;
+  color: var(--admin-text-muted);
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.request-status {
+  width: fit-content;
+  min-height: 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  border: 1px solid var(--admin-border);
+  border-radius: 999px;
+  background: var(--admin-surface-2);
+  color: var(--admin-text-soft);
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.request-status.status-new_request {
+  border-color: rgba(217, 154, 23, 0.38);
+  background: rgba(217, 154, 23, 0.13);
+  color: #e3ae42;
+}
+
+.request-status.status-under_review {
+  border-color: rgba(93, 151, 207, 0.4);
+  background: rgba(93, 151, 207, 0.14);
+  color: #7fb1e0;
+}
+
+.request-status.status-changes_requested {
+  border-color: rgba(163, 120, 193, 0.4);
+  background: rgba(163, 120, 193, 0.15);
+  color: #c19bd9;
+}
+
+.request-status.status-confirmed {
+  border-color: rgba(54, 165, 109, 0.4);
+  background: rgba(54, 165, 109, 0.15);
+  color: #65cc92;
+}
+
+.request-status.status-declined,
+.request-status.status-cancelled {
+  border-color: rgba(218, 83, 83, 0.42);
+  background: rgba(218, 83, 83, 0.14);
+  color: #f07b78;
+}
+
+.request-status.status-legacy {
+  border-color: var(--admin-border);
+  background: var(--admin-surface-2);
+  color: var(--admin-text-muted);
+}
+
+/* Reusable panels */
+
+.wedding-detail-page .wedding-panel {
+  min-width: 0;
+  border: 1px solid var(--detail-line);
+  border-radius: 12px;
+  background: var(--detail-card-bg);
+  box-shadow: var(--detail-shadow);
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+/* Customer and wedding summary */
+
+.detail-summary {
+  display: grid;
+  grid-template-columns: 178px minmax(180px, 0.9fr) minmax(310px, 1.5fr) 165px;
+  align-items: center;
+  gap: 17px;
+  margin-bottom: 15px;
+  padding: 17px;
+  border-color: var(--admin-accent-border) !important;
+  background:
+    radial-gradient(ellipse at 100% 0%, var(--admin-accent-soft), transparent 42%),
+    var(--detail-card-bg) !important;
+}
+
+.summary-theme-image {
+  height: 126px;
+  overflow: hidden;
+  border: 1px solid var(--admin-accent-border);
+  border-radius: 9px;
+  background: var(--detail-card-raised);
+}
+
+.summary-theme-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.summary-theme-placeholder {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--detail-muted);
+  font-size: 9px;
+}
+
+.summary-theme-placeholder i {
+  color: var(--admin-accent);
+  font-size: 23px;
+}
+
+.summary-customer {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.customer-avatar.large {
+  width: 43px;
+  height: 43px;
+  flex: 0 0 43px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--admin-accent-border);
+  border-radius: 50%;
+  background: var(--admin-accent-soft);
+  color: var(--admin-accent);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.summary-customer-copy {
+  min-width: 0;
+}
+
+.summary-label {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--detail-muted);
+  font-size: 7px;
+  font-weight: 850;
+  letter-spacing: 0.14em;
+}
+
+.summary-customer h2 {
+  overflow-wrap: anywhere;
+  margin: 0 0 7px;
+  color: var(--detail-heading);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.summary-customer p {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  overflow-wrap: anywhere;
+  margin: 4px 0 0;
+  color: var(--detail-copy);
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+.summary-customer p i {
+  width: 12px;
+  flex: 0 0 12px;
+  margin-top: 1px;
+  color: var(--admin-accent);
+  text-align: center;
+}
+
+.summary-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.summary-facts > div {
+  min-width: 0;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 9px;
+  border: 1px solid var(--detail-line-soft);
+  border-radius: 8px;
+  background: var(--detail-card-raised);
+}
+
+.summary-facts > div > i {
+  width: 14px;
+  flex: 0 0 14px;
+  color: var(--admin-accent);
+  font-size: 11px;
+  text-align: center;
+}
+
+.summary-facts span,
+.summary-facts small,
+.summary-facts strong {
+  display: block;
+  min-width: 0;
+}
+
+.summary-facts small {
+  margin-bottom: 3px;
+  color: var(--detail-muted);
+  font-size: 7px;
+  font-weight: 750;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.summary-facts strong {
+  overflow-wrap: anywhere;
+  color: var(--detail-heading);
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.summary-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.detail-action-secondary {
+  width: 100%;
+  min-height: 35px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 7px 9px;
+  border: 1px solid var(--admin-accent-border);
+  border-radius: 7px;
+  background: var(--admin-accent-soft);
+  color: var(--admin-text);
+  font-size: 9px;
+  font-weight: 750;
+  line-height: 1.3;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+.detail-action-secondary i {
+  color: var(--admin-accent);
+}
+
+.detail-action-secondary:hover {
+  transform: translateY(-1px);
+  border-color: var(--admin-accent);
+  background: var(--admin-accent-soft);
+}
+
+/* Two-column detail card layout */
+
+.detail-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 12px;
+}
+
+.detail-card {
+  min-height: 190px;
+  padding: 15px 16px;
+}
+
+.detail-card > h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--detail-line-soft);
+  color: var(--detail-heading);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.detail-card > h2 i {
+  width: 17px;
+  color: var(--admin-accent);
+  font-size: 11px;
+  text-align: center;
+}
+
+.detail-card dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 15px;
+  margin: 0;
+}
+
+.detail-card dl > div {
+  min-width: 0;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--detail-line-soft);
+}
+
+.detail-card dl > div:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+
+.detail-card dt {
+  margin: 0 0 4px;
+  color: var(--detail-muted);
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.detail-card dd {
+  overflow-wrap: anywhere;
+  margin: 0;
+  color: var(--detail-heading);
+  font-size: 9px;
+  font-weight: 650;
+  line-height: 1.5;
+}
+
+.theme-name {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  min-height: 27px;
+  padding: 5px 9px;
+  border: 1px solid var(--admin-accent-border);
+  border-radius: 7px;
+  background: var(--admin-accent-soft);
+  color: var(--admin-accent);
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.detail-subsection {
+  margin-top: 12px;
+}
+
+.detail-subsection h3 {
+  margin: 0 0 7px;
+  color: var(--detail-heading);
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.detail-subsection p,
+.detail-card > p {
+  overflow-wrap: anywhere;
+  margin: 6px 0 0;
+  color: var(--detail-copy);
+  font-size: 9px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.detail-subsection p strong {
+  color: var(--detail-heading);
+}
+
+.detail-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.detail-chip-list span {
+  min-height: 24px;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border: 1px solid var(--admin-accent-border);
+  border-radius: 999px;
+  background: var(--admin-accent-soft);
+  color: var(--admin-text-soft);
+  font-size: 8px;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+/* Booking status and actions card */
+
+.status-management-card {
+  border-color: var(--admin-accent-border) !important;
+  background:
+    radial-gradient(ellipse at 100% 0%, var(--admin-accent-soft), transparent 46%),
+    var(--detail-card-bg) !important;
+}
+
+.status-current-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0 0 14px;
+  padding: 9px 10px;
+  border: 1px solid var(--detail-line-soft);
+  border-radius: 8px;
+  background: var(--detail-card-raised);
+}
+
+.status-current-label {
+  color: var(--detail-muted);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.status-update-form {
+  margin: 0;
+}
+
+.status-update-form > label {
+  display: block;
+  margin: 0 0 7px;
+  color: var(--detail-heading);
+  font-size: 9px;
+  font-weight: 750;
+}
+
+.status-update-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 7px;
+}
+
+.status-update-controls select {
+  width: 100%;
+  min-width: 0;
+  min-height: 37px;
+  padding: 0 30px 0 10px;
+  border: 1px solid var(--detail-line);
+  border-radius: 7px;
+  outline: none;
+  background-color: var(--detail-card-raised);
+  color: var(--detail-heading);
+  font: inherit;
+  font-size: 9px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.status-update-controls select:focus {
+  border-color: var(--admin-accent);
+  box-shadow: 0 0 0 3px var(--admin-accent-soft);
+}
+
+.status-update-controls select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.status-update-controls select option {
+  background: var(--detail-card-bg);
+  color: var(--detail-heading);
+}
+
+.status-update-controls button {
+  min-height: 37px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 12px;
+  border: 1px solid var(--admin-accent);
+  border-radius: 7px;
+  background: var(--admin-accent);
+  color: #201808;
+  font: inherit;
+  font-size: 9px;
+  font-weight: 850;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease,
+    opacity 160ms ease;
+}
+
+.status-update-controls button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: var(--admin-accent-hover);
+}
+
+.status-update-controls button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.status-update-help {
+  margin: 8px 0 0;
+  color: var(--detail-muted);
+  font-size: 8px;
+  line-height: 1.55;
+}
+
+.status-update-help::before {
+  content: "•";
+  margin-right: 6px;
+  color: var(--admin-accent);
+}
+
+.detail-locked-note {
+  margin: 0;
+  color: var(--detail-muted);
+  font-size: 8px;
+  line-height: 1.5;
+}
+
+.detail-locked-note i {
+  margin-right: 5px;
+  color: var(--admin-accent);
+}
+
+/* Daylight theme: retain gold accents and use clear ivory surfaces. */
+
+body[data-theme="daylight"] .wedding-detail-page,
+body[data-theme="light"] .wedding-detail-page {
+  --detail-shadow: 0 10px 28px rgba(62, 49, 29, 0.06);
+}
+
+body[data-theme="daylight"] .detail-summary,
+body[data-theme="light"] .detail-summary {
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(217, 154, 23, 0.085), transparent 43%),
+    var(--admin-surface) !important;
+}
+
+body[data-theme="daylight"] .status-management-card,
+body[data-theme="light"] .status-management-card {
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(217, 154, 23, 0.075), transparent 46%),
+    var(--admin-surface) !important;
+}
+
+body[data-theme="daylight"] .detail-chip-list span,
+body[data-theme="light"] .detail-chip-list span {
+  color: var(--admin-text-soft);
+}
+
+/* Footer and keyboard focus */
+
+.wedding-detail-page .admin-footer {
+  margin-top: 20px;
+  padding-top: 13px;
+  border-top: 1px solid var(--admin-border);
+  color: var(--admin-text-muted);
+  font-size: 8px;
+}
+
+.wedding-detail-page a:focus-visible,
+.wedding-detail-page button:focus-visible,
+.wedding-detail-page select:focus-visible {
+  outline: 2px solid var(--admin-accent);
+  outline-offset: 3px;
+}
+
+/* Responsive layout */
+
+@media (max-width: 1200px) {
+  .detail-summary {
+    grid-template-columns: 150px minmax(180px, 1fr) minmax(270px, 1.4fr);
+  }
+
+  .summary-actions {
+    grid-column: 1 / -1;
+    flex-direction: row;
+  }
+
+  .summary-actions > * {
+    flex: 1;
+  }
+}
+
+@media (max-width: 900px) {
+  .detail-summary {
+    grid-template-columns: 145px minmax(0, 1fr);
+  }
+
+  .summary-facts,
+  .summary-actions {
+    grid-column: 1 / -1;
+  }
+
+  .detail-card-grid {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 680px) {
+  .detail-topbar {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 13px 0;
+  }
+
+  .detail-topbar .admin-topbar-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .wedding-admin-label {
+    font-size: 7px;
+  }
+
+  .detail-title-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .detail-summary {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 13px;
+  }
+
+  .summary-theme-image {
+    height: 190px;
+  }
+
+  .summary-facts,
+  .summary-actions {
+    grid-column: auto;
+  }
+
+  .summary-actions {
+    flex-direction: column;
+  }
+
+  .detail-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-card {
+    min-height: 0;
+    padding: 14px;
+  }
+
+  .status-update-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .status-update-controls button {
+    width: 100%;
+  }
+
+  .wedding-detail-page .admin-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 390px) {
+  .summary-facts,
+  .detail-card dl {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-card dl > div:nth-last-child(2) {
+    border-bottom: 1px solid var(--detail-line-soft);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wedding-detail-page *,
+  .wedding-detail-page *::before,
+  .wedding-detail-page *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* Gold borders and raised-card effect */
+.wedding-detail-page .detail-summary,
+.wedding-detail-page .detail-card-grid > .detail-card {
+  border: 1px solid var(--admin-accent-border) !important;
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.22),
+    0 0 0 1px rgba(217, 154, 23, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.wedding-detail-page .detail-summary:hover,
+.wedding-detail-page .detail-card-grid > .detail-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--admin-accent) !important;
+  box-shadow:
+    0 16px 34px rgba(0, 0, 0, 0.28),
+    0 0 16px rgba(217, 154, 23, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.045);
+}
+
+.wedding-detail-page .detail-card > h2 {
+  border-bottom-color: var(--admin-accent-border);
+}
+
+.wedding-detail-page .detail-card > h2 i {
+  filter: drop-shadow(0 0 5px var(--admin-accent-border));
+}
+
+/* Softer raised shadow in daylight mode */
+body[data-theme="daylight"] .wedding-detail-page .detail-summary,
+body[data-theme="daylight"] .wedding-detail-page .detail-card-grid > .detail-card,
+body[data-theme="light"] .wedding-detail-page .detail-summary,
+body[data-theme="light"] .wedding-detail-page .detail-card-grid > .detail-card {
+  box-shadow:
+    0 8px 22px rgba(75, 54, 20, 0.10),
+    0 0 0 1px rgba(217, 154, 23, 0.10);
+}
+
+body[data-theme="daylight"] .wedding-detail-page .detail-summary:hover,
+body[data-theme="daylight"] .wedding-detail-page .detail-card-grid > .detail-card:hover,
+body[data-theme="light"] .wedding-detail-page .detail-summary:hover,
+body[data-theme="light"] .wedding-detail-page .detail-card-grid > .detail-card:hover {
+  box-shadow:
+    0 14px 30px rgba(75, 54, 20, 0.15),
+    0 0 16px rgba(217, 154, 23, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wedding-detail-page .detail-summary,
+  .wedding-detail-page .detail-card-grid > .detail-card {
+    transition: none;
+  }
+
+  .wedding-detail-page .detail-summary:hover,
+  .wedding-detail-page .detail-card-grid > .detail-card:hover {
+    transform: none;
+  }
+}
+
+
+
+.summary-actions form {
+  margin: 0;
+}
+
+.detail-action-send {
+  width: 100%;
+  min-height: 35px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 7px 10px;
+  border: 1px solid var(--admin-accent);
+  border-radius: 7px;
+  background: var(--admin-accent);
+  color: #211909;
+  font: inherit;
+  font-size: 9px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 160ms ease, background-color 160ms ease;
+}
+
+.detail-action-send:hover {
+  transform: translateY(-1px);
+  background: var(--admin-accent-hover);
+}
+
+.send-plan-note {
+  margin: 0;
+  color: var(--admin-text-muted);
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.detail-flash-stack {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 16px;
+}
+
+.detail-flash {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--admin-border);
+  border-radius: 9px;
+  background: var(--admin-surface);
+  color: var(--admin-text);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.14);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.detail-flash > i {
+  color: var(--admin-accent);
+}
+
+.detail-flash-success {
+  border-color: rgba(54, 165, 109, 0.5);
+}
+
+.detail-flash-success > i {
+  color: var(--admin-success);
+}
+
+.detail-flash-warning,
+.detail-flash-error {
+  border-color: rgba(217, 76, 76, 0.45);
+}
+
+.detail-flash-warning > i,
+.detail-flash-error > i {
+  color: var(--admin-danger);
+}
+
+.detail-flash button {
+  width: 27px;
+  height: 27px;
+  flex: 0 0 27px;
+  display: grid;
+  place-items: center;
+  margin-left: auto;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--admin-text-muted);
+  cursor: pointer;
+}
+
+.detail-flash button:hover {
+  background: var(--admin-surface-2);
+  color: var(--admin-text);
+}
+
+.detail-flash-stack {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 9999;
+  display: grid;
+  gap: 10px;
+  width: min(420px, calc(100vw - 32px));
+}
+
+.detail-flash {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 17px;
+  color: #f8f5eb;
+  background: #101a1d;
+  border: 1px solid #c6a45b;
+  border-radius: 12px;
+  box-shadow: 0 12px 34px rgb(0 0 0 / 35%);
+}
+
+.detail-flash-success { border-color: #48a878; }
+.detail-flash-error { border-color: #d45b5b; }
+.detail-flash-warning { border-color: #d6a94f; }
+
+.detail-flash span { flex: 1; }
+
+.detail-flash button {
+  color: inherit;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.ef-flashes {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 2000;
+  width: min(380px, calc(100vw - 32px));
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.ef-flash {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  padding: 15px 42px 15px 50px;
+  border: 1px solid var(--ef-border, #ded8ce);
+  border-radius: 16px;
+  background: var(--ef-surface, #fffdf8);
+  color: var(--ef-text, #171512);
+  box-shadow: 0 18px 45px rgba(42, 34, 25, .14),
+              0 4px 12px rgba(42, 34, 25, .06);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.45;
+  pointer-events: auto;
+  animation: efToastIn .35s ease both;
+  overflow: hidden;
+}
+
+.ef-flash::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: var(--ef-accent, #b95e43);
+}
+
+.ef-flash::after {
+  content: "\f058";
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  color: var(--ef-accent, #b95e43);
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 14px;
+}
+
+.ef-flash-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ef-text-muted, #999188);
+  cursor: pointer;
+}
+
+.ef-flash-close:hover {
+  background: var(--ef-surface-2, #f2eee5);
+  color: var(--ef-text, #171512);
+}
+
+.ef-flash.is-hiding {
+  animation: efToastOut .22s ease forwards;
+}
+
+@keyframes efToastIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes efToastOut {
+  to { opacity: 0; transform: translateY(8px) scale(.98); }
+}
+
+@media (max-width: 600px) {
+  .ef-flashes {
+    right: 16px;
+    bottom: 16px;
+    width: calc(100vw - 32px);
+  }
+}

@@ -1,0 +1,1085 @@
+/* =========================================================
+   EVENTFLOW ADMIN
+   EVENT DETAILS
+   PAGE CONTENT ONLY
+
+   admin_shell.css controls:
+   - sidebar
+   - main layout
+   - topbar
+   - theme
+   - shared admin buttons
+   - Day / Night variables
+========================================================= */
+
+
+/* =========================================================
+   PAGE CONTENT
+========================================================= */
+
+.page-content {
+
+    width: 100%;
+
+    max-width: 1500px;
+
+    margin: 0 auto;
+
+    padding: 0 0 55px;
+}
+
+
+/* =========================================================
+   EVENT DETAILS TOPBAR KICKER
+   This page was not inheriting the yellow treatment
+   correctly, so explicitly match the shared admin accent.
+========================================================= */
+
+.event-details-kicker {
+
+    color: var(--admin-accent) !important;
+}
+
+
+/* =========================================================
+   BACK LINK
+========================================================= */
+
+.back-link {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 18px;
+
+    color: var(--admin-text-muted);
+
+    text-decoration: none;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    transition:
+        color .18s ease,
+        transform .18s ease;
+}
+
+.back-link:hover {
+
+    color: var(--admin-accent-hover);
+
+    transform: translateX(-2px);
+}
+
+
+/* =========================================================
+   EVENT HERO
+========================================================= */
+
+.event-hero {
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+    padding: 24px;
+
+    border:
+        1px solid var(--admin-border);
+
+    border-radius: 16px;
+
+    background: var(--admin-surface);
+
+    box-shadow: var(--admin-shadow);
+}
+
+.event-hero-main {
+
+    min-width: 0;
+}
+
+.hero-tags {
+
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 6px;
+
+    margin-bottom: 9px;
+}
+
+.hero-tags > span {
+
+    min-height: 21px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 0 8px;
+
+    border-radius: 999px;
+
+    background: var(--admin-surface-2);
+
+    border:
+        1px solid var(--admin-border);
+
+    color: var(--admin-text-muted);
+
+    font-size: 8px;
+
+    font-weight: 800;
+}
+
+.hero-tags .hero-status {
+
+    gap: 5px;
+
+    background:
+        rgba(242, 182, 43, .09);
+
+    border-color:
+        rgba(242, 182, 43, .20);
+
+    color: var(--admin-accent-hover);
+}
+
+.hero-status i {
+
+    font-size: 5px;
+
+    color: var(--admin-accent);
+}
+
+.event-hero h2 {
+
+    max-width: 850px;
+
+    margin: 0;
+
+    color: var(--admin-text);
+
+    font-size: 27px;
+
+    line-height: 1.12;
+
+    letter-spacing: -.045em;
+}
+
+.hero-meta {
+
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 13px;
+
+    margin-top: 10px;
+
+    color: var(--admin-text-muted);
+
+    font-size: 10px;
+}
+
+.hero-meta span {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+}
+
+.hero-meta i {
+
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   HERO ACTIONS
+========================================================= */
+
+.hero-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    flex-shrink: 0;
+}
+
+.edit-button,
+.view-button {
+
+    height: 36px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 0 11px;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+
+    transition:
+        background .18s ease,
+        border-color .18s ease,
+        color .18s ease,
+        transform .18s ease;
+}
+
+.edit-button {
+
+    border:
+        1px solid var(--admin-accent);
+
+    background: var(--admin-accent);
+
+    color: #211807;
+}
+
+.edit-button:hover {
+
+    background: var(--admin-accent-hover);
+
+    border-color: var(--admin-accent-hover);
+
+    color: #211807;
+
+    transform: translateY(-1px);
+}
+
+.view-button {
+
+    border:
+        1px solid var(--admin-border);
+
+    background: var(--admin-surface);
+
+    color: var(--admin-text);
+}
+
+.view-button:hover {
+
+    border-color: var(--admin-accent);
+
+    color: var(--admin-text);
+}
+
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.section {
+
+    margin-top: 25px;
+}
+
+.section-heading {
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 11px;
+}
+
+.section-heading > div > span {
+
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: var(--admin-text-muted);
+
+    font-size: 8px;
+
+    font-weight: 850;
+
+    letter-spacing: .13em;
+}
+
+.section-heading h3 {
+
+    margin: 0;
+
+    color: var(--admin-text);
+
+    font-size: 17px;
+
+    letter-spacing: -.025em;
+}
+
+.section-heading > strong {
+
+    color: var(--admin-text-muted);
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   OVERVIEW
+========================================================= */
+
+.overview-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(6, minmax(0, 1fr));
+
+    gap: 10px;
+}
+
+.overview-card {
+
+    min-height: 125px;
+
+    padding: 15px;
+
+    border:
+        1px solid var(--admin-border);
+
+    border-radius: 13px;
+
+    background: var(--admin-surface);
+
+    box-shadow: var(--admin-shadow);
+
+    transition:
+        transform .18s ease,
+        border-color .18s ease;
+}
+
+.overview-card:hover {
+
+    transform: translateY(-2px);
+
+    border-color: var(--admin-accent);
+}
+
+.overview-icon {
+
+    width: 30px;
+    height: 30px;
+
+    display: grid;
+
+    place-items: center;
+
+    margin-bottom: 12px;
+
+    border-radius: 8px;
+
+    background:
+        rgba(242, 182, 43, .10);
+
+    color: var(--admin-accent-hover);
+
+    font-size: 11px;
+}
+
+.overview-icon.yellow {
+
+    background:
+        rgba(242, 182, 43, .10);
+
+    color: var(--admin-accent-hover);
+}
+
+.overview-icon.green {
+
+    background: var(--admin-success-soft);
+
+    color: var(--admin-success);
+}
+
+.overview-icon.red {
+
+    background: var(--admin-danger-soft);
+
+    color: var(--admin-danger);
+}
+
+.overview-card small,
+.overview-card strong,
+.overview-note {
+
+    display: block;
+}
+
+.overview-card small {
+
+    margin-bottom: 3px;
+
+    color: var(--admin-text-muted);
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+.overview-card strong {
+
+    color: var(--admin-text);
+
+    font-size: 20px;
+
+    letter-spacing: -.03em;
+}
+
+.overview-note {
+
+    margin-top: 3px;
+
+    color: var(--admin-text-muted);
+
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   PERFORMANCE
+========================================================= */
+
+.content-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.6fr)
+        minmax(280px, .8fr);
+
+    gap: 12px;
+
+    margin-top: 25px;
+}
+
+.panel {
+
+    min-width: 0;
+
+    padding: 19px;
+
+    border:
+        1px solid var(--admin-border);
+
+    border-radius: 14px;
+
+    background: var(--admin-surface);
+
+    box-shadow: var(--admin-shadow);
+}
+
+.panel-heading {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+.panel-heading span,
+.panel-kicker {
+
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: var(--admin-text-muted);
+
+    font-size: 8px;
+
+    font-weight: 850;
+
+    letter-spacing: .12em;
+}
+
+.panel-heading h3 {
+
+    margin: 0;
+
+    color: var(--admin-text);
+
+    font-size: 15px;
+}
+
+.panel-heading > strong {
+
+    color: var(--admin-accent-hover);
+
+    font-size: 20px;
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.large-progress {
+
+    height: 12px;
+
+    overflow: hidden;
+
+    margin-top: 24px;
+
+    border-radius: 999px;
+
+    background: var(--admin-surface-2);
+}
+
+.large-progress div {
+
+    height: 100%;
+
+    border-radius: inherit;
+
+    background: var(--admin-accent);
+}
+
+.performance-numbers {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 10px;
+
+    margin-top: 17px;
+}
+
+.performance-numbers > div {
+
+    padding-top: 11px;
+
+    border-top:
+        1px solid var(--admin-border);
+}
+
+.performance-numbers strong,
+.performance-numbers span {
+
+    display: block;
+}
+
+.performance-numbers strong {
+
+    color: var(--admin-text);
+
+    font-size: 16px;
+}
+
+.performance-numbers span {
+
+    margin-top: 3px;
+
+    color: var(--admin-text-muted);
+
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   BOOKING VALUE
+========================================================= */
+
+.booking-value {
+
+    display: block;
+
+    margin-top: 11px;
+
+    color: var(--admin-text);
+
+    font-size: 29px;
+
+    letter-spacing: -.045em;
+}
+
+.value-panel p {
+
+    max-width: 280px;
+
+    margin: 7px 0 18px;
+
+    color: var(--admin-text-muted);
+
+    font-size: 9px;
+
+    line-height: 1.55;
+}
+
+.mini-stats {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 10px;
+}
+
+.mini-stats > div {
+
+    padding-top: 10px;
+
+    border-top:
+        1px solid var(--admin-border);
+}
+
+.mini-stats span,
+.mini-stats strong {
+
+    display: block;
+}
+
+.mini-stats span {
+
+    color: var(--admin-text-muted);
+
+    font-size: 8px;
+}
+
+.mini-stats strong {
+
+    margin-top: 3px;
+
+    color: var(--admin-text);
+
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   BOOKING ACTIVITY
+========================================================= */
+
+.activity-panel {
+
+    min-height: 220px;
+
+    padding: 20px;
+
+    border:
+        1px solid var(--admin-border);
+
+    border-radius: 14px;
+
+    background: var(--admin-surface);
+
+    box-shadow: var(--admin-shadow);
+}
+
+.activity-chart {
+
+    min-height: 175px;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 12px;
+
+    overflow-x: auto;
+
+    padding-top: 10px;
+}
+
+.activity-column {
+
+    min-width: 54px;
+
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    height: 175px;
+}
+
+.activity-value {
+
+    min-height: 13px;
+
+    margin-bottom: 4px;
+
+    color: var(--admin-text-muted);
+
+    font-size: 8px;
+
+    font-weight: 700;
+}
+
+.activity-bar-area {
+
+    width: 22px;
+
+    height: 125px;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    border-radius: 5px;
+
+    background: var(--admin-surface-2);
+
+    overflow: hidden;
+}
+
+.activity-bar {
+
+    width: 100%;
+
+    min-height: 3px;
+
+    border-radius: 5px 5px 0 0;
+
+    background: var(--admin-accent);
+}
+
+.activity-column > span {
+
+    margin-top: 7px;
+
+    color: var(--admin-text-muted);
+
+    font-size: 8px;
+}
+
+.activity-empty,
+.booking-empty {
+
+    min-height: 180px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    color: var(--admin-text-muted);
+}
+
+.activity-empty i,
+.booking-empty i {
+
+    margin-bottom: 9px;
+
+    font-size: 20px;
+}
+
+.activity-empty strong,
+.booking-empty strong {
+
+    color: var(--admin-text);
+
+    font-size: 11px;
+}
+
+.activity-empty span,
+.booking-empty span {
+
+    max-width: 300px;
+
+    margin-top: 5px;
+
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   BOOKINGS TABLE
+========================================================= */
+
+.booking-table-wrap {
+
+    overflow-x: auto;
+
+    border:
+        1px solid var(--admin-border);
+
+    border-radius: 14px;
+
+    background: var(--admin-surface);
+
+    box-shadow: var(--admin-shadow);
+}
+
+.booking-table {
+
+    width: 100%;
+
+    min-width: 760px;
+
+    border-collapse: collapse;
+}
+
+.booking-table th {
+
+    padding: 12px 15px;
+
+    background: var(--admin-surface-2);
+
+    color: var(--admin-text-muted);
+
+    text-align: left;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    letter-spacing: .05em;
+}
+
+.booking-table td {
+
+    padding: 13px 15px;
+
+    border-top:
+        1px solid var(--admin-border);
+
+    color: var(--admin-text);
+
+    font-size: 9px;
+}
+
+.customer {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+.customer-avatar {
+
+    width: 29px;
+    height: 29px;
+
+    display: grid;
+
+    place-items: center;
+
+    flex-shrink: 0;
+
+    border-radius: 8px;
+
+    background:
+        rgba(242, 182, 43, .10);
+
+    color: var(--admin-accent-hover);
+
+    font-size: 9px;
+
+    font-weight: 800;
+}
+
+.customer strong,
+.customer span {
+
+    display: block;
+}
+
+.customer strong {
+
+    color: var(--admin-text);
+
+    font-size: 9px;
+}
+
+.customer div span {
+
+    margin-top: 2px;
+
+    color: var(--admin-text-muted);
+
+    font-size: 8px;
+}
+
+.cancelled-text {
+
+    color: var(--admin-danger) !important;
+}
+
+.date-cell {
+
+    color: var(--admin-text-muted) !important;
+}
+
+.booking-status {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    font-size: 8px;
+
+    font-weight: 800;
+}
+
+.booking-status i {
+
+    font-size: 5px;
+}
+
+.booking-status.active {
+
+    color: var(--admin-success);
+}
+
+.booking-status.cancelled {
+
+    color: var(--admin-danger);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1150px) {
+
+    .overview-grid {
+
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 900px) {
+
+    .content-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .page-content {
+
+        padding-bottom: 45px;
+    }
+
+    .event-hero {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .event-hero h2 {
+
+        font-size: 23px;
+    }
+
+    .hero-actions {
+
+        width: 100%;
+    }
+
+    .edit-button,
+    .view-button {
+
+        flex: 1;
+
+        justify-content: center;
+    }
+
+}
+
+
+@media (max-width: 520px) {
+
+    .overview-grid {
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .performance-numbers {
+
+        grid-template-columns: 1fr;
+    }
+
+    .hero-actions {
+
+        flex-direction: column;
+    }
+
+    .edit-button,
+    .view-button {
+
+        width: 100%;
+    }
+
+    .section-heading {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+}

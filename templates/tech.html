@@ -1,0 +1,418 @@
+{% extends "base.html" %}
+
+{% block title %}Technology Events — EventFlow{% endblock %}
+
+{% block extra_css %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/pages/tech.css') }}"
+>
+{% endblock %}
+
+
+{% block content %}
+
+<main class="tech-page">
+
+    <!-- =====================================================
+         PAGE HERO
+    ====================================================== -->
+    <section class="tech-hero">
+
+        <div class="tech-container">
+
+            <div class="tech-hero-layout">
+
+                <!-- LEFT -->
+                <div class="tech-hero-content">
+
+                    <div class="tech-eyebrow">
+                        <span class="tech-eyebrow-dot"></span>
+                        TECHNOLOGY & INNOVATION
+                    </div>
+
+                    <h1>
+                        Discover what's
+                        <span>next in tech.</span>
+                    </h1>
+
+                    <p>
+                        Explore technology events, developer meetups,
+                        AI sessions, hackathons, design communities,
+                        and innovation experiences.
+                    </p>
+
+                    <div class="tech-hero-actions">
+
+                        <a
+                            href="#tech-events"
+                            class="tech-primary-btn"
+                        >
+                            Explore events
+                            <i class="fa-solid fa-arrow-down"></i>
+                        </a>
+
+                        <a
+                            href="{{ url_for('index') }}"
+                            class="tech-secondary-btn"
+                        >
+                            Back to discovery
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RIGHT VISUAL -->
+                <div class="tech-hero-visual">
+
+                    <div class="tech-visual-card">
+
+                        {% if tech_events %}
+
+                            {% set featured_tech = tech_events[0] %}
+
+                            <div class="tech-featured-image">
+
+                                <img
+                                    src="{{ url_for(
+                                        'static',
+                                        filename='images/' + featured_tech['image']
+                                    ) }}"
+                                    alt="{{ featured_tech['title'] }}"
+                                >
+
+                                <div class="tech-featured-overlay"></div>
+
+                                <span class="tech-featured-label">
+                                    <i class="fa-solid fa-microchip"></i>
+                                    Featured technology
+                                </span>
+
+                            </div>
+
+                            <div class="tech-featured-body">
+
+                                <span class="tech-featured-category">
+                                    Technology
+                                </span>
+
+                                <h2>
+                                    {{ featured_tech['title'] }}
+                                </h2>
+
+                                <div class="tech-featured-meta">
+
+                                    <span>
+                                        <i class="fa-regular fa-calendar"></i>
+                                        {{ featured_tech['event_date'] }}
+                                    </span>
+
+                                    <span>
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        {{ featured_tech['location'] }}
+                                    </span>
+
+                                </div>
+
+                                <a
+                                    href="{{ url_for(
+                                        'event_detail',
+                                        event_id=featured_tech['id']
+                                    ) }}"
+                                    class="tech-featured-link"
+                                >
+                                    View featured event
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                </a>
+
+                            </div>
+
+                        {% else %}
+
+                            <div class="tech-empty-hero">
+
+                                <div class="tech-empty-icon">
+                                    <i class="fa-solid fa-microchip"></i>
+                                </div>
+
+                                <span>
+                                    Technology events
+                                </span>
+
+                                <h2>
+                                    New experiences are coming.
+                                </h2>
+
+                                <p>
+                                    Technology events added to EventFlow
+                                    will appear here.
+                                </p>
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         EVENT DISCOVERY
+    ====================================================== -->
+    <section
+        class="tech-events-section"
+        id="tech-events"
+    >
+
+        <div class="tech-container">
+
+            <!-- SECTION HEADER -->
+            <div class="tech-section-header">
+
+                <div>
+
+                    <span class="tech-section-kicker">
+                        EXPLORE TECHNOLOGY
+                    </span>
+
+                    <h2>
+                        Upcoming tech events
+                    </h2>
+
+                    <p>
+                        Find conferences, meetups, workshops and
+                        innovation-focused experiences.
+                    </p>
+
+                </div>
+
+
+                {% if tech_events %}
+
+                <div class="tech-event-count">
+
+                    <strong>
+                        {{ tech_events|length }}
+                    </strong>
+
+                    <span>
+                        {% if tech_events|length == 1 %}
+                            event available
+                        {% else %}
+                            events available
+                        {% endif %}
+                    </span>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- EVENT GRID -->
+            {% if tech_events %}
+
+            <div class="tech-event-grid">
+
+                {% for event in tech_events %}
+
+                <article class="tech-event-card">
+
+                    <!-- IMAGE -->
+                    <div class="tech-event-image">
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename='images/' + event['image']
+                            ) }}"
+                            alt="{{ event['title'] }}"
+                            loading="lazy"
+                        >
+
+                        <div class="tech-event-image-overlay"></div>
+
+                        <span class="tech-event-tag">
+                            <i class="fa-solid fa-microchip"></i>
+                            Technology
+                        </span>
+
+                        <a
+                            href="{{ url_for(
+                                'event_detail',
+                                event_id=event['id']
+                            ) }}"
+                            class="tech-image-action"
+                            aria-label="View {{ event['title'] }}"
+                        >
+                            <i class="fa-solid fa-arrow-up-right"></i>
+                        </a>
+
+                    </div>
+
+
+                    <!-- CONTENT -->
+                    <div class="tech-event-body">
+
+                        <div class="tech-event-date">
+
+                            <i class="fa-regular fa-calendar"></i>
+
+                            <span>
+                                {{ event['event_date'] }}
+
+                                
+                            </span>
+
+                        </div>
+
+
+                        <h3>
+                            {{ event['title'] }}
+                        </h3>
+
+
+                        {% if event['description'] %}
+
+                        <p class="tech-event-description">
+                            {{ event['description'] }}
+                        </p>
+
+                        {% endif %}
+
+
+                        <div class="tech-event-location">
+
+                            <i class="fa-solid fa-location-dot"></i>
+
+                            <span>
+                                {{ event['location'] }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="tech-event-footer">
+
+                            <span class="tech-event-type">
+                                Technology event
+                            </span>
+
+                            <a
+                                href="{{ url_for(
+                                    'event_detail',
+                                    event_id=event['id']
+                                ) }}"
+                                class="tech-view-event"
+                            >
+                                View event
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                {% endfor %}
+
+            </div>
+
+
+            {% else %}
+
+            <!-- EMPTY STATE -->
+            <div class="tech-empty-state">
+
+                <div class="tech-empty-state-icon">
+                    <i class="fa-solid fa-microchip"></i>
+                </div>
+
+                <div>
+
+                    <span class="tech-empty-kicker">
+                        TECHNOLOGY
+                    </span>
+
+                    <h3>
+                        No technology events available yet
+                    </h3>
+
+                    <p>
+                        New conferences, workshops and technology
+                        experiences will appear here when they are added
+                        to EventFlow.
+                    </p>
+
+                    <a
+                        href="{{ url_for('index') }}"
+                        class="tech-empty-link"
+                    >
+                        Explore other events
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CATEGORY FOOTER CTA
+    ====================================================== -->
+    <section class="tech-bottom-cta">
+
+        <div class="tech-container">
+
+            <div class="tech-bottom-inner">
+
+                <div>
+
+                    <span class="tech-section-kicker">
+                        KEEP EXPLORING
+                    </span>
+
+                    <h2>
+                        Looking for something beyond tech?
+                    </h2>
+
+                    <p>
+                        Explore more experiences across EventFlow.
+                    </p>
+
+                </div>
+
+                <a
+                    href="{{ url_for('index') }}"
+                    class="tech-bottom-btn"
+                >
+                    Explore all events
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+{% endblock %}

@@ -1,0 +1,329 @@
+{% extends "base.html" %}
+
+{% block title %}EventFlow — Discover Events Worth Remembering{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/home.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<section class="home-hero">
+    <div class="hero-glow hero-glow-one"></div>
+    <div class="hero-glow hero-glow-two"></div>
+
+    <div class="home-container hero-grid">
+        <div class="hero-content">
+            <div class="hero-eyebrow">
+                <span class="eyebrow-dot"></span>
+                Discover. Experience. Remember.
+            </div>
+
+            <h1>Find events <span>worth remembering.</span></h1>
+
+            <p class="hero-description">
+                Discover exciting events, book your tickets effortlessly,
+                and create experiences that stay with you.
+            </p>
+
+            <div class="hero-search">
+                <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+                <input type="text" id="eventSearch" placeholder="Search events, categories or locations..." autocomplete="off">
+                <button type="button" id="searchButton">Search</button>
+            </div>
+
+            <div class="hero-actions">
+                <a href="#popular-events" class="hero-primary-btn">Explore Events <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="#categories" class="hero-secondary-btn">Browse Categories</a>
+            </div>
+
+            <div class="hero-trust">
+                <div class="trust-item">
+                    <div class="trust-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                    <div><strong>Easy Booking</strong><span>Simple ticket process</span></div>
+                </div>
+                <div class="trust-divider"></div>
+                <div class="trust-item">
+                    <div class="trust-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div><strong>Secure</strong><span>Reliable booking flow</span></div>
+                </div>
+            </div>
+        </div>
+
+<div class="hero-visual">
+    <div class="hero-orbit orbit-one"></div>
+    <div class="hero-orbit orbit-two"></div>
+
+    <div class="hero-main-card">
+
+        <div class="hero-image-wrap">
+            <img src="{{ url_for('static', filename='images/hero-event.jpg') }}"
+                 alt="EventFlow experiences">
+
+            <div class="hero-image-overlay"></div>
+
+            <div class="hero-featured-badge">
+                <i class="fa-solid fa-star"></i>
+                Featured Experience
+            </div>
+        </div>
+
+        <div class="hero-card-content">
+            <div class="hero-card-category">
+                EventFlow Experience
+            </div>
+
+            <h3>Discover something worth remembering.</h3>
+
+            <div class="hero-event-meta">
+                <span>
+                    <i class="fa-solid fa-compass"></i>
+                    Explore EventFlow
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="floating-card floating-card-top">
+        <div class="floating-icon">
+            <i class="fa-solid fa-ticket"></i>
+        </div>
+
+        <div>
+            <strong>Easy Booking</strong>
+            <span>Book in a few steps</span>
+        </div>
+
+        <div class="floating-check">
+            <i class="fa-solid fa-check"></i>
+        </div>
+    </div>
+
+    <div class="floating-card floating-card-bottom">
+        <div class="mini-avatars mini-avatars-static">
+            <span>
+                <i class="fa-solid fa-compass"></i>
+            </span>
+        </div>
+
+        <div>
+            <strong>Explore events</strong>
+            <span>Find your next experience</span>
+        </div>
+    </div>
+
+    <div class="hero-floating-star star-one">✦</div>
+    <div class="hero-floating-star star-two">✦</div>
+</div>
+</section>
+
+<section class="popular-section" id="popular-events">
+    <div class="home-container">
+        <div class="section-heading">
+            <div>
+                <span class="section-kicker" id="events-heading-kicker">
+                    {% if combined_popular %}DON'T MISS OUT{% else %}EXPLORE WHAT'S NEXT{% endif %}
+                </span>
+                <h2>
+                    {% if combined_popular %}Popular events <span>right now.</span>{% elif tech_events or art_events or culture_events or fitness_events %}Upcoming events <span>to explore.</span>{% else %}No events <span>available yet.</span>{% endif %}
+                </h2>
+                <p>
+                    {% if combined_popular %}
+                        Discover events people are excited about and book your next experience.
+                    {% elif tech_events or art_events or culture_events or fitness_events %}
+                        Explore available experiences and find something that fits your interests.
+                    {% else %}
+                        Check back soon for new experiences.
+                    {% endif %}
+                </p>
+            </div>
+            <a href="#categories" class="section-link">Explore categories <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+            {% set popular_events = combined_popular[:4] %}
+
+            {% set all_events = tech_events + art_events + culture_events + fitness_events %}
+
+            {% set popular_ids = popular_events | map(attribute='id') | list %}
+
+            {% set normal_events = [] %}
+
+            {% for event in all_events %}
+                {% if event['id'] not in popular_ids %}
+                    {% set normal_events = normal_events + [event] %}
+                {% endif %}
+            {% endfor %}
+
+            {% set remaining_slots = 4 - (popular_events | length) %}
+
+            {% set display_events = popular_events + normal_events[:remaining_slots] %}        
+            {% if display_events %}
+            <div class="events-grid" id="eventsGrid">
+                {% for event in display_events %}
+                    <article class="event-card home-event-card" data-search="{{ event['title']|lower }} {{ event['location']|lower }}">
+                        <div class="event-card-image">
+                            <img src="{{ url_for('static', filename='images/' + event['image']) }}" alt="{{ event['title'] }}" loading="lazy">
+                            <div class="event-card-image-overlay"></div>
+                            {% if event.get('is_popular') == 1 %}
+                                <span class="event-badge popular-badge"><i class="fa-solid fa-fire"></i> Popular</span>
+                            {% endif %}
+                            {% if event.get('booking_count') %}
+                                <span class="event-bookings">{{ event['booking_count'] }} booked</span>
+                            {% endif %}
+                            <a href="{{ url_for('event_detail', event_id=event['id']) }}" class="event-image-arrow" aria-label="View {{ event['title'] }}"><i class="fa-solid fa-arrow-up-right"></i></a>
+                        </div>
+                        <div class="event-card-body">
+                            <div class="event-card-date"><i class="fa-regular fa-calendar"></i>{{ event['start_date'] }}</div>
+                            <h3>{{ event['title'] }}</h3>
+                            <p class="event-location"><i class="fa-solid fa-location-dot"></i>{{ event['location'] }}</p>
+                            <div class="event-card-footer">
+                            <!-- <span class="event-period">{{ event['start_date'] }}{% if event['end_date'] %} — {{ event['end_date'] }}{% endif %}</span> -->
+                             <span class="event-period"><i class="fa-solid fa-ticket"> </i> {{ event['capacity'] }}  tickets available</span>
+                                <a href="{{ url_for('event_detail', event_id=event['id']) }}" class="event-register">View <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+
+            <div id="noSearchResults" class="no-search-results">
+                <div><i class="fa-regular fa-face-frown"></i></div>
+                <h3>No matching events found</h3>
+                <p>Try another event name or location.</p>
+            </div>
+        {% else %}
+            <div class="empty-events">
+                <div class="empty-events-icon"><i class="fa-regular fa-calendar-xmark"></i></div>
+                <h3>No events available yet</h3>
+                <p>Check back soon for new experiences.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="categories-section" id="categories">
+    <div class="home-container">
+        <div class="section-heading centered">
+            <span class="section-kicker">EXPLORE YOUR INTERESTS</span>
+            <h2>Something for <span>everyone.</span></h2>
+            <p>Explore events across technology, art, culture, fitness, concerts and unforgettable wedding experiences.</p>
+        </div>
+
+        <div class="category-grid">
+            <a href="{{ url_for('tech_page') }}" class="category-card"><div class="category-number">01</div><div class="category-icon"><i class="fa-solid fa-microchip"></i></div><div class="category-content"><h3>Tech</h3><p>Discover technology, innovation and learning events.</p><span>Explore <i class="fa-solid fa-arrow-right"></i></span></div></a>
+            <a href="{{ url_for('art_page') }}" class="category-card"><div class="category-number">02</div><div class="category-icon"><i class="fa-solid fa-palette"></i></div><div class="category-content"><h3>Art</h3><p>Experience creativity, art and inspiring expressions.</p><span>Explore <i class="fa-solid fa-arrow-right"></i></span></div></a>
+            <a href="{{ url_for('culture_page') }}" class="category-card"><div class="category-number">03</div><div class="category-icon"><i class="fa-solid fa-earth-americas"></i></div><div class="category-content"><h3>Culture</h3><p>Connect with communities, traditions and experiences.</p><span>Explore <i class="fa-solid fa-arrow-right"></i></span></div></a>
+            <a href="{{ url_for('fitness_page') }}" class="category-card"><div class="category-number">04</div><div class="category-icon"><i class="fa-solid fa-dumbbell"></i></div><div class="category-content"><h3>Fitness</h3><p>Find activities that keep you active and motivated.</p><span>Explore <i class="fa-solid fa-arrow-right"></i></span></div></a>
+            <a href="{{ url_for('concerts_page') }}"class="category-card category-concerts"><div class="category-number">05</div><div class="category-icon"><i class="fa-solid fa-music"></i></div><div class="category-content"><h3>Concerts</h3><p>Discover live music, dance nights and unforgettable shows.</p><span>Explore Concerts<i class="fa-solid fa-arrow-right"></i></span></div></a>
+            <a href="{{ url_for('wedding_themes') }}" class="category-card"><div class="category-number">06</div><div class="category-icon"><i class="fa-solid fa-heart"></i></div><div class="category-content"><h3>Weddings</h3><p>Plan beautiful wedding experiences with ease.</p><span>Explore <i class="fa-solid fa-arrow-right"></i></span></div></a>
+        </div>
+    </div>
+</section>
+
+<section class="experience-section" id="experience">
+    <div class="home-container">
+        <div class="experience-box">
+            <div class="experience-content">
+                <span class="section-kicker">THE EVENTFLOW EXPERIENCE</span>
+                <h2>From discovery <span>to unforgettable.</span></h2>
+                <p>EventFlow brings everything together in one simple experience — discover an event, choose your tickets, complete your booking, and enjoy the moment.</p>
+                <a href="#popular-events" class="experience-btn">Start Exploring <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="experience-steps">
+                <div class="experience-step"><div class="step-number">01</div><div><h4>Discover</h4><p>Find an event you love.</p></div></div>
+                <div class="experience-line"></div>
+                <div class="experience-step"><div class="step-number">02</div><div><h4>Book</h4><p>Choose tickets and continue.</p></div></div>
+                <div class="experience-line"></div>
+                <div class="experience-step"><div class="step-number">03</div><div><h4>Experience</h4><p>Show up and enjoy.</p></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="about-section" id="about">
+    <div class="home-container about-grid">
+        <div class="about-image">
+            <img src="{{ url_for('static', filename='images/aboutimg2.png') }}" alt="About EventFlow" loading="lazy">
+            <div class="about-floating-card"><span class="about-floating-icon"><i class="fa-solid fa-sparkles"></i></span><div><strong>Make it memorable</strong><span>One event at a time.</span></div></div>
+        </div>
+        <div class="about-content">
+            <span class="section-kicker">ABOUT EVENTFLOW</span>
+            <h2>Events should feel <span>easy.</span></h2>
+            <p>EventFlow is designed to make discovering and booking experiences simple. Whether you're looking for a technology event, an artistic experience, a cultural celebration, a fitness activity, or planning a wedding, everything starts here.</p>
+            <div class="about-points">
+                <div><i class="fa-solid fa-circle-check"></i><span>Simple event discovery</span></div>
+                <div><i class="fa-solid fa-circle-check"></i><span>Multi-step ticket booking</span></div>
+                <div><i class="fa-solid fa-circle-check"></i><span>Secure user experience</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="home-cta">
+    <div class="home-container">
+        <div class="cta-inner">
+            <div class="cta-decoration cta-decoration-one"></div>
+            <div class="cta-decoration cta-decoration-two"></div>
+            <span class="section-kicker">YOUR NEXT EXPERIENCE IS WAITING</span>
+            <h2>Ready to find something <span>worth remembering?</span></h2>
+            <p>Explore EventFlow and discover your next great experience.</p>
+            <a href="#popular-events" class="cta-btn">Explore Events <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("eventSearch");
+    const searchButton = document.getElementById("searchButton");
+    const cards = document.querySelectorAll(".home-event-card");
+    const noResults = document.getElementById("noSearchResults");
+
+    function filterEvents() {
+        if (!searchInput) return;
+        const value = searchInput.value.trim().toLowerCase();
+        let visible = 0;
+        cards.forEach(card => {
+            const text = (card.dataset.search || "").toLowerCase();
+            const match = value === "" || text.includes(value);
+            card.style.display = match ? "" : "none";
+            if (match) visible++;
+        });
+        if (noResults) noResults.classList.toggle("show", visible === 0 && value !== "");
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener("input", filterEvents);
+        searchInput.addEventListener("keydown", e => {
+            if (e.key === "Enter") {
+                filterEvents();
+                document.getElementById("popular-events")?.scrollIntoView({ behavior: "smooth" });
+            }
+        });
+    }
+    if (searchButton) searchButton.addEventListener("click", function () {
+        filterEvents();
+        document.getElementById("popular-events")?.scrollIntoView({ behavior: "smooth" });
+    });
+
+    const animatedElements = document.querySelectorAll(".event-card, .category-card, .experience-box, .about-grid");
+    if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("is-visible");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        animatedElements.forEach(el => observer.observe(el));
+    } else {
+        animatedElements.forEach(el => el.classList.add("is-visible"));
+    }
+});
+</script>
+{% endblock %}

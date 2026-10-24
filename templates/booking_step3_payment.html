@@ -1,0 +1,361 @@
+{% extends "base.html" %}
+
+{% block title %}Payment · EventFlow{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/payment.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<main class="payment-page">
+
+    <div class="payment-shell">
+
+        <!-- =====================================================
+             BOOKING PROGRESS
+        ====================================================== -->
+
+        <section class="booking-progress-section">
+
+            <div class="progress-heading">
+                <span class="progress-kicker">BOOKING</span>
+                <h1>Complete your booking</h1>
+                <p>Choose your payment method to continue.</p>
+            </div>
+
+
+            <div class="booking-progress">
+
+                <!-- STEP 1 -->
+                <div class="progress-step
+                    {% if step >= 1 %}completed{% endif %}
+                    {% if step == 1 %}active{% endif %}">
+
+                    <span class="progress-number">
+                        {% if step > 1 %}
+                            <i class="fa-solid fa-check"></i>
+                        {% else %}
+                            1
+                        {% endif %}
+                    </span>
+
+                    <span class="progress-label">
+                        Personal Info
+                    </span>
+
+                </div>
+
+
+                <div class="progress-line
+                    {% if step > 1 %}completed-line{% endif %}">
+                </div>
+
+
+                <!-- STEP 2 -->
+                <div class="progress-step
+                    {% if step >= 2 %}completed{% endif %}
+                    {% if step == 2 %}active{% endif %}">
+
+                    <span class="progress-number">
+                        {% if step > 2 %}
+                            <i class="fa-solid fa-check"></i>
+                        {% else %}
+                            2
+                        {% endif %}
+                    </span>
+
+                    <span class="progress-label">
+                        Tickets
+                    </span>
+
+                </div>
+
+
+                <div class="progress-line
+                    {% if step > 2 %}completed-line{% endif %}">
+                </div>
+
+
+                <!-- STEP 3 -->
+                <div class="progress-step
+                    {% if step >= 3 %}completed{% endif %}
+                    {% if step == 3 %}active{% endif %}">
+
+                    <span class="progress-number">
+                        {% if step > 3 %}
+                            <i class="fa-solid fa-check"></i>
+                        {% else %}
+                            3
+                        {% endif %}
+                    </span>
+
+                    <span class="progress-label">
+                        Payment
+                    </span>
+
+                </div>
+
+
+                <div class="progress-line
+                    {% if step > 3 %}completed-line{% endif %}">
+                </div>
+
+
+                <!-- STEP 4 -->
+                <div class="progress-step
+                    {% if step == 4 %}active{% endif %}">
+
+                    <span class="progress-number">
+                        4
+                    </span>
+
+                    <span class="progress-label">
+                        Confirmation
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             PAYMENT CONTENT
+        ====================================================== -->
+
+        <section class="payment-layout">
+
+            <!-- =================================================
+                 LEFT — PAYMENT METHOD
+            ================================================== -->
+
+            <div class="payment-main-card">
+
+                <div class="payment-card-header">
+
+                    <div class="payment-icon">
+                        <i class="fa-brands fa-paypal"></i>
+                    </div>
+
+                    <div>
+                        <span class="payment-eyebrow">
+                            STEP 3
+                        </span>
+
+                        <h2>Choose payment method</h2>
+
+                        <p>
+                            Continue securely with PayPal Sandbox.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!-- PAYMENT OPTION -->
+
+                <div class="payment-option selected">
+
+                    <div class="payment-option-radio">
+                        <span></span>
+                    </div>
+
+                    <div class="payment-option-icon">
+                        <i class="fa-brands fa-paypal"></i>
+                    </div>
+
+                    <div class="payment-option-content">
+
+                        <div class="payment-option-title-row">
+
+                            <strong>
+                                PayPal
+                            </strong>
+
+                            <span class="sandbox-badge">
+                                Sandbox
+                            </span>
+
+                        </div>
+
+                        <p>
+                            Continue to PayPal to complete your ticket payment.
+                        </p>
+
+                    </div>
+
+                    <i class="fa-solid fa-check payment-selected-icon"></i>
+
+                </div>
+
+
+                <!-- SECURITY NOTE -->
+
+                <div class="payment-security">
+
+                    <div class="security-icon">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+
+                    <div>
+                        <strong>Secure payment</strong>
+
+                        <span>
+                            Your payment is processed through the PayPal
+                            Sandbox environment.
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     ACTION FORM
+                     IMPORTANT:
+                     Same POST method and same action behavior.
+                ================================================== -->
+
+                <form method="POST" class="payment-form">
+
+                    <button
+                        type="submit"
+                        class="paypal-button"
+                    >
+                        <span>
+                            Continue with PayPal
+                        </span>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        name="action"
+                        value="back"
+                        class="back-button"
+                    >
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Back to Tickets</span>
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- =================================================
+                 RIGHT — BOOKING SUMMARY
+            ================================================== -->
+
+            <aside class="payment-summary-card">
+
+                <div class="summary-header">
+
+                    <span class="summary-eyebrow">
+                        YOUR BOOKING
+                    </span>
+
+                    <h2>Booking summary</h2>
+
+                </div>
+
+
+                <div class="summary-event">
+
+                    <div class="summary-event-icon">
+                        <i class="fa-regular fa-calendar-check"></i>
+                    </div>
+
+                    <div class="summary-event-content">
+
+                        <span>Event</span>
+
+                        <strong>
+                            {{ session.booking.event_title if session.booking else "" }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="summary-divider"></div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        <i class="fa-solid fa-ticket"></i>
+                        Tickets
+                    </span>
+
+                    <strong>
+                        {{ session.booking.ticket_quantity }}
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        <i class="fa-solid fa-receipt"></i>
+                        Price
+                    </span>
+
+                    <strong>
+                        ₹{{ session.booking.total_price }}
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-total">
+
+                    <span>Total amount</span>
+
+                    <strong>
+                        ₹{{ session.booking.total_price }}
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-note">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    <span>
+                        You will be redirected to PayPal to complete
+                        the payment.
+                    </span>
+
+                </div>
+
+            </aside>
+
+        </section>
+
+
+        <!-- =====================================================
+             SMALL FOOTNOTE
+        ====================================================== -->
+
+        <div class="payment-footer-note">
+
+            <i class="fa-solid fa-circle-info"></i>
+
+            <span>
+                Step 3 of 4 · Review your booking details before continuing.
+            </span>
+
+        </div>
+
+    </div>
+
+</main>
+
+{% endblock %}

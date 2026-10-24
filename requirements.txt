@@ -1,0 +1,9 @@
+Flask
+Werkzeug
+requests
+Flask-Mail
+Flask-APScheduler
+reportlab
+Pillow
+xhtml2pdf
+

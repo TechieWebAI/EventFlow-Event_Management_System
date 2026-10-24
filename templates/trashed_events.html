@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b0d10">
+
+    <title>Trash & Recovery — EventFlow Admin</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/pages/admin_shell.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/pages/trashed_events.css') }}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+
+<body>
+
+<div class="admin-app">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="admin-sidebar">
+
+        <div class="admin-brand">
+
+            <a href="{{ url_for('index') }}">
+
+                <span class="admin-brand-mark">
+                    E
+                </span>
+
+                <span>
+                    <strong>EventFlow</strong>
+                    <small>Admin Console</small>
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <nav class="admin-nav">
+
+            <span class="admin-nav-label">
+                OVERVIEW
+            </span>
+
+            <a href="{{ url_for('admin_dashboard') }}"
+               class="admin-nav-link">
+
+                <i class="fa-solid fa-chart-pie"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <span class="admin-nav-label">
+                MANAGEMENT
+            </span>
+
+
+            <a href="{{ url_for('view_events') }}"
+               class="admin-nav-link">
+
+                <i class="fa-regular fa-calendar"></i>
+
+                <span>
+                    Manage Events
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('add_event') }}"
+               class="admin-nav-link">
+
+                <i class="fa-solid fa-plus"></i>
+
+                <span>
+                    Add Event
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('admin_bookings') }}"
+               class="admin-nav-link">
+
+                <i class="fa-solid fa-ticket"></i>
+
+                <span>
+                    Bookings
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('admin_wedding_bookings') }}"
+               class="admin-nav-link">
+
+                <i class="fa-regular fa-heart"></i>
+
+                <span>
+                    Wedding Bookings
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('trashed_events') }}"
+               class="admin-nav-link active">
+
+                <i class="fa-regular fa-trash-can"></i>
+
+                <span>
+                    Trash / Recovery
+                </span>
+
+                {% if trashed_events_count %}
+                    <span class="nav-count">
+                        {{ trashed_events_count }}
+                    </span>
+                {% endif %}
+
+            </a>
+
+        </nav>
+
+
+        <div class="admin-sidebar-bottom">
+
+            <a href="{{ url_for('index') }}"
+               class="admin-site-link">
+
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                <span>
+                    View EventFlow
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('logout') }}"
+               class="admin-logout">
+
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="admin-main">
+
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+        <header class="admin-topbar">
+
+            <div>
+
+                <span class="admin-kicker">
+                    TRASH / RECOVERY
+                </span>
+
+                <h1>
+                    Deleted Events
+                </h1>
+
+                <p>
+                    Review removed events and restore them when needed.
+                </p>
+
+            </div>
+
+
+            <div class="admin-topbar-actions">
+
+                <a href="{{ url_for('view_events') }}"
+                   class="admin-primary-button">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                    Manage Events
+
+                </a>
+
+
+                <button type="button"
+                        class="admin-theme-button"
+                        id="adminThemeToggle"
+                        title="Switch theme"
+                        aria-label="Switch theme">
+
+                    <i class="fa-regular fa-moon"></i>
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             PAGE CONTENT
+        ================================================== -->
+
+        <div class="page-content trash-content">
+
+
+            <!-- =================================================
+                 FLASH MESSAGE
+            ================================================== -->
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    <div class="trash-flash-stack">
+
+                        {% for category, message in messages %}
+
+                            <div class="trash-flash">
+
+                                <i class="fa-solid fa-circle-check"></i>
+
+                                <span>
+                                    {{ message }}
+                                </span>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            {% endwith %}
+
+
+            <!-- =================================================
+                 PAGE INTRO
+            ================================================== -->
+
+            <section class="trash-intro">
+
+                <div>
+
+                    <span class="trash-eyebrow">
+                        RECOVERY CENTER
+                    </span>
+
+                    <h2>
+                        Trash
+                    </h2>
+
+                    <p>
+                        Deleted events are kept here until they are restored.
+                    </p>
+
+                </div>
+
+
+                <div class="trash-count">
+
+                    <span class="trash-count-icon">
+                        <i class="fa-regular fa-trash-can"></i>
+                    </span>
+
+                    <span class="trash-count-copy">
+
+                        <strong>
+                            {{ events|length }}
+                        </strong>
+
+                        <small>
+                            Deleted event{% if events|length != 1 %}s{% endif %}
+                        </small>
+
+                    </span>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 EVENT LIST
+            ================================================== -->
+
+            <section class="trash-section">
+
+
+                <div class="trash-section-header">
+
+                    <div>
+
+                        <h3>
+                            Deleted events
+                        </h3>
+
+                        <p>
+                            Most recent records appear first.
+                        </p>
+
+                    </div>
+
+                    <span class="trash-section-label">
+                        {{ events|length }} RECORD{% if events|length != 1 %}S{% endif %}
+                    </span>
+
+                </div>
+
+
+                {% if events %}
+
+                    <div class="trash-list">
+
+                        {# Highest ID first. This gives newest records first
+                           with the current database structure. #}
+
+                        {% for event in events|sort(attribute='id', reverse=true) %}
+
+                            <article class="trash-event-card">
+
+
+                                <!-- EVENT MAIN -->
+
+                                <div class="trash-event-main">
+
+
+                                    <div class="trash-event-icon">
+
+                                        <i class="fa-regular fa-calendar-xmark"></i>
+
+                                    </div>
+
+
+                                    <div class="trash-event-info">
+
+                                        <div class="trash-event-title-row">
+
+                                            <h4>
+                                                {{ event.title }}
+                                            </h4>
+
+                                            <span class="trash-status">
+                                                Deleted
+                                            </span>
+
+                                        </div>
+
+
+                                        <div class="trash-event-meta">
+
+                                            <span>
+                                                <i class="fa-solid fa-layer-group"></i>
+                                                {{ event.category }}
+                                            </span>
+
+                                            <span>
+                                                <i class="fa-regular fa-calendar"></i>
+                                                {{ event.start_date }}
+                                                {% if event.end_date and event.end_date != event.start_date %}
+                                                    — {{ event.end_date }}
+                                                {% endif %}
+                                            </span>
+
+                                            <span>
+                                                <i class="fa-regular fa-clock"></i>
+                                                {{ event.time }}
+                                            </span>
+
+                                            <span>
+                                                <i class="fa-solid fa-location-dot"></i>
+                                                {{ event.location }}
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- EVENT SUMMARY -->
+
+                                <div class="trash-event-summary">
+
+
+                                    <div class="trash-summary-item">
+
+                                        <span>
+                                            Capacity
+                                        </span>
+
+                                        <strong>
+                                            {{ event.capacity }}
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div class="trash-summary-item">
+
+                                        <span>
+                                            Price
+                                        </span>
+
+                                        <strong>
+                                            ₹{{ event.price }}
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div class="trash-summary-item">
+
+                                        <span>
+                                            Event ID
+                                        </span>
+
+                                        <strong>
+                                            #{{ event.id }}
+                                        </strong>
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <!-- RESTORE -->
+
+                                <div class="trash-event-action">
+
+                                    <a href="{{ url_for('restore_event', event_id=event.id) }}"
+                                       class="restore-button">
+
+                                        <i class="fa-solid fa-rotate-left"></i>
+
+                                        Restore
+
+                                    </a>
+
+                                </div>
+
+
+                            </article>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                {% else %}
+
+
+                    <!-- EMPTY STATE -->
+
+                    <div class="trash-empty">
+
+                        <div class="trash-empty-icon">
+
+                            <i class="fa-regular fa-trash-can"></i>
+
+                        </div>
+
+                        <h3>
+                            Trash is empty
+                        </h3>
+
+                        <p>
+                            Deleted events will appear here for recovery.
+                        </p>
+
+                        <a href="{{ url_for('view_events') }}"
+                           class="trash-empty-button">
+
+                            <i class="fa-solid fa-arrow-left"></i>
+
+                            Back to Manage Events
+
+                        </a>
+
+                    </div>
+
+
+                {% endif %}
+
+
+            </section>
+
+
+        </div>
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
+
+        <footer class="admin-footer">
+
+            <span>
+                EventFlow Admin Console
+            </span>
+
+            <span>
+                © 2026 EventFlow
+            </span>
+
+        </footer>
+
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+(function () {
+
+    const body =
+        document.body;
+
+    const button =
+        document.getElementById("adminThemeToggle");
+
+
+    let savedTheme = "light";
+
+    try {
+
+        const stored =
+            localStorage.getItem("eventflow-admin-theme");
+
+        if (stored === "dark") {
+
+            savedTheme = "dark";
+
+        } else if (stored === "light") {
+
+            savedTheme = "light";
+
+        } else if (stored === "night") {
+
+            savedTheme = "dark";
+
+        } else if (stored === "day") {
+
+            savedTheme = "light";
+
+        }
+
+    } catch (error) {}
+
+
+
+    function applyTheme(theme) {
+
+        const normalizedTheme =
+            theme === "dark"
+                ? "dark"
+                : "light";
+
+
+        body.setAttribute(
+            "data-theme",
+            normalizedTheme
+        );
+
+
+        try {
+
+            localStorage.setItem(
+                "eventflow-admin-theme",
+                normalizedTheme
+            );
+
+        } catch (error) {}
+
+
+        if (button) {
+
+            const isDark =
+                normalizedTheme === "dark";
+
+
+            button.innerHTML =
+                isDark
+                    ? '<i class="fa-regular fa-sun"></i>'
+                    : '<i class="fa-regular fa-moon"></i>';
+
+
+            button.setAttribute(
+                "aria-label",
+                isDark
+                    ? "Switch to day mode"
+                    : "Switch to night mode"
+            );
+
+
+            button.setAttribute(
+                "title",
+                isDark
+                    ? "Switch to day mode"
+                    : "Switch to night mode"
+            );
+
+        }
+
+    }
+
+
+    applyTheme(savedTheme);
+
+
+    if (button) {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                const currentTheme =
+                    body.getAttribute("data-theme");
+
+
+                applyTheme(
+                    currentTheme === "dark"
+                        ? "light"
+                        : "dark"
+                );
+
+            }
+        );
+
+    }
+
+})();
+
+</script>
+
+
+</body>
+</html>

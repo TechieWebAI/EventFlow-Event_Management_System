@@ -1,0 +1,379 @@
+{% extends "base.html" %}
+
+{% block title %}Confirm Your Information · EventFlow{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/start_booking.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<main class="booking-step-page">
+
+    <div class="booking-step-shell">
+
+        <!-- BACK -->
+        <div class="booking-back-row">
+            <a
+                href="{{ url_for('event_detail', event_id=event.id, from_page='art') }}"
+                class="booking-back-link"
+            >
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Back to Event</span>
+            </a>
+        </div>
+
+
+        <!-- HEADER -->
+        <section class="booking-page-header">
+
+            <div class="booking-eyebrow">
+                EVENT BOOKING
+            </div>
+
+            <h1>Confirm your information</h1>
+
+            <p>
+                Review your details and event information before selecting
+                your tickets.
+            </p>
+
+        </section>
+
+
+        <!-- =====================================================
+             SAME BOOKING PROGRESS DESIGN
+        ====================================================== -->
+
+        <section class="booking-progress" aria-label="Booking progress">
+
+            <div class="booking-progress-step
+                {% if step >= 1 %}completed{% endif %}
+                {% if step == 1 %}active{% endif %}"
+            >
+                <span class="progress-number">
+                    {% if step > 1 %}
+                        <i class="fa-solid fa-check"></i>
+                    {% else %}
+                        1
+                    {% endif %}
+                </span>
+
+                <div class="progress-label">
+                    <strong>Personal Info</strong>
+                    <small>Details</small>
+                </div>
+            </div>
+
+
+            <div class="booking-progress-line
+                {% if step > 1 %}completed{% endif %}">
+            </div>
+
+
+            <div class="booking-progress-step
+                {% if step >= 2 %}completed{% endif %}
+                {% if step == 2 %}active{% endif %}"
+            >
+                <span class="progress-number">
+                    {% if step > 2 %}
+                        <i class="fa-solid fa-check"></i>
+                    {% else %}
+                        2
+                    {% endif %}
+                </span>
+
+                <div class="progress-label">
+                    <strong>Tickets</strong>
+                    <small>Quantity</small>
+                </div>
+            </div>
+
+
+            <div class="booking-progress-line
+                {% if step > 2 %}completed{% endif %}">
+            </div>
+
+
+            <div class="booking-progress-step
+                {% if step >= 3 %}completed{% endif %}
+                {% if step == 3 %}active{% endif %}"
+            >
+                <span class="progress-number">
+                    {% if step > 3 %}
+                        <i class="fa-solid fa-check"></i>
+                    {% else %}
+                        3
+                    {% endif %}
+                </span>
+
+                <div class="progress-label">
+                    <strong>Payment</strong>
+                    <small>Secure checkout</small>
+                </div>
+            </div>
+
+
+            <div class="booking-progress-line
+                {% if step > 3 %}completed{% endif %}">
+            </div>
+
+
+            <div class="booking-progress-step
+                {% if step == 4 %}active{% endif %}"
+            >
+                <span class="progress-number">4</span>
+
+                <div class="progress-label">
+                    <strong>Confirmation</strong>
+                    <small>Done</small>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             CONTENT
+        ====================================================== -->
+
+        <form
+            method="POST"
+            action="{{ url_for('start_booking', event_id=event.id) }}"
+            class="booking-confirm-form"
+        >
+
+            <div class="booking-content-grid">
+
+                <!-- LEFT -->
+                <div class="booking-information">
+
+                    <!-- PERSONAL INFORMATION -->
+                    <section class="booking-card">
+
+                        <div class="booking-card-header">
+
+                            <div class="booking-card-icon">
+                                <i class="fa-regular fa-user"></i>
+                            </div>
+
+                            <div>
+                                <span class="booking-card-kicker">
+                                    YOUR ACCOUNT
+                                </span>
+
+                                <h2>Personal information</h2>
+                            </div>
+
+                        </div>
+
+
+                        <div class="personal-info-grid">
+
+                            <div class="personal-info-item">
+
+                                <span class="info-label">
+                                    Full name
+                                </span>
+
+                                <strong>
+                                    {{ user.username }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="personal-info-item">
+
+                                <span class="info-label">
+                                    Email address
+                                </span>
+
+                                <strong>
+                                    {{ user.email }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- EVENT INFORMATION -->
+                    <section class="booking-card">
+
+                        <div class="booking-card-header">
+
+                            <div class="booking-card-icon">
+                                <i class="fa-regular fa-calendar"></i>
+                            </div>
+
+                            <div>
+                                <span class="booking-card-kicker">
+                                    YOUR EVENT
+                                </span>
+
+                                <h2>Event details</h2>
+                            </div>
+
+                        </div>
+
+
+                        <div class="event-summary">
+
+                            <div class="event-summary-title">
+                                {{ event.title }}
+                            </div>
+
+
+                            <div class="event-summary-details">
+
+                                <div class="event-summary-row">
+
+                                    <span>
+                                        <i class="fa-regular fa-calendar"></i>
+                                        Date
+                                    </span>
+
+                                    <strong>
+                                        {{ event.start_date }}
+
+                                        {% if event.end_date and event.end_date != event.start_date %}
+                                            – {{ event.end_date }}
+                                        {% endif %}
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="event-summary-row">
+
+                                    <span>
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        Location
+                                    </span>
+
+                                    <strong>
+                                        {{ event.location }}
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="event-summary-row">
+
+                                    <span>
+                                        <i class="fa-solid fa-ticket"></i>
+                                        Price per ticket
+                                    </span>
+
+                                    <strong class="event-summary-price">
+                                        ₹{{ event.price }}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+
+                <!-- RIGHT -->
+                <aside class="booking-action-column">
+
+                    <section class="booking-action-card">
+
+                        <div class="action-card-label">
+                            STEP 1 OF 4
+                        </div>
+
+                        <h2>
+                            Ready to choose your tickets?
+                        </h2>
+
+                        <p>
+                            Your information looks good. Continue to the
+                            next step to select how many tickets you need.
+                        </p>
+
+
+                        <div class="action-event-mini">
+
+                            <div class="mini-event-icon">
+                                <i class="fa-solid fa-ticket"></i>
+                            </div>
+
+                            <div class="mini-event-info">
+
+                                <span>
+                                    Booking for
+                                </span>
+
+                                <strong>
+                                    {{ event.title }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="continue-booking-button"
+                        >
+                            <span>Continue to Step 2</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+
+
+                        <div class="secure-booking-note">
+
+                            <i class="fa-solid fa-shield-halved"></i>
+
+                            <span>
+                                Your booking details are handled securely.
+                            </span>
+
+                        </div>
+
+                    </section>
+
+
+                    <div class="booking-help-card">
+
+                        <div class="help-icon">
+                            <i class="fa-regular fa-circle-question"></i>
+                        </div>
+
+                        <div class="help-content">
+
+                            <strong>
+                                Need to change something?
+                            </strong>
+
+                            <span>
+                                Go back to the event page to review the
+                                event information before continuing.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
+
+{% endblock %}

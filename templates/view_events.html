@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color"
+          content="#0b0d10">
+
+    <title>Manage Events — EventFlow Admin</title>
+
+    <!-- =====================================================
+         SHARED ADMIN SHELL
+    ====================================================== -->
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/pages/admin_shell.css') }}">
+
+    <!-- =====================================================
+         PAGE-SPECIFIC STYLES
+    ====================================================== -->
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/pages/view_events.css') }}">
+
+    <!-- =====================================================
+         FONT AWESOME
+    ====================================================== -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+
+<body>
+
+<div class="admin-app">
+
+    <!-- =====================================================
+         SHARED ADMIN SIDEBAR
+         DO NOT CHANGE
+    ====================================================== -->
+
+    <aside class="admin-sidebar">
+
+        <div class="admin-brand">
+
+            <a href="{{ url_for('index') }}">
+
+                <span class="admin-brand-mark">
+                    E
+                </span>
+
+                <span>
+                    <strong>EventFlow</strong>
+                    <small>Admin Console</small>
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <nav class="admin-nav">
+
+            <span class="admin-nav-label">
+                OVERVIEW
+            </span>
+
+
+            <a href="{{ url_for('admin_dashboard') }}"
+               class="admin-nav-link">
+
+                <i class="fa-solid fa-chart-pie"></i>
+
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <span class="admin-nav-label">
+                MANAGEMENT
+            </span>
+
+
+            <a href="{{ url_for('view_events') }}"
+               class="admin-nav-link active">
+
+                <i class="fa-regular fa-calendar"></i>
+
+                <span>Manage Events</span>
+
+            </a>
+
+
+            <a href="{{ url_for('add_event') }}"
+               class="admin-nav-link">
+
+                <i class="fa-solid fa-plus"></i>
+
+                <span>Add Event</span>
+
+            </a>
+
+
+            <a href="{{ url_for('admin_bookings') }}"
+               class="admin-nav-link">
+
+                <i class="fa-solid fa-ticket"></i>
+
+                <span>Bookings</span>
+
+            </a>
+
+
+            <a href="{{ url_for('admin_wedding_bookings') }}"
+               class="admin-nav-link">
+
+                <i class="fa-regular fa-heart"></i>
+
+                <span>Wedding Bookings</span>
+
+            </a>
+
+
+            <a href="{{ url_for('trashed_events') }}"
+               class="admin-nav-link">
+
+                <i class="fa-regular fa-trash-can"></i>
+
+                <span>Trash / Recovery</span>
+
+                {% if trashed_events_count %}
+                    <span class="nav-count">
+                        {{ trashed_events_count }}
+                    </span>
+                {% endif %}
+
+            </a>
+
+        </nav>
+
+
+        <div class="admin-sidebar-bottom">
+
+            <a href="{{ url_for('index') }}"
+               class="admin-site-link">
+
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                <span>View EventFlow</span>
+
+            </a>
+
+
+            <a href="{{ url_for('logout') }}"
+               class="admin-logout">
+
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+                <span>Logout</span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="admin-main">
+
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+        <header class="admin-topbar">
+
+            <div>
+
+                <span class="admin-kicker">
+                    EVENT OPERATIONS
+                </span>
+
+                <h1>
+                    Manage Events
+                </h1>
+
+                <p>
+                    Manage every event, capacity and booking activity.
+                </p>
+
+            </div>
+
+
+            <div class="admin-topbar-actions">
+
+                <a href="{{ url_for('add_event') }}"
+                   class="admin-primary-button">
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    Add event
+
+                </a>
+
+
+                <!-- IMPORTANT:
+                     This ID now matches the JavaScript below.
+                -->
+
+                <button type="button"
+                        class="admin-theme-button"
+                        id="adminThemeToggle"
+                        title="Switch theme"
+                        aria-label="Switch theme">
+
+                    <i class="fa-regular fa-moon"></i>
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             PAGE CONTENT
+        ================================================== -->
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="admin-toast-container" id="adminToastContainer">
+                            {% for category, message in messages %}
+                                <div class="admin-toast admin-toast-{{ category }}">
+                                    <span class="admin-toast-icon">
+                                        {% if category == 'error' or category == 'danger' %}
+                                            <i class="fa-solid fa-xmark"></i>
+                                        {% elif category == 'warning' %}
+                                            <i class="fa-solid fa-triangle-exclamation"></i>
+                                        {% else %}
+                                            <i class="fa-solid fa-check"></i>
+                                        {% endif %}
+                                    </span>
+
+                                    <span class="admin-toast-message">
+                                        {{ message }}
+                                    </span>
+
+                                    <button
+                                        type="button"
+                                        class="admin-toast-close"
+                                        aria-label="Close notification">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </button>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}        
+            <!-- =================================================
+                 PAGE INTRO
+            ================================================== -->
+
+            <section class="page-intro">
+
+                <div>
+
+                    <span class="section-label">
+                        EVENTS
+                    </span>
+
+                    <h2>
+                        Manage every event
+                    </h2>
+
+                    <p>
+                        Monitor capacity, bookings, cancellations
+                        and event performance from one place.
+                    </p>
+
+                </div>
+
+
+                <a href="{{ url_for('add_event') }}"
+                   class="add-event-button">
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    Add New Event
+
+                </a>
+
+            </section>
+
+
+            <!-- =================================================
+                 SUMMARY
+            ================================================== -->
+
+            <section class="summary-grid">
+
+
+                <div class="summary-card">
+
+                    <span class="summary-icon">
+                        <i class="fa-regular fa-calendar"></i>
+                    </span>
+
+                    <div>
+
+                        <small>Total Events</small>
+
+                        <strong>
+                            {{ total_events }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <span class="summary-icon yellow">
+                        <i class="fa-regular fa-clock"></i>
+                    </span>
+
+                    <div>
+
+                        <small>Upcoming</small>
+
+                        <strong>
+                            {{ upcoming_count }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <span class="summary-icon green">
+                        <i class="fa-solid fa-bolt"></i>
+                    </span>
+
+                    <div>
+
+                        <small>Live Today</small>
+
+                        <strong>
+                            {{ live_count }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <span class="summary-icon neutral">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </span>
+
+                    <div>
+
+                        <small>Past</small>
+
+                        <strong>
+                            {{ past_count }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 FILTERS
+            ================================================== -->
+
+            <section class="toolbar">
+
+
+                <div class="search-box">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        id="eventSearch"
+                        type="search"
+                        placeholder="Search events, locations or categories..."
+                        autocomplete="off">
+
+                </div>
+
+
+                <select id="categoryFilter"
+                        aria-label="Filter by category">
+
+                    <option value="all">
+                        All categories
+                    </option>
+
+                    <option value="technology">
+                        Technology
+                    </option>
+
+                    <option value="tech">
+                        Tech
+                    </option>
+
+                    <option value="art">
+                        Art
+                    </option>
+
+                    <option value="culture">
+                        Culture
+                    </option>
+
+                    <option value="fitness">
+                        Fitness
+                    </option>
+
+                    <option value="concert">
+                        Concerts
+                    </option>
+
+                    <option value="wedding">
+                        Wedding
+                    </option>
+
+                </select>
+
+
+                <select id="statusFilter"
+                        aria-label="Filter by status">
+
+                    <option value="all">
+                        All status
+                    </option>
+
+                    <option value="upcoming">
+                        Upcoming
+                    </option>
+
+                    <option value="live">
+                        Live
+                    </option>
+
+                    <option value="past">
+                        Past
+                    </option>
+
+                </select>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 EVENTS
+            ================================================== -->
+
+            <section class="events-section">
+
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span>
+                            EVENT OPERATIONS
+                        </span>
+
+                        <h3>
+                            All events
+                        </h3>
+
+                    </div>
+
+
+                    <strong id="resultCount">
+
+                        {{ total_events }}
+
+                        {{ 'event' if total_events == 1 else 'events' }}
+
+                    </strong>
+
+                </div>
+
+
+                <div id="eventList"
+                     class="event-list">
+
+
+                    {% for event in events %}
+
+
+                    <article
+                        class="event-card"
+
+                        data-search="{{ event['title']|lower }} {{ event['location']|lower }} {{ event['category']|lower }}"
+
+                        data-category="{{ event['category']|lower }}"
+
+                        data-status="{{ event['status']|lower }}">
+
+
+                        <!-- =================================================
+                             EVENT HEADER
+                        ================================================== -->
+
+                        <div class="event-header">
+
+
+                            <div class="event-heading">
+
+
+                                <div class="event-thumbnail">
+
+                                    {% if event['image'] %}
+
+                                    <img
+                                        src="{{ url_for('static', filename='images/' + event['image']) }}"
+                                        alt="{{ event['title'] }}">
+
+                                    {% else %}
+
+                                    <i class="fa-regular fa-calendar"></i>
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                <div class="event-title">
+
+
+                                    <div class="event-tags">
+
+                                        <span class="category-tag">
+                                            {{ event['category'] }}
+                                        </span>
+
+
+                                        <span class="status-tag {{ event['status']|lower }}">
+
+                                            <i class="fa-solid fa-circle"></i>
+
+                                            {{ event['status'] }}
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <h3>
+                                        {{ event['title'] }}
+                                    </h3>
+
+
+                                    <div class="event-info">
+
+
+                                        <span>
+
+                                            <i class="fa-regular fa-calendar"></i>
+
+                                            {{ event['event_date'] or event['start_date'] }}
+
+                                        </span>
+
+
+                                        <span>
+
+                                            <i class="fa-solid fa-location-dot"></i>
+
+                                            {{ event['location'] }}
+
+                                        </span>
+
+
+                                        {% if event['time'] %}
+
+                                        <span>
+
+                                            <i class="fa-regular fa-clock"></i>
+
+                                            {{ event['time'] }}
+
+                                        </span>
+
+                                        {% endif %}
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                            <!-- =================================================
+                                 ACTIONS
+                            ================================================== -->
+
+                            <div class="event-actions">
+
+
+                                <a
+                                    href="{{ url_for('admin_event_details', event_id=event['id']) }}"
+                                    class="details-button">
+
+                                    View details
+
+                                    <i class="fa-solid fa-arrow-right"></i>
+
+                                </a>
+
+
+                                <a
+                                    href="{{ url_for('edit_event', event_id=event['id']) }}"
+                                    class="small-action edit"
+                                    title="Edit event"
+                                    aria-label="Edit event">
+
+                                    <i class="fa-solid fa-pen"></i>
+
+                                </a>
+
+
+                                <a
+                                    href="{{ url_for('delete_event', event_id=event['id']) }}"
+                                    class="small-action delete"
+                                    title="Move to trash"
+                                    aria-label="Move event to trash"
+                                    onclick="return confirm('Move this event to trash?');">
+
+                                    <i class="fa-solid fa-trash-can"></i>
+
+                                </a>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- =================================================
+                             METRICS
+                        ================================================== -->
+
+                        <div class="metrics">
+
+
+                            <div>
+
+                                <small>
+                                    Capacity
+                                </small>
+
+                                <strong>
+                                    {{ event['capacity'] }}
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <small>
+                                    Booked Tickets
+                                </small>
+
+                                <strong>
+                                    {{ event['original_booked'] }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="cancelled">
+
+                                <small>
+                                    Cancelled Tickets
+                                </small>
+
+                                <strong>
+                                    {{ event['cancelled_tickets'] }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="active">
+
+                                <small>
+                                    Active
+                                </small>
+
+                                <strong>
+                                    {{ event['active_tickets'] }}
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <small>
+                                    Available
+                                </small>
+
+                                <strong>
+                                    {{ event['available_tickets'] }}
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <small>
+                                    Booking Value
+                                </small>
+
+                                <strong>
+                                    ₹{{ "{:,.0f}".format(event['booking_value']) }}
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- =================================================
+                             OCCUPANCY
+                        ================================================== -->
+
+                        <div class="occupancy">
+
+
+                            <div class="occupancy-header">
+
+
+                                <div>
+
+                                    <strong>
+                                        {{ event['occupancy'] }}%
+                                    </strong>
+
+                                    <span>
+                                        currently occupied
+                                    </span>
+
+                                </div>
+
+
+                                <span>
+
+                                    {{ event['active_tickets'] }}
+
+                                    /
+
+                                    {{ event['capacity'] }}
+
+                                    tickets
+
+                                </span>
+
+
+                            </div>
+
+
+                            <div class="progress">
+
+                                <div
+                                    class="progress-value"
+                                    style="width: {{ [event['occupancy'], 100]|min }}%;">
+                                </div>
+
+                            </div>
+
+
+                            <div class="occupancy-footer">
+
+
+                                <span>
+
+                                    {{ event['active_bookings'] }}
+
+                                    active booking{{ '' if event['active_bookings'] == 1 else 's' }}
+
+                                </span>
+
+
+                                <span>
+
+                                    {{ event['cancelled_bookings'] }}
+
+                                    cancelled booking{{ '' if event['cancelled_bookings'] == 1 else 's' }}
+
+                                </span>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </article>
+
+
+                    {% else %}
+
+
+                    <div class="empty-state">
+
+                        <div>
+
+                            <i class="fa-regular fa-calendar-xmark"></i>
+
+                        </div>
+
+
+                        <h3>
+                            No events yet
+                        </h3>
+
+
+                        <p>
+                            Create your first event to start
+                            managing EventFlow.
+                        </p>
+
+
+                        <a href="{{ url_for('add_event') }}"
+                           class="add-event-button">
+
+                            <i class="fa-solid fa-plus"></i>
+
+                            Add Event
+
+                        </a>
+
+                    </div>
+
+
+                    {% endfor %}
+
+
+                </div>
+
+
+                <!-- =================================================
+                     FILTER EMPTY STATE
+                ================================================== -->
+
+                <div id="noResults"
+                     class="empty-state"
+                     hidden>
+
+                    <div>
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                    </div>
+
+                    <h3>
+                        No matching events
+                    </h3>
+
+                    <p>
+                        Try another search or change your filters.
+                    </p>
+
+                </div>
+
+
+            </section>
+
+
+        </div>
+
+                <footer class="admin-footer">
+
+            <span>
+                EventFlow Admin Console
+            </span>
+
+            <span>
+                © 2026 EventFlow
+            </span>
+
+        </footer>
+
+
+    </main>
+
+
+</div>
+
+
+<script>
+
+(function () {
+
+    'use strict';
+
+
+    /* =========================================================
+       EVENT FILTERING
+    ========================================================= */
+
+    const search =
+        document.getElementById('eventSearch');
+
+    const category =
+        document.getElementById('categoryFilter');
+
+    const status =
+        document.getElementById('statusFilter');
+
+    const cards =
+        Array.from(
+            document.querySelectorAll('.event-card')
+        );
+
+    const resultCount =
+        document.getElementById('resultCount');
+
+    const noResults =
+        document.getElementById('noResults');
+
+
+    function filterEvents() {
+
+        const searchValue =
+            search
+                ? search.value.trim().toLowerCase()
+                : '';
+
+
+        const categoryValue =
+            category
+                ? category.value.toLowerCase()
+                : 'all';
+
+
+        const statusValue =
+            status
+                ? status.value.toLowerCase()
+                : 'all';
+
+
+        let visible = 0;
+
+
+        cards.forEach(function (card) {
+
+            const searchable =
+                card.dataset.search || '';
+
+
+            const cardCategory =
+                card.dataset.category || '';
+
+
+            const cardStatus =
+                card.dataset.status || '';
+
+
+            const matchesSearch =
+                !searchValue ||
+                searchable.includes(searchValue);
+
+
+            const matchesCategory =
+                categoryValue === 'all' ||
+                cardCategory.includes(categoryValue);
+
+
+            const matchesStatus =
+                statusValue === 'all' ||
+                cardStatus === statusValue;
+
+
+            const show =
+                matchesSearch &&
+                matchesCategory &&
+                matchesStatus;
+
+
+            card.hidden = !show;
+
+
+            if (show) {
+                visible++;
+            }
+
+        });
+
+
+        if (resultCount) {
+
+            resultCount.textContent =
+                visible +
+                (visible === 1
+                    ? ' event'
+                    : ' events');
+
+        }
+
+
+        if (noResults) {
+
+            noResults.hidden =
+                visible !== 0;
+
+        }
+
+    }
+
+
+    if (search) {
+        search.addEventListener(
+            'input',
+            filterEvents
+        );
+    }
+
+
+    if (category) {
+        category.addEventListener(
+            'change',
+            filterEvents
+        );
+    }
+
+
+    if (status) {
+        status.addEventListener(
+            'change',
+            filterEvents
+        );
+    }
+
+
+    /* =========================================================
+       ADMIN THEME
+       ---------------------------------------------------------
+       IMPORTANT:
+       Uses the SAME data-theme attribute as admin_shell.css.
+
+       light  = Day
+       dark   = Night
+    ========================================================= */
+
+    const themeButton =
+        document.getElementById('adminThemeToggle');
+
+
+    function applyTheme(theme) {
+
+        const normalizedTheme =
+            theme === 'dark'
+                ? 'dark'
+                : 'light';
+
+
+        document.body.setAttribute(
+            'data-theme',
+            normalizedTheme
+        );
+
+
+        try {
+
+            localStorage.setItem(
+                'eventflow-admin-theme',
+                normalizedTheme
+            );
+
+        } catch (error) {}
+
+
+        if (themeButton) {
+
+            const isDark =
+                normalizedTheme === 'dark';
+
+
+            themeButton.innerHTML =
+                isDark
+                    ? '<i class="fa-regular fa-sun"></i>'
+                    : '<i class="fa-regular fa-moon"></i>';
+
+
+            themeButton.setAttribute(
+                'aria-label',
+                isDark
+                    ? 'Switch to day mode'
+                    : 'Switch to night mode'
+            );
+
+
+            themeButton.setAttribute(
+                'title',
+                isDark
+                    ? 'Switch to day mode'
+                    : 'Switch to night mode'
+            );
+
+        }
+
+    }
+
+
+    let savedTheme =
+        'light';
+
+
+    try {
+
+        const stored =
+            localStorage.getItem(
+                'eventflow-admin-theme'
+            );
+
+
+        /*
+         * Backward compatibility:
+         *
+         * Previous version used:
+         * day / night
+         *
+         * New shell uses:
+         * light / dark
+         */
+
+        if (stored === 'night') {
+
+            savedTheme = 'dark';
+
+        } else if (stored === 'day') {
+
+            savedTheme = 'light';
+
+        } else if (
+            stored === 'dark' ||
+            stored === 'light'
+        ) {
+
+            savedTheme = stored;
+
+        }
+
+    } catch (error) {}
+
+
+    applyTheme(savedTheme);
+
+
+    if (themeButton) {
+
+        themeButton.addEventListener(
+            'click',
+            function () {
+
+                const currentTheme =
+                    document.body.getAttribute(
+                        'data-theme'
+                    );
+
+
+                applyTheme(
+                    currentTheme === 'dark'
+                        ? 'light'
+                        : 'dark'
+                );
+
+            }
+        );
+
+    }
+
+
+})();
+
+
+document.querySelectorAll('.admin-toast').forEach(function(toast) {
+
+    const closeButton =
+        toast.querySelector('.admin-toast-close');
+
+    function closeToast() {
+        toast.style.transition =
+            'opacity 0.2s ease, transform 0.2s ease';
+
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+
+        setTimeout(function() {
+            toast.remove();
+        }, 220);
+    }
+
+    if (closeButton) {
+        closeButton.addEventListener(
+            'click',
+            closeToast
+        );
+    }
+
+    setTimeout(closeToast, 4000);
+});
+
+</script>
+
+
+</body>
+
+</html>

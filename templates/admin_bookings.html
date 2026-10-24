@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b0d10">
+
+    <title>Bookings — EventFlow Admin</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/pages/admin_shell.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/pages/booking.css') }}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+
+<body>
+
+<div class="admin-app">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="admin-sidebar">
+
+        <div class="admin-brand">
+
+            <a href="{{ url_for('index') }}">
+
+                <span class="admin-brand-mark">
+                    E
+                </span>
+
+                <span>
+                    <strong>EventFlow</strong>
+                    <small>Admin Console</small>
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <nav class="admin-nav">
+
+            <span class="admin-nav-label">
+                OVERVIEW
+            </span>
+
+
+            <a href="{{ url_for('admin_dashboard') }}"
+               class="admin-nav-link">
+
+                <i class="fa-solid fa-chart-pie"></i>
+
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <span class="admin-nav-label">
+                MANAGEMENT
+            </span>
+
+
+            <a href="{{ url_for('view_events') }}"
+               class="admin-nav-link">
+
+                <i class="fa-regular fa-calendar"></i>
+
+                <span>Manage Events</span>
+
+            </a>
+
+
+            <a href="{{ url_for('add_event') }}"
+               class="admin-nav-link">
+
+                <i class="fa-solid fa-plus"></i>
+
+                <span>Add Event</span>
+
+            </a>
+
+
+            <a href="{{ url_for('admin_bookings') }}"
+               class="admin-nav-link active">
+
+                <i class="fa-solid fa-ticket"></i>
+
+                <span>Bookings</span>
+
+            </a>
+
+
+            <a href="{{ url_for('admin_wedding_bookings') }}"
+               class="admin-nav-link">
+
+                <i class="fa-regular fa-heart"></i>
+
+                <span>Wedding Bookings</span>
+
+            </a>
+
+
+            <a href="{{ url_for('trashed_events') }}"
+               class="admin-nav-link">
+
+                <i class="fa-regular fa-trash-can"></i>
+
+                <span>Trash / Recovery</span>
+
+                {% if trashed_events_count %}
+
+                    <span class="nav-count">
+                        {{ trashed_events_count }}
+                    </span>
+
+                {% endif %}
+
+            </a>
+
+        </nav>
+
+
+        <div class="admin-sidebar-bottom">
+
+            <a href="{{ url_for('index') }}"
+               class="admin-site-link">
+
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                <span>View EventFlow</span>
+
+            </a>
+
+
+            <a href="{{ url_for('logout') }}"
+               class="admin-logout">
+
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+                <span>Logout</span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="admin-main">
+
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+        <header class="admin-topbar">
+
+            <div>
+
+                <span class="admin-kicker">
+                    BOOKING OPERATIONS
+                </span>
+
+                <h1>
+                    Bookings
+                </h1>
+
+                <p>
+                    Monitor attendee activity, ticket quantities and booking status.
+                </p>
+
+            </div>
+
+
+            <div class="admin-topbar-actions">
+
+                <a href="{{ url_for(
+                    'export_bookings_csv',
+                    status=selected_status,
+                    start_date=start_date,
+                    end_date=end_date
+                ) }}"
+                   class="admin-primary-button booking-export-button">
+
+                    <i class="fa-solid fa-arrow-down"></i>
+
+                    Export CSV
+
+                </a>
+
+
+                <button type="button"
+                        class="admin-theme-button"
+                        id="adminThemeToggle"
+                        title="Switch theme"
+                        aria-label="Switch theme">
+
+                    <i class="fa-regular fa-moon"></i>
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =================================================
+             PAGE CONTENT
+        ================================================== -->
+
+        <div class="page-content booking-page">
+
+
+            <!-- =================================================
+                 PAGE HEADING
+            ================================================== -->
+
+            <section class="booking-heading">
+
+                <div class="booking-heading-copy">
+
+                    <span class="booking-section-label">
+                        BOOKING MANAGEMENT
+                    </span>
+
+                    <h2>
+                        All bookings
+                    </h2>
+
+                    <p>
+                        Review attendee records, ticket quantities and booking activity.
+                    </p>
+
+                </div>
+
+
+                <div class="booking-count">
+
+                    <strong>
+                        {{ bookings|length }}
+                    </strong>
+
+                    <span>
+                        result{% if bookings|length != 1 %}s{% endif %}
+                    </span>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 FILTER TOOLBAR
+            ================================================== -->
+
+            <section class="booking-toolbar">
+
+                <div class="booking-toolbar-title">
+
+                    <div class="toolbar-icon">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Filter bookings
+                        </strong>
+
+                        <span>
+                            Refine the records before reviewing or exporting.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <form method="get"
+                      action="{{ url_for('admin_bookings') }}"
+                      class="booking-filter-form">
+
+
+                    <!-- STATUS -->
+
+                    <div class="booking-field booking-status-field">
+
+                        <label for="status">
+                            STATUS
+                        </label>
+
+                        <div class="booking-input">
+
+                            <i class="fa-solid fa-filter"></i>
+
+                            <select name="status"
+                                    id="status">
+
+                                <option value="all"
+                                    {% if selected_status == 'all' %}
+                                        selected
+                                    {% endif %}>
+                                    All statuses
+                                </option>
+
+                                <option value="active"
+                                    {% if selected_status == 'active' %}
+                                        selected
+                                    {% endif %}>
+                                    Active
+                                </option>
+
+                                <option value="partial"
+                                    {% if selected_status == 'partial' %}
+                                        selected
+                                    {% endif %}>
+                                    Partially cancelled
+                                </option>
+
+                                <option value="cancelled"
+                                    {% if selected_status == 'cancelled' %}
+                                        selected
+                                    {% endif %}>
+                                    Cancelled
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- FROM DATE -->
+
+                    <div class="booking-field">
+
+                        <label for="start_date">
+                            FROM
+                        </label>
+
+                        <div class="booking-input">
+
+                            <i class="fa-regular fa-calendar"></i>
+
+                            <input
+                                type="date"
+                                name="start_date"
+                                id="start_date"
+                                value="{{ start_date or '' }}">
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- TO DATE -->
+
+                    <div class="booking-field">
+
+                        <label for="end_date">
+                            TO
+                        </label>
+
+                        <div class="booking-input">
+
+                            <i class="fa-regular fa-calendar"></i>
+
+                            <input
+                                type="date"
+                                name="end_date"
+                                id="end_date"
+                                value="{{ end_date or '' }}">
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- APPLY -->
+
+                    <button type="submit"
+                            class="booking-filter-button">
+
+                        <i class="fa-solid fa-check"></i>
+
+                        Apply filters
+
+                    </button>
+
+
+
+                    <!-- CLEAR -->
+
+                    {% if selected_status != 'all'
+                          or start_date
+                          or end_date %}
+
+                        <a href="{{ url_for('admin_bookings') }}"
+                           class="booking-clear-button">
+
+                            <i class="fa-solid fa-xmark"></i>
+
+                            Clear
+
+                        </a>
+
+                    {% endif %}
+
+                </form>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 RESULTS
+            ================================================== -->
+
+            {% if bookings %}
+
+            <section class="booking-table-card">
+
+
+                <!-- TABLE HEADER -->
+
+                <div class="booking-table-top">
+
+                    <div>
+
+                        <span class="booking-table-label">
+                            BOOKING RECORDS
+                        </span>
+
+                        <h3>
+                            Booking activity
+                        </h3>
+
+                        <span class="booking-result-context">
+
+                            {% if selected_status == 'active' %}
+
+                                Active bookings
+
+                            {% elif selected_status == 'partial' %}
+
+                                Partially cancelled bookings
+
+                            {% elif selected_status == 'cancelled' %}
+
+                                Cancelled bookings
+
+                            {% else %}
+
+                                All booking records
+
+                            {% endif %}
+
+
+                            {% if start_date or end_date %}
+
+                                ·
+
+                                {% if start_date %}
+                                    {{ start_date }}
+                                {% else %}
+                                    All dates
+                                {% endif %}
+
+                                →
+
+                                {% if end_date %}
+                                    {{ end_date }}
+                                {% else %}
+                                    All dates
+                                {% endif %}
+
+                            {% endif %}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="booking-table-meta">
+
+                        <span class="booking-live-dot"></span>
+
+                        <span>
+                            {{ bookings|length }}
+                            record{% if bookings|length != 1 %}s{% endif %}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- TABLE -->
+
+                <div class="booking-table-scroll">
+
+                    <table class="booking-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Attendee
+                                </th>
+
+                                <th>
+                                    Event
+                                </th>
+
+                                <th>
+                                    Schedule
+                                </th>
+
+                                <th>
+                                    Tickets
+                                </th>
+
+                                <th>
+                                    Location
+                                </th>
+
+                                <th>
+                                    Booked
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                        {% for b in bookings %}
+
+                            <tr>
+
+
+                                <!-- ATTENDEE -->
+
+                                <td>
+
+                                    <div class="booking-attendee">
+
+                                        <div class="booking-avatar">
+                                            {{ b['username'][0]|upper }}
+                                        </div>
+
+                                        <div class="booking-attendee-copy">
+
+                                            <strong>
+                                                {{ b['username'] }}
+                                            </strong>
+
+                                            <span>
+                                                {{ b['email'] }}
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+
+                                <!-- EVENT -->
+
+                                <td>
+
+                                    <div class="booking-event">
+
+                                        <strong>
+                                            {{ b['event_title'] }}
+                                        </strong>
+
+                                        <span>
+                                            Event booking
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+
+
+                                <!-- SCHEDULE -->
+
+                                <td>
+
+                                    <div class="booking-schedule">
+
+                                        <div class="schedule-main">
+
+                                            <i class="fa-regular fa-calendar"></i>
+
+                                            <strong>
+                                                {{ b['event_date'] }}
+                                            </strong>
+
+                                        </div>
+
+
+                                        {% if b['start_date'] %}
+
+                                            <span>
+
+                                                {{ b['start_date'] }}
+
+                                                {% if b['end_date']
+                                                   and b['end_date'] != b['start_date'] %}
+
+                                                    <b>—</b>
+
+                                                    {{ b['end_date'] }}
+
+                                                {% endif %}
+
+                                            </span>
+
+                                        {% endif %}
+
+                                    </div>
+
+                                </td>
+
+
+
+                                <!-- TICKETS -->
+
+                                <td>
+
+                                    <div class="booking-tickets">
+
+                                        <strong>
+                                            {{ b['ticket_quantity'] }}
+                                        </strong>
+
+                                        <span>
+                                            ticket{% if b['ticket_quantity'] != 1 %}s{% endif %}
+                                        </span>
+
+                                        <small>
+
+                                            of
+                                            {{ b['original_ticket_quantity'] or b['ticket_quantity'] }}
+
+                                            booked
+
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+
+                                <!-- LOCATION -->
+
+                                <td>
+
+                                    <div class="booking-location">
+
+                                        <i class="fa-solid fa-location-dot"></i>
+
+                                        <span>
+                                            {{ b['location'] }}
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+
+
+                                <!-- BOOKING DATE -->
+
+                                <td>
+
+                                    <div class="booking-booked">
+
+                                        <strong>
+                                            {{ b['booking_date'] }}
+                                        </strong>
+
+                                    </div>
+
+                                </td>
+
+
+
+                                <!-- STATUS -->
+
+                                <td>
+
+                                    {% if b['status'] == 'cancelled' %}
+
+                                        <span class="booking-status cancelled">
+
+                                            <span class="status-dot"></span>
+
+                                            Cancelled
+
+                                        </span>
+
+
+                                    {% elif b['original_ticket_quantity'] is not none
+                                          and b['ticket_quantity'] < b['original_ticket_quantity'] %}
+
+                                        <span class="booking-status partial">
+
+                                            <span class="status-dot"></span>
+
+                                            Partially cancelled
+
+                                        </span>
+
+
+                                    {% else %}
+
+                                        <span class="booking-status active">
+
+                                            <span class="status-dot"></span>
+
+                                            Active
+
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+
+                <!-- TABLE FOOTER -->
+
+                <div class="booking-table-footer">
+
+                    <span>
+
+                        Showing
+                        <strong>{{ bookings|length }}</strong>
+                        booking{% if bookings|length != 1 %}s{% endif %}
+
+                    </span>
+
+
+                    <span>
+                        EventFlow booking records
+                    </span>
+
+                </div>
+
+            </section>
+
+
+            {% else %}
+
+
+            <!-- =================================================
+                 EMPTY STATE
+            ================================================== -->
+
+            <section class="booking-empty">
+
+                <div class="booking-empty-icon">
+
+                    <i class="fa-regular fa-calendar-xmark"></i>
+
+                </div>
+
+                <span class="booking-section-label">
+                    NO MATCHING RECORDS
+                </span>
+
+                <h2>
+                    No bookings found
+                </h2>
+
+                <p>
+                    No booking records match the selected filters.
+                    Try changing the status or date range.
+                </p>
+
+                <a href="{{ url_for('admin_bookings') }}"
+                   class="booking-empty-reset">
+
+                    <i class="fa-solid fa-rotate-left"></i>
+
+                    Reset filters
+
+                </a>
+
+            </section>
+
+            {% endif %}
+
+
+
+            <!-- =================================================
+                 FOOTER
+            ================================================== -->
+
+            <footer class="admin-footer">
+
+                <span>
+                    EventFlow Admin Console
+                </span>
+
+                <span>
+                    © 2026 EventFlow
+                </span>
+
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+
+<!-- =========================================================
+     FLASH SNACKBAR
+========================================================= -->
+
+<div id="snackbar-flash">
+
+    <i class="fa-solid fa-circle-check"></i>
+
+    <span id="snackbar-msg-text"></span>
+
+</div>
+
+
+{% with messages = get_flashed_messages() %}
+
+    {% if messages %}
+
+        <script>
+
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const snackbar =
+                    document.getElementById("snackbar-flash");
+
+                const message =
+                    document.getElementById("snackbar-msg-text");
+
+                if (!snackbar || !message) {
+                    return;
+                }
+
+                message.textContent =
+                    {{ messages[0]|tojson }};
+
+                snackbar.classList.add("show");
+
+                setTimeout(function () {
+                    snackbar.classList.remove("show");
+                }, 3200);
+
+            });
+
+        </script>
+
+    {% endif %}
+
+{% endwith %}
+
+
+
+<!-- =========================================================
+     ADMIN THEME
+========================================================= -->
+
+<script>
+
+(function () {
+
+    const body =
+        document.body;
+
+    const button =
+        document.getElementById("adminThemeToggle");
+
+
+    function applyTheme(theme) {
+
+        const normalizedTheme =
+            theme === "dark"
+                ? "dark"
+                : "light";
+
+
+        body.setAttribute(
+            "data-theme",
+            normalizedTheme
+        );
+
+
+        try {
+
+            localStorage.setItem(
+                "eventflow-admin-theme",
+                normalizedTheme
+            );
+
+        } catch (error) {}
+
+
+        if (button) {
+
+            const isDark =
+                normalizedTheme === "dark";
+
+
+            button.innerHTML =
+                isDark
+                    ? '<i class="fa-regular fa-sun"></i>'
+                    : '<i class="fa-regular fa-moon"></i>';
+
+
+            button.setAttribute(
+                "aria-label",
+                isDark
+                    ? "Switch to day mode"
+                    : "Switch to night mode"
+            );
+
+
+            button.setAttribute(
+                "title",
+                isDark
+                    ? "Switch to day mode"
+                    : "Switch to night mode"
+            );
+
+        }
+
+    }
+
+
+    let savedTheme = "light";
+
+
+    try {
+
+        const stored =
+            localStorage.getItem(
+                "eventflow-admin-theme"
+            );
+
+
+        if (stored === "dark" || stored === "night") {
+            savedTheme = "dark";
+        }
+
+        if (stored === "light" || stored === "day") {
+            savedTheme = "light";
+        }
+
+    } catch (error) {}
+
+
+    applyTheme(savedTheme);
+
+
+    if (button) {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                const current =
+                    body.getAttribute("data-theme");
+
+
+                applyTheme(
+                    current === "dark"
+                        ? "light"
+                        : "dark"
+                );
+
+            }
+        );
+
+    }
+
+})();
+
+</script>
+
+
+</body>
+</html>

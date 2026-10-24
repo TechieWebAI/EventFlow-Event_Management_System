@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color"
+          content="#0b0d10">
+
+    <title>
+        {{ event.title }} — EventFlow Admin
+    </title>
+
+    <!-- SHARED ADMIN SHELL -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/pages/admin_shell.css') }}">
+
+    <!-- EVENT DETAILS ONLY -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/pages/admin_event_details.css') }}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+
+<body>
+
+<div class="admin-app">
+
+    <!-- =====================================================
+         SIDEBAR
+         KEEPING SAME ADMIN SHELL STRUCTURE
+    ====================================================== -->
+
+    <aside class="admin-sidebar">
+
+        <div class="admin-brand">
+
+            <a href="{{ url_for('index') }}">
+
+                <span class="admin-brand-mark">
+                    E
+                </span>
+
+                <span>
+                    <strong>EventFlow</strong>
+                    <small>Admin Console</small>
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <nav class="admin-nav">
+
+            <span class="admin-nav-label">
+                OVERVIEW
+            </span>
+
+
+            <a href="{{ url_for('admin_dashboard') }}"
+               class="admin-nav-link">
+
+                <i class="fa-solid fa-chart-pie"></i>
+
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <span class="admin-nav-label">
+                MANAGEMENT
+            </span>
+
+
+            <a href="{{ url_for('view_events') }}"
+               class="admin-nav-link active">
+
+                <i class="fa-regular fa-calendar"></i>
+
+                <span>Manage Events</span>
+
+            </a>
+
+
+            <a href="{{ url_for('add_event') }}"
+               class="admin-nav-link">
+
+                <i class="fa-solid fa-plus"></i>
+
+                <span>Add Event</span>
+
+            </a>
+
+
+            <a href="{{ url_for('admin_bookings') }}"
+               class="admin-nav-link">
+
+                <i class="fa-solid fa-ticket"></i>
+
+                <span>Bookings</span>
+
+            </a>
+
+
+            <a href="{{ url_for('admin_wedding_bookings') }}"
+               class="admin-nav-link">
+
+                <i class="fa-regular fa-heart"></i>
+
+                <span>Wedding Bookings</span>
+
+            </a>
+
+
+            <a href="{{ url_for('trashed_events') }}"
+               class="admin-nav-link">
+
+                <i class="fa-regular fa-trash-can"></i>
+
+                <span>Trash / Recovery</span>
+
+                {% if trashed_events_count %}
+                    <span class="nav-count">
+                        {{ trashed_events_count }}
+                    </span>
+                {% endif %}
+
+            </a>
+
+        </nav>
+
+
+        <div class="admin-sidebar-bottom">
+
+            <a href="{{ url_for('index') }}"
+               class="admin-site-link">
+
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                <span>View EventFlow</span>
+
+            </a>
+
+
+            <a href="{{ url_for('logout') }}"
+               class="admin-logout">
+
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+                <span>Logout</span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="admin-main">
+
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+        <header class="admin-topbar">
+
+            <div>
+
+                <!-- IMPORTANT:
+                     Explicit Event Details override.
+                     This does NOT modify admin_shell.css.
+                -->
+                <span class="admin-kicker event-details-kicker">
+                    EVENT OPERATIONS
+                </span>
+
+                <h1>
+                    Event Details
+                </h1>
+
+                <p>
+                    Review event capacity, bookings and performance.
+                </p>
+
+            </div>
+
+
+            <div class="admin-topbar-actions">
+
+                <a href="{{ url_for('view_events') }}"
+                   class="admin-primary-button">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                    Manage events
+
+                </a>
+
+
+                <button type="button"
+                        class="admin-theme-button"
+                        id="adminThemeToggle"
+                        title="Switch theme"
+                        aria-label="Switch theme">
+
+                    <i class="fa-regular fa-moon"></i>
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             PAGE CONTENT
+        ================================================== -->
+
+        <div class="page-content">
+
+
+            <!-- BACK -->
+
+            <a href="{{ url_for('view_events') }}"
+               class="back-link">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Back to Manage Events
+
+            </a>
+
+
+            <!-- EVENT HERO -->
+
+            <section class="event-hero">
+
+                <div class="event-hero-main">
+
+                    <div class="hero-tags">
+
+                        <span>
+                            {{ event['category'] }}
+                        </span>
+
+                        <span class="hero-status">
+
+                            <i class="fa-solid fa-circle"></i>
+
+                            Operational view
+
+                        </span>
+
+                    </div>
+
+
+                    <h2>
+                        {{ event['title'] }}
+                    </h2>
+
+
+                    <div class="hero-meta">
+
+                        <span>
+
+                            <i class="fa-regular fa-calendar"></i>
+
+                            {{ event['event_date'] or event['start_date'] }}
+
+                        </span>
+
+
+                        <span>
+
+                            <i class="fa-solid fa-location-dot"></i>
+
+                            {{ event['location'] }}
+
+                        </span>
+
+
+                        {% if event['time'] %}
+
+                        <span>
+
+                            <i class="fa-regular fa-clock"></i>
+
+                            {{ event['time'] }}
+
+                        </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <div class="hero-actions">
+
+                    <a href="{{ url_for('edit_event', event_id=event['id']) }}"
+                       class="edit-button">
+
+                        <i class="fa-solid fa-pen"></i>
+
+                        Edit Event
+
+                    </a>
+
+
+                    <a href="{{ url_for('event_detail', event_id=event['id']) }}"
+                       class="view-button">
+
+                        View public page
+
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                    </a>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 OVERVIEW
+            ================================================== -->
+
+            <section class="section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span>EVENT OVERVIEW</span>
+
+                        <h3>
+                            Booking snapshot
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div class="overview-grid">
+
+
+                    <div class="overview-card">
+
+                        <span class="overview-icon">
+                            <i class="fa-solid fa-users"></i>
+                        </span>
+
+                        <small>
+                            Capacity
+                        </small>
+
+                        <strong>
+                            {{ event['capacity'] or 0 }}
+                        </strong>
+
+                        <span class="overview-note">
+                            Total tickets
+                        </span>
+
+                    </div>
+
+
+                    <div class="overview-card">
+
+                        <span class="overview-icon yellow">
+                            <i class="fa-solid fa-ticket"></i>
+                        </span>
+
+                        <small>
+                            Originally Booked
+                        </small>
+
+                        <strong>
+                            {{ original_booked }}
+                        </strong>
+
+                        <span class="overview-note">
+                            Tickets sold
+                        </span>
+
+                    </div>
+
+
+                    <div class="overview-card cancelled">
+
+                        <span class="overview-icon red">
+                            <i class="fa-solid fa-arrow-rotate-left"></i>
+                        </span>
+
+                        <small>
+                            Cancelled
+                        </small>
+
+                        <strong>
+                            {{ cancelled_tickets }}
+                        </strong>
+
+                        <span class="overview-note">
+                            Tickets cancelled
+                        </span>
+
+                    </div>
+
+
+                    <div class="overview-card active">
+
+                        <span class="overview-icon green">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </span>
+
+                        <small>
+                            Active Tickets
+                        </small>
+
+                        <strong>
+                            {{ active_tickets }}
+                        </strong>
+
+                        <span class="overview-note">
+                            Currently active
+                        </span>
+
+                    </div>
+
+
+                    <div class="overview-card">
+
+                        <span class="overview-icon">
+                            <i class="fa-solid fa-chair"></i>
+                        </span>
+
+                        <small>
+                            Available
+                        </small>
+
+                        <strong>
+                            {{ available_tickets }}
+                        </strong>
+
+                        <span class="overview-note">
+                            Remaining capacity
+                        </span>
+
+                    </div>
+
+
+                    <div class="overview-card">
+
+                        <span class="overview-icon green">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                        </span>
+
+                        <small>
+                            Booking Value
+                        </small>
+
+                        <strong>
+                            ₹{{ "{:,.0f}".format(booking_value) }}
+                        </strong>
+
+                        <span class="overview-note">
+                            Based on original bookings
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 PERFORMANCE
+            ================================================== -->
+
+            <section class="content-grid">
+
+
+                <div class="panel performance-panel">
+
+                    <div class="panel-heading">
+
+                        <div>
+
+                            <span>
+                                BOOKING PERFORMANCE
+                            </span>
+
+                            <h3>
+                                Capacity utilisation
+                            </h3>
+
+                        </div>
+
+                        <strong>
+                            {{ booking_rate }}%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="large-progress">
+
+                        <div
+                            style="width: {{ [booking_rate, 100]|min }}%;">
+                        </div>
+
+                    </div>
+
+
+                    <div class="performance-numbers">
+
+                        <div>
+
+                            <strong>
+                                {{ original_booked }}
+                            </strong>
+
+                            <span>
+                                originally booked
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                {{ cancelled_tickets }}
+                            </strong>
+
+                            <span>
+                                cancelled
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                {{ active_tickets }}
+                            </strong>
+
+                            <span>
+                                currently active
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel value-panel">
+
+                    <span class="panel-kicker">
+                        BOOKING VALUE
+                    </span>
+
+                    <strong class="booking-value">
+                        ₹{{ "{:,.0f}".format(booking_value) }}
+                    </strong>
+
+                    <p>
+                        Total value represented by the
+                        originally booked tickets.
+                    </p>
+
+
+                    <div class="mini-stats">
+
+                        <div>
+
+                            <span>
+                                Active bookings
+                            </span>
+
+                            <strong>
+                                {{ active_bookings }}
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Cancelled bookings
+                            </span>
+
+                            <strong>
+                                {{ cancelled_bookings }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 BOOKING ACTIVITY
+            ================================================== -->
+
+            <section class="section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span>
+                            BOOKING ACTIVITY
+                        </span>
+
+                        <h3>
+                            Ticket activity by date
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div class="activity-panel">
+
+                    {% if booking_activity %}
+
+                    <div class="activity-chart">
+
+                        {% set max_tickets =
+                            booking_activity
+                            | map(attribute='tickets')
+                            | max
+                        %}
+
+
+                        {% for activity in booking_activity %}
+
+                        <div class="activity-column">
+
+                            <div class="activity-value">
+                                {{ activity['tickets'] }}
+                            </div>
+
+
+                            <div class="activity-bar-area">
+
+                                <div
+                                    class="activity-bar"
+                                    style="height: {{
+                                        ((activity['tickets'] / max_tickets) * 100)
+                                        if max_tickets else 0
+                                    }}%;">
+                                </div>
+
+                            </div>
+
+
+                            <span>
+                                {{ activity['date'] }}
+                            </span>
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    {% else %}
+
+                    <div class="activity-empty">
+
+                        <i class="fa-regular fa-chart-bar"></i>
+
+                        <strong>
+                            No booking activity yet
+                        </strong>
+
+                        <span>
+                            Booking activity will appear here
+                            once customers start booking.
+                        </span>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 CUSTOMER BOOKINGS
+            ================================================== -->
+
+            <section class="section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span>
+                            CUSTOMER BOOKINGS
+                        </span>
+
+                        <h3>
+                            Booking history
+                        </h3>
+
+                    </div>
+
+
+                    <strong>
+
+                        {{ customer_bookings|length }}
+
+                        {{ 'booking'
+                           if customer_bookings|length == 1
+                           else 'bookings' }}
+
+                    </strong>
+
+                </div>
+
+
+                <div class="booking-table-wrap">
+
+                    {% if customer_bookings %}
+
+                    <table class="booking-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Customer</th>
+
+                                <th>Tickets</th>
+
+                                <th>Cancelled</th>
+
+                                <th>Remaining</th>
+
+                                <th>Status</th>
+
+                                <th>Booked On</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for booking in customer_bookings %}
+
+                            <tr>
+
+                                <td>
+
+                                    <div class="customer">
+
+                                        <span class="customer-avatar">
+                                            {{ booking['username'][0]|upper }}
+                                        </span>
+
+
+                                        <div>
+
+                                            <strong>
+                                                {{ booking['username'] }}
+                                            </strong>
+
+                                            <span>
+                                                {{ booking['email'] }}
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+                                    {{ booking['original_quantity'] }}
+                                </td>
+
+
+                                <td class="cancelled-text">
+                                    {{ booking['cancelled_quantity'] }}
+                                </td>
+
+
+                                <td>
+                                    {{ booking['current_quantity'] }}
+                                </td>
+
+
+                                <td>
+
+                                    <span class="booking-status
+                                        {{ booking['status']|lower }}">
+
+                                        <i class="fa-solid fa-circle"></i>
+
+                                        {{ booking['status'] }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <td class="date-cell">
+                                    {{ booking['booking_date'] }}
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+
+                    {% else %}
+
+                    <div class="booking-empty">
+
+                        <i class="fa-regular fa-ticket"></i>
+
+                        <strong>
+                            No customer bookings
+                        </strong>
+
+                        <span>
+                            Customer booking records will appear
+                            here when tickets are purchased.
+                        </span>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<div class="sidebar-overlay"
+     id="sidebarOverlay">
+</div>
+
+
+<!-- =========================================================
+     EVENT DETAILS THEME SCRIPT
+     
+     IMPORTANT:
+     This page uses the SAME theme key and SAME
+     data-admin-theme attribute as the admin shell.
+========================================================= -->
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    /* =====================================================
+       EVENT DETAILS THEME
+       MUST MATCH admin_shell.css
+
+       light = Day
+       dark  = Night
+    ====================================================== */
+
+    const themeButton =
+        document.getElementById("adminThemeToggle");
+
+
+    const THEME_KEY =
+        "eventflow-admin-theme";
+
+
+    function applyTheme(theme) {
+
+        const normalizedTheme =
+            theme === "dark"
+                ? "dark"
+                : "light";
+
+
+        /* IMPORTANT:
+           admin_shell.css listens to data-theme
+        */
+
+        document.body.setAttribute(
+            "data-theme",
+            normalizedTheme
+        );
+
+
+        /* Save theme */
+
+        try {
+
+            localStorage.setItem(
+                THEME_KEY,
+                normalizedTheme
+            );
+
+        } catch (error) {}
+
+
+        /* Update button icon */
+
+        if (themeButton) {
+
+            const isDark =
+                normalizedTheme === "dark";
+
+
+            themeButton.innerHTML =
+                isDark
+                    ? '<i class="fa-regular fa-sun"></i>'
+                    : '<i class="fa-regular fa-moon"></i>';
+
+
+            themeButton.setAttribute(
+                "aria-label",
+                isDark
+                    ? "Switch to day mode"
+                    : "Switch to night mode"
+            );
+
+
+            themeButton.setAttribute(
+                "title",
+                isDark
+                    ? "Switch to day mode"
+                    : "Switch to night mode"
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       LOAD SAVED THEME
+    ====================================================== */
+
+    let savedTheme = "light";
+
+
+    try {
+
+        const stored =
+            localStorage.getItem(
+                THEME_KEY
+            );
+
+
+        /*
+         * Support old values too.
+         *
+         * Old:
+         * day / night
+         *
+         * Current:
+         * light / dark
+         */
+
+        if (stored === "night") {
+
+            savedTheme = "dark";
+
+        } else if (stored === "day") {
+
+            savedTheme = "light";
+
+        } else if (
+            stored === "dark" ||
+            stored === "light"
+        ) {
+
+            savedTheme = stored;
+
+        }
+
+    } catch (error) {}
+
+
+    applyTheme(savedTheme);
+
+
+    /* =====================================================
+       THEME BUTTON
+    ====================================================== */
+
+    if (themeButton) {
+
+        themeButton.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+
+                const currentTheme =
+                    document.body.getAttribute(
+                        "data-theme"
+                    );
+
+
+                const nextTheme =
+                    currentTheme === "dark"
+                        ? "light"
+                        : "dark";
+
+
+                applyTheme(nextTheme);
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       MOBILE SIDEBAR
+    ====================================================== */
+
+    const sidebar =
+        document.querySelector(
+            ".admin-sidebar"
+        );
+
+
+    const overlay =
+        document.getElementById(
+            "sidebarOverlay"
+        );
+
+
+    const toggle =
+        document.getElementById(
+            "sidebarToggle"
+        );
+
+
+    if (
+        toggle &&
+        sidebar &&
+        overlay
+    ) {
+
+        toggle.addEventListener(
+            "click",
+            function () {
+
+                sidebar.classList.toggle(
+                    "open"
+                );
+
+                overlay.classList.toggle(
+                    "show"
+                );
+
+            }
+        );
+
+
+        overlay.addEventListener(
+            "click",
+            function () {
+
+                sidebar.classList.remove(
+                    "open"
+                );
+
+                overlay.classList.remove(
+                    "show"
+                );
+
+            }
+        );
+
+    }
+
+})();
+
+</script>
+
+
+</body>
+</html>

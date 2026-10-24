@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color"
+          content="#f5f2ec">
+
+    <title>Add Event — EventFlow Admin</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/pages/admin_shell.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/pages/add_event.css') }}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+
+<body>
+
+<div class="admin-app">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="admin-sidebar">
+
+        <div class="admin-brand">
+
+            <a href="{{ url_for('index') }}">
+
+                <span class="admin-brand-mark">
+                    E
+                </span>
+
+                <span>
+                    <strong>EventFlow</strong>
+                    <small>Admin Console</small>
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <nav class="admin-nav">
+
+            <span class="admin-nav-label">
+                OVERVIEW
+            </span>
+
+
+            <a href="{{ url_for('admin_dashboard') }}"
+               class="admin-nav-link">
+
+                <i class="fa-solid fa-chart-pie"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <span class="admin-nav-label">
+                MANAGEMENT
+            </span>
+
+
+            <a href="{{ url_for('view_events') }}"
+               class="admin-nav-link">
+
+                <i class="fa-regular fa-calendar"></i>
+
+                <span>
+                    Manage Events
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('add_event') }}"
+               class="admin-nav-link active">
+
+                <i class="fa-solid fa-plus"></i>
+
+                <span>
+                    Add Event
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('admin_bookings') }}"
+               class="admin-nav-link">
+
+                <i class="fa-solid fa-ticket"></i>
+
+                <span>
+                    Bookings
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('admin_wedding_bookings') }}"
+               class="admin-nav-link">
+
+                <i class="fa-regular fa-heart"></i>
+
+                <span>
+                    Wedding Bookings
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('trashed_events') }}"
+               class="admin-nav-link">
+
+                <i class="fa-regular fa-trash-can"></i>
+
+                <span>
+                    Trash / Recovery
+                </span>
+
+                {% if trashed_events_count %}
+                    <span class="nav-count">
+                        {{ trashed_events_count }}
+                    </span>
+                {% endif %}
+
+            </a>
+
+        </nav>
+
+
+        <div class="admin-sidebar-bottom">
+
+            <a href="{{ url_for('index') }}"
+               class="admin-site-link">
+
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                <span>
+                    View EventFlow
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('logout') }}"
+               class="admin-logout">
+
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="admin-main">
+
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+        <header class="admin-topbar">
+
+            <div>
+
+                <span class="admin-kicker">
+                    EVENT MANAGEMENT
+                </span>
+
+                <h1>
+                    Add New Event
+                </h1>
+
+                <p>
+                    Create an event and configure its booking details.
+                </p>
+
+            </div>
+
+
+            <div class="admin-topbar-actions">
+
+                <a href="{{ url_for('view_events') }}"
+                   class="admin-primary-button">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                    Manage Events
+
+                </a>
+
+
+                <button type="button"
+                        class="admin-theme-button"
+                        id="adminThemeToggle"
+                        title="Switch theme"
+                        aria-label="Switch theme">
+
+                    <i class="fa-regular fa-moon"></i>
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             FLASH
+        ================================================== -->
+
+<!-- =================================================
+     PAGE CONTENT
+================================================== -->
+
+<div class="page-content">
+
+    <!-- =================================================
+         FLASH
+    ================================================== -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="admin-toast-container" aria-live="polite">
+      {% for category, message in messages %}
+        {% set toast_type =
+          'success' if category == 'success'
+          else ('warning' if category == 'warning' else 'error')
+        %}
+        <div class="admin-toast admin-toast-{{ toast_type }}" role="status">
+          <span class="admin-toast-icon">
+            <i class="fa-solid
+              {% if toast_type == 'success' %}fa-circle-check
+              {% elif toast_type == 'warning' %}fa-triangle-exclamation
+              {% else %}fa-circle-exclamation{% endif %}"></i>
+          </span>
+
+          <span class="admin-toast-message">{{ message }}</span>
+
+          <button type="button"
+                  class="admin-toast-close"
+                  aria-label="Dismiss message">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+        <!-- =================================================
+             FORM
+        ================================================== -->
+
+        <form method="POST"
+              action="{{ url_for('add_event') }}"
+              enctype="multipart/form-data"
+              id="addEventForm">
+
+
+            <!-- =================================================
+                 EVENT DETAILS
+            ================================================== -->
+
+            <section class="event-form-card">
+
+                <div class="event-form-header">
+
+                    <div class="event-form-icon">
+
+                        <i class="fa-regular fa-calendar"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span class="panel-eyebrow">
+                            EVENT DETAILS
+                        </span>
+
+                        <h2>
+                            Basic information
+                        </h2>
+
+                        <p>
+                            Add the information attendees will see when discovering this event.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="event-form-body">
+
+                    <div class="form-field full">
+
+                        <label for="title">
+                            Event title
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            placeholder="e.g. Web3 & Blockchain Innovation Expo"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-field">
+
+                        <label for="category">
+                            Category
+                            <span>*</span>
+                        </label>
+
+                        <select
+                            id="category"
+                            name="category"
+                            required>
+
+                            <option value="Tech">
+                                Tech
+                            </option>
+
+                            <option value="Art">
+                                Art
+                            </option>
+
+                            <option value="Fitness">
+                                Fitness
+                            </option>
+
+                            <option value="Culture">
+                                Culture
+                            </option>
+
+                            <option value="Concerts">
+                                Concerts
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-field">
+
+                        <label for="event_date">
+                            Event date
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="date"
+                            id="event_date"
+                            name="event_date"
+                            min="{{ current_date }}"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-field full">
+
+                        <label for="description">
+                            Description
+                            <span>*</span>
+                        </label>
+
+                        <textarea
+                            id="description"
+                            name="description"
+                            rows="5"
+                            placeholder="Describe the event, what attendees can expect, and important details..."
+                            required></textarea>
+
+                        <small class="field-help">
+                            For multi-day events, describe the duration here.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 SCHEDULE & VENUE
+            ================================================== -->
+
+            <section class="event-form-card">
+
+                <div class="event-form-header">
+
+                    <div class="event-form-icon">
+
+                        <i class="fa-regular fa-clock"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span class="panel-eyebrow">
+                            SCHEDULE & VENUE
+                        </span>
+
+                        <h2>
+                            When and where
+                        </h2>
+
+                        <p>
+                            Configure the event schedule and location.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="event-form-body">
+
+                    <div class="form-field full">
+
+                        <label for="location">
+                            Location
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="location"
+                            name="location"
+                            placeholder="e.g. India Expo Mart, Greater Noida"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-field">
+
+                        <label for="start_date">
+                            Start date
+                            <span>*</span>
+                        </label>
+
+                        <input type="date"
+                            id="start_date"
+                            name="start_date"
+                            min="{{ current_date }}"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-field">
+
+                        <label for="end_date">
+                            End date
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="date"
+                            id="end_date"
+                            name="end_date"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-field">
+
+                        <label for="time">
+                            Event time
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="time"
+                            id="time"
+                            name="time"
+                            required>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 TICKET SETTINGS
+            ================================================== -->
+
+            <section class="event-form-card">
+
+                <div class="event-form-header">
+
+                    <div class="event-form-icon">
+
+                        <i class="fa-solid fa-ticket"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span class="panel-eyebrow">
+                            TICKET SETTINGS
+                        </span>
+
+                        <h2>
+                            Capacity and pricing
+                        </h2>
+
+                        <p>
+                            Control how many tickets can be booked and their price.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="event-form-body">
+
+                    <div class="form-field">
+
+                        <label for="capacity">
+                            Ticket capacity
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="number"
+                            id="capacity"
+                            name="capacity"
+                            min="1"
+                            placeholder="500"
+                            required>
+
+                        <small class="field-help">
+                            Maximum number of tickets available.
+                        </small>
+
+                    </div>
+
+
+                    <div class="form-field">
+
+                        <label for="price">
+                            Price per ticket
+                            <span>*</span>
+                        </label>
+
+                        <div class="input-with-prefix">
+
+                            <span>₹</span>
+
+                            <input
+                                type="number"
+                                id="price"
+                                name="price"
+                                min="0"
+                                step="0.01"
+                                placeholder="500"
+                                required>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="popular-option full">
+
+                        <div class="popular-check">
+
+                            <input
+                                type="checkbox"
+                                id="is_popular"
+                                name="is_popular"
+                                value="1">
+
+                            <label for="is_popular">
+
+                                <span class="popular-icon">
+                                    <i class="fa-solid fa-star"></i>
+                                </span>
+
+                                <span>
+
+                                    <strong>
+                                        Mark as popular event
+                                    </strong>
+
+                                    <small>
+                                        Feature this event in the popular section.
+                                    </small>
+
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 EVENT MEDIA
+            ================================================== -->
+
+            <section class="event-form-card">
+
+                <div class="event-form-header">
+
+                    <div class="event-form-icon">
+
+                        <i class="fa-regular fa-image"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span class="panel-eyebrow">
+                            EVENT MEDIA
+                        </span>
+
+                        <h2>
+                            Event image
+                        </h2>
+
+                        <p>
+                            Upload the main image used for your event listing.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="event-form-body">
+
+                    <div class="form-field full">
+
+                        <label for="image">
+                            Event image
+                            <span>*</span>
+                        </label>
+
+
+                        <div class="upload-box"
+                             id="uploadBox">
+
+                            <input
+                                type="file"
+                                id="image"
+                                name="image"
+                                accept="image/*"
+                                required>
+
+
+                            <div class="upload-content">
+
+                                <div class="upload-icon">
+
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                                </div>
+
+                                <strong>
+                                    Choose an event image
+                                </strong>
+
+                                <span>
+                                    JPG, PNG or WEBP
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div id="imagePreview"
+                             class="image-preview"
+                             hidden>
+
+                            <div class="preview-image-wrap">
+
+                                <img
+                                    id="previewImg"
+                                    src=""
+                                    alt="Event preview">
+
+                            </div>
+
+
+                            <div class="preview-info">
+
+                                <strong id="previewName">
+                                    Image selected
+                                </strong>
+
+                                <span>
+                                    Ready to upload
+                                </span>
+
+                            </div>
+
+
+                            <button
+                                type="button"
+                                id="removeImage"
+                                class="remove-image">
+
+                                <i class="fa-solid fa-xmark"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 FORM ACTIONS
+            ================================================== -->
+
+            <div class="form-actions">
+
+                <a href="{{ url_for('view_events') }}"
+                   class="form-cancel">
+
+                    Cancel
+
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="form-submit">
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    Create Event
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+
+        <footer class="admin-footer">
+
+            <span>
+                EventFlow Admin Console
+            </span>
+
+            <span>
+                © 2026 EventFlow
+            </span>
+
+        </footer>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+     BACKEND LOGIC UNCHANGED
+========================================================= -->
+
+<script>
+
+(function () {
+
+    const body = document.body;
+    const button =
+        document.getElementById("adminThemeToggle");
+
+    const savedTheme =
+        localStorage.getItem("eventflow-theme")
+        || "daylight";
+
+
+    function applyTheme(theme) {
+
+        body.setAttribute(
+            "data-theme",
+            theme
+        );
+
+        localStorage.setItem(
+            "eventflow-theme",
+            theme
+        );
+
+
+        if (button) {
+
+            button.innerHTML =
+                theme === "midnight"
+                    ? '<i class="fa-regular fa-sun"></i>'
+                    : '<i class="fa-regular fa-moon"></i>';
+
+            button.title =
+                theme === "midnight"
+                    ? "Switch to day mode"
+                    : "Switch to night mode";
+
+        }
+
+    }
+
+
+    applyTheme(savedTheme);
+
+
+    if (button) {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                const current =
+                    body.getAttribute("data-theme");
+
+                applyTheme(
+                    current === "midnight"
+                        ? "daylight"
+                        : "midnight"
+                );
+
+            }
+        );
+
+    }
+
+})();
+
+
+/* =========================================================
+   DATE VALIDATION
+========================================================= */
+
+
+
+const startDate =
+    document.getElementById("start_date");
+
+const endDate =
+    document.getElementById("end_date");
+
+const eventDate =
+    document.getElementById("event_date");
+
+
+/* =====================================================
+   DATE VALIDATION
+===================================================== */
+
+function validateDates() {
+    startDate.setCustomValidity("");
+    endDate.setCustomValidity("");
+    eventDate.setCustomValidity("");
+
+    endDate.min = startDate.value || "{{ current_date }}";
+    eventDate.min = startDate.value || "{{ current_date }}";
+    eventDate.max = endDate.value || "";
+
+    if (startDate.value && startDate.value < "{{ current_date }}") {
+        startDate.setCustomValidity("Start date cannot be in the past.");
+    }
+
+    if (startDate.value && endDate.value && endDate.value < startDate.value) {
+        endDate.setCustomValidity("End date cannot be before the start date.");
+    }
+
+    if (eventDate.value && startDate.value && eventDate.value < startDate.value) {
+        eventDate.setCustomValidity(
+            "Event date must be on or after the start date."
+        );
+    }
+
+    if (eventDate.value && endDate.value && eventDate.value > endDate.value) {
+        eventDate.setCustomValidity(
+            "Event date must be on or before the end date."
+        );
+    }
+}
+
+[startDate, endDate, eventDate].forEach((input) => {
+    input.addEventListener("change", validateDates);
+});
+
+
+
+
+
+/* =====================================================
+   OPEN NATIVE DATE / TIME PICKER
+===================================================== */
+
+function openNativePicker(input) {
+
+    if (!input) {
+        return;
+    }
+
+
+    input.addEventListener(
+        "click",
+        function () {
+
+            if (
+                typeof this.showPicker === "function"
+            ) {
+
+                try {
+
+                    this.showPicker();
+
+                } catch (error) {
+
+                    /*
+                     * Browser may already have opened
+                     * the native picker.
+                     */
+
+                }
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   DATE PICKERS
+===================================================== */
+
+openNativePicker(startDate);
+
+openNativePicker(endDate);
+
+openNativePicker(eventDate);
+
+
+/* =====================================================
+   TIME PICKER
+===================================================== */
+
+const timeInput =
+    document.getElementById("time");
+
+openNativePicker(timeInput);
+
+
+
+/* =========================================================
+   IMAGE PREVIEW
+========================================================= */
+
+const imageInput =
+    document.getElementById("image");
+
+const imagePreview =
+    document.getElementById("imagePreview");
+
+const previewImg =
+    document.getElementById("previewImg");
+
+const previewName =
+    document.getElementById("previewName");
+
+const removeImage =
+    document.getElementById("removeImage");
+
+
+imageInput.addEventListener(
+    "change",
+    function () {
+
+        const file =
+            this.files[0];
+
+        if (!file) {
+            return;
+        }
+
+
+        previewName.textContent =
+            file.name;
+
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload =
+            function (event) {
+
+                previewImg.src =
+                    event.target.result;
+
+                imagePreview.hidden =
+                    false;
+
+            };
+
+
+        reader.readAsDataURL(file);
+
+    }
+);
+
+
+removeImage.addEventListener(
+    "click",
+    function () {
+
+        imageInput.value = "";
+
+        previewImg.src = "";
+
+        imagePreview.hidden =
+            true;
+
+    }
+);
+
+document.querySelectorAll(".admin-toast").forEach((toast) => {
+    const closeButton = toast.querySelector(".admin-toast-close");
+
+    if (closeButton) {
+        closeButton.addEventListener("click", () => toast.remove());
+    }
+
+    window.setTimeout(() => toast.remove(), 5000);
+});
+
+</script>
+
+</body>
+</html>

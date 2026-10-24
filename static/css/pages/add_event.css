@@ -1,0 +1,917 @@
+
+/* =========================================================
+   MAIN PAGE POSITIONING
+   SAME POSITIONING AS MANAGE EVENTS
+========================================================= */
+
+.admin-main {
+    width: calc(100% - 245px);
+
+    margin-left: 245px;
+
+    padding:
+        34px
+        clamp(24px, 4vw, 55px)
+        35px;
+
+    min-width: 0;
+
+    background: var(--admin-bg);
+}
+
+
+/* =========================================================
+   PAGE FORM
+========================================================= */
+
+#addEventForm {
+    width: 100%;
+    max-width: 1500px;
+
+    margin: 0 auto;
+}
+
+
+
+
+/* =========================================================
+   FLASH
+========================================================= */
+
+.add-event-flash {
+    width: 100%;
+    max-width: 1500px;
+
+    margin: 0 auto 16px;
+
+    min-height: 42px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 0 14px;
+
+    border: 1px solid var(--admin-border);
+    border-radius: 10px;
+
+    background: var(--admin-surface);
+
+    color: var(--admin-muted);
+
+    font-size: 10px;
+}
+
+.add-event-flash i {
+    color: var(--admin-accent);
+}
+
+
+/* =========================================================
+   FORM CARD
+========================================================= */
+
+.event-form-card {
+    width: 100%;
+
+    margin: 0 0 14px;
+
+    overflow: hidden;
+
+    border: 1px solid var(--admin-border);
+    border-radius: 15px;
+
+    background: var(--admin-surface);
+
+    box-shadow: var(--admin-shadow);
+}
+
+
+/* =========================================================
+   FORM HEADER
+========================================================= */
+
+.event-form-header {
+    min-height: 82px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 18px 20px;
+
+    border-bottom: 1px solid var(--admin-border);
+
+    background: var(--admin-surface);
+}
+
+
+.event-form-icon {
+    width: 42px;
+    height: 42px;
+
+    flex: 0 0 auto;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 11px;
+
+    background: var(--admin-accent-soft);
+
+    color: var(--admin-accent);
+
+    font-size: 14px;
+}
+
+
+.event-form-header .panel-eyebrow {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: var(--admin-accent);
+
+    font-size: 8px;
+    font-weight: 850;
+
+    letter-spacing: .13em;
+}
+
+
+.event-form-header h2 {
+    margin: 0;
+
+    color: var(--admin-text);
+
+    font-size: 16px;
+
+    line-height: 1.15;
+
+    letter-spacing: -.025em;
+}
+
+
+.event-form-header p {
+    margin: 4px 0 0;
+
+    color: var(--admin-muted);
+
+    font-size: 9px;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   FORM BODY
+========================================================= */
+
+.event-form-body {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 16px;
+
+    padding: 20px;
+}
+
+
+/* =========================================================
+   FIELD
+========================================================= */
+
+.form-field {
+    min-width: 0;
+}
+
+.form-field.full {
+    grid-column: 1 / -1;
+}
+
+
+.form-field label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: var(--admin-text);
+
+    font-size: 10px;
+
+    font-weight: 750;
+}
+
+
+.form-field label span {
+    color: var(--admin-accent);
+}
+
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+    width: 100%;
+
+    border: 1px solid var(--admin-border);
+
+    border-radius: 9px;
+
+    background: var(--admin-bg);
+
+    color: var(--admin-text);
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    outline: none;
+
+    transition:
+        border-color .18s ease,
+        box-shadow .18s ease,
+        background .18s ease;
+}
+
+
+.form-field input,
+.form-field select {
+    height: 42px;
+
+    padding: 0 12px;
+}
+
+
+.form-field textarea {
+    min-height: 112px;
+
+    padding: 11px 12px;
+
+    resize: vertical;
+
+    line-height: 1.55;
+}
+
+
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+    color: var(--admin-soft);
+
+    opacity: .3;
+}
+
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+    border-color: var(--admin-accent);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(242, 182, 43, .09);
+
+    background: var(--admin-surface);
+}
+
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.form-field select {
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   HELP TEXT
+========================================================= */
+
+.field-help {
+    display: block;
+
+    margin-top: 6px;
+
+    color: var(--admin-soft);
+
+    font-size: 8px;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   RUPEE INPUT
+========================================================= */
+
+.input-with-prefix {
+    position: relative;
+}
+
+
+.input-with-prefix > span {
+    position: absolute;
+
+    left: 12px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: var(--admin-muted);
+
+    font-size: 11px;
+
+    /*pointer-events: none;*/
+
+    z-index: 2;
+}
+
+
+.input-with-prefix input {
+    padding-left: 28px;
+}
+
+
+/* =========================================================
+   POPULAR EVENT
+========================================================= */
+
+.popular-option {
+    grid-column: 1 / -1;
+}
+
+
+.popular-check {
+    position: relative;
+
+    border: 1px solid var(--admin-border);
+
+    border-radius: 10px;
+
+    background: var(--admin-bg);
+
+    transition:
+        border-color .18s ease,
+        background .18s ease;
+}
+
+
+.popular-check:hover {
+    border-color: rgba(242, 182, 43, .45);
+
+    background: var(--admin-surface);
+}
+
+
+.popular-check input {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    opacity: 0;
+
+    /* pointer-events: none; */
+}
+
+
+.popular-check label {
+    min-height: 62px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    margin: 0;
+
+    padding: 10px 12px;
+
+    cursor: pointer;
+}
+
+
+.popular-icon {
+    width: 35px;
+    height: 35px;
+
+    display: grid;
+    place-items: center;
+
+    flex: 0 0 auto;
+
+    border-radius: 9px;
+
+    background: var(--admin-surface-soft);
+
+    color: var(--admin-soft);
+
+    font-size: 11px;
+
+    transition:
+        background .18s ease,
+        color .18s ease;
+}
+
+
+.popular-check input:checked ~ label .popular-icon {
+    background: var(--admin-accent);
+
+    color: #1a1509;
+}
+
+
+.popular-check input:checked ~ label {
+    color: var(--admin-text);
+}
+
+
+.popular-check label strong {
+    display: block;
+
+    color: var(--admin-text);
+
+    font-size: 10px;
+
+    font-weight: 800;
+}
+
+
+.popular-check label small {
+    display: block;
+
+    margin-top: 3px;
+
+    color: var(--admin-muted);
+
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   IMAGE UPLOAD
+========================================================= */
+
+.upload-box {
+    position: relative;
+
+    min-height: 145px;
+
+    display: grid;
+    place-items: center;
+
+    overflow: hidden;
+
+    border: 1px dashed var(--admin-border);
+
+    border-radius: 11px;
+
+    background: var(--admin-bg);
+
+    transition:
+        border-color .18s ease,
+        background .18s ease;
+}
+
+
+.upload-box:hover {
+    border-color: var(--admin-accent);
+
+    background: var(--admin-surface-soft);
+}
+
+
+.upload-box input {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    opacity: 0;
+
+    cursor: pointer;
+}
+
+
+.upload-content {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    /* pointer-events: none; */
+}
+
+
+.upload-icon {
+    width: 39px;
+    height: 39px;
+
+    display: grid;
+    place-items: center;
+
+    margin-bottom: 8px;
+
+    border-radius: 10px;
+
+    background: var(--admin-accent-soft);
+
+    color: var(--admin-accent);
+
+    font-size: 13px;
+}
+
+
+.upload-content strong {
+    color: var(--admin-text);
+
+    font-size: 10px;
+
+    font-weight: 800;
+}
+
+
+.upload-content span {
+    margin-top: 4px;
+
+    color: var(--admin-soft);
+
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   IMAGE PREVIEW
+========================================================= */
+
+.image-preview {
+    min-height: 70px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 9px;
+
+    padding: 8px;
+
+    border: 1px solid var(--admin-border);
+
+    border-radius: 10px;
+
+    background: var(--admin-bg);
+}
+
+
+.preview-image-wrap {
+    width: 58px;
+    height: 52px;
+
+    flex: 0 0 auto;
+
+    overflow: hidden;
+
+    border-radius: 7px;
+
+    background: var(--admin-surface-soft);
+}
+
+
+.preview-image-wrap img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+
+.preview-info {
+    min-width: 0;
+
+    flex: 1;
+}
+
+
+.preview-info strong {
+    display: block;
+
+    overflow: hidden;
+
+    color: var(--admin-text);
+
+    font-size: 9px;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+
+.preview-info span {
+    display: block;
+
+    margin-top: 3px;
+
+    color: var(--admin-muted);
+
+    font-size: 8px;
+}
+
+
+.remove-image {
+    width: 30px;
+    height: 30px;
+
+    flex: 0 0 auto;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid var(--admin-border);
+
+    border-radius: 8px;
+
+    background: var(--admin-surface);
+
+    color: var(--admin-muted);
+
+    cursor: pointer;
+
+    transition:
+        background .18s ease,
+        color .18s ease,
+        border-color .18s ease;
+}
+
+
+.remove-image:hover {
+    background: rgba(200, 94, 88, .1);
+
+    border-color: var(--admin-danger);
+
+    color: var(--admin-danger);
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.form-actions {
+    width: 100%;
+    max-width: 1500px;
+
+    display: flex;
+
+    justify-content: flex-end;
+    align-items: center;
+
+    gap: 9px;
+
+    margin: 0 auto;
+
+    padding: 0 0 8px;
+}
+
+
+.form-cancel {
+    min-height: 40px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 16px;
+
+    border: 1px solid var(--admin-border);
+
+    border-radius: 9px;
+
+    background: var(--admin-surface);
+
+    color: var(--admin-muted);
+
+    text-decoration: none;
+
+    font-size: 10px;
+
+    font-weight: 750;
+
+    transition:
+        background .18s ease,
+        color .18s ease,
+        border-color .18s ease;
+}
+
+
+.form-cancel:hover {
+    background: var(--admin-surface-soft);
+
+    color: var(--admin-text);
+
+    border-color: var(--admin-border);
+}
+
+
+.form-submit {
+    min-height: 40px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 0 18px;
+
+    border: 1px solid var(--admin-accent);
+
+    border-radius: 9px;
+
+    background: var(--admin-accent);
+
+    color: #17130b;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    font-weight: 850;
+
+    cursor: pointer;
+
+    transition:
+        background .18s ease,
+        border-color .18s ease,
+        transform .18s ease;
+}
+
+
+.form-submit:hover {
+    background: var(--admin-accent-hover);
+
+    border-color: var(--admin-accent-hover);
+
+    color: #17130b;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   IMPORTANT — NO OUTER PAGE FRAME
+========================================================= */
+
+/*
+   Do NOT add:
+   border
+   background: white
+   box-shadow
+   border-radius
+
+   to #addEventForm, .admin-main, or the page wrapper.
+
+   The cards themselves are the visual containers.
+*/
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    #addEventForm,
+    .add-event-flash,
+    .form-actions {
+        max-width: 100%;
+    }
+
+}
+
+
+@media (max-width: 850px) {
+
+    .event-form-body {
+        grid-template-columns: 1fr;
+    }
+
+    .form-field.full,
+    .popular-option {
+        grid-column: auto;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .event-form-header {
+        align-items: flex-start;
+
+        padding: 16px;
+    }
+
+    .event-form-body {
+        padding: 16px;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+
+        align-items: stretch;
+
+        padding-bottom: 15px;
+    }
+
+    .form-cancel,
+    .form-submit {
+        width: 100%;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .event-form-header {
+        gap: 10px;
+    }
+
+    .event-form-icon {
+        width: 38px;
+        height: 38px;
+    }
+
+    .event-form-header h2 {
+        font-size: 15px;
+    }
+
+    .event-form-header p {
+        font-size: 8px;
+    }
+
+}
+
+
+/* =========================================================
+   EVENT DATE — NATIVE CALENDAR
+========================================================= */
+
+#event_date {
+    position: relative;
+    z-index: 10;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+/* Make the browser calendar icon clickable */
+#event_date::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 1;
+    display: block;
+    position: absolute;
+    right: 12px;
+    width: 20px;
+    height: 20px;
+}
+
+/* =========================================================
+   EVENT TIME — NATIVE TIME PICKER
+========================================================= */
+
+#time {
+    position: relative;
+    z-index: 10;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+#time::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 1;
+    display: block;
+    position: absolute;
+    right: 12px;
+    width: 20px;
+    height: 20px;
+}

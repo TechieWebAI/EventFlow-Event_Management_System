@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d10">
+  <title>Wedding Plan PDF - EventFlow</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/admin_shell.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/admin_wedding_plan_preview.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body data-theme="daylight">
+  <main class="pdf-preview-page">
+<header class="pdf-preview-header">
+  <a class="pdf-preview-back"
+     href="{{ url_for(
+       'admin_wedding_request_detail',
+       booking_id=booking.id,
+       q=q,
+       from_date=from_date,
+       to_date=to_date,
+       status=selected_status,
+       theme_id=selected_theme
+     ) }}">
+    <i class="fa-solid fa-arrow-left"></i>
+    Back to booking
+  </a>
+
+  <div class="pdf-preview-actions">
+    {% if booking_status_key == 'confirmed' %}
+    <form method="post"
+          action="{{ url_for('admin_send_wedding_plan', booking_id=booking.id) }}"
+          onsubmit="return confirm('Send this confirmed plan PDF to the customer?')">
+      <input type="hidden" name="q" value="{{ q }}">
+      <input type="hidden" name="from_date" value="{{ from_date }}">
+      <input type="hidden" name="to_date" value="{{ to_date }}">
+      <input type="hidden" name="status" value="{{ selected_status }}">
+      <input type="hidden" name="theme_id" value="{{ selected_theme }}">
+
+      <button class="pdf-preview-send" type="submit">
+        <i class="fa-regular fa-envelope"></i>
+        Send PDF by email
+      </button>
+    </form>
+    {% endif %}
+
+    <a class="pdf-preview-download"
+       href="{{ url_for(
+         'admin_wedding_plan_pdf_file',
+         booking_id=booking.id,
+         download=1
+       ) }}">
+      <i class="fa-solid fa-download"></i>
+      Download PDF
+    </a>
+  </div>
+</header>
+
+    <section class="pdf-preview-heading">
+      <div>
+        <span>WEDDING PLAN · WF-{{ '%04d'|format(booking.id) }}</span>
+        <h1>PDF Preview</h1>
+        <p>Review the saved wedding plan before sending it to the customer.</p>
+      </div>
+    </section>
+
+    <div class="pdf-frame-wrap">
+      <iframe
+        src="{{ url_for(
+          'admin_wedding_plan_pdf_file',
+          booking_id=booking.id
+        ) }}"
+        title="Wedding plan PDF preview">
+      </iframe>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      const theme = localStorage.getItem('eventflow-theme') || 'daylight';
+      document.body.setAttribute('data-theme', theme);
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+</body>
+</html>

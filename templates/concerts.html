@@ -1,0 +1,418 @@
+{% extends "base.html" %}
+
+{% block title %}Concerts — EventFlow{% endblock %}
+
+{% block extra_css %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/pages/concerts.css') }}"
+>
+{% endblock %}
+
+
+{% block content %}
+
+<main class="concert-page">
+
+    <!-- =====================================================
+         PAGE HERO
+    ====================================================== -->
+    <section class="concert-hero">
+
+        <div class="concert-container">
+
+            <div class="concert-hero-layout">
+
+                <!-- LEFT -->
+                <div class="concert-hero-content">
+
+                    <div class="concert-eyebrow">
+                        <span class="concert-eyebrow-dot"></span>
+                        MUSIC & LIVE EXPERIENCES
+                    </div>
+
+                    <h1>
+                        Feel the energy.
+                        <span>Live the moment.</span>
+                    </h1>
+
+                    <p>
+                        Discover concerts, live music nights, DJ experiences,
+                        dance events, festivals, and unforgettable moments
+                        happening across EventFlow.
+                    </p>
+
+                    <div class="concert-hero-actions">
+
+                        <a
+                            href="#concert-events"
+                            class="concert-primary-btn"
+                        >
+                            Explore concerts
+                            <i class="fa-solid fa-arrow-down"></i>
+                        </a>
+
+                        <a
+                            href="{{ url_for('index') }}"
+                            class="concert-secondary-btn"
+                        >
+                            Back to discovery
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RIGHT VISUAL -->
+                <div class="concert-hero-visual">
+
+                    <div class="concert-visual-card">
+
+                        {% if concert_events %}
+
+                            {% set featured_concert = concert_events[0] %}
+
+                            <div class="concert-featured-image">
+
+                                <img
+                                    src="{{ url_for(
+                                        'static',
+                                        filename='images/' + featured_concert['image']
+                                    ) }}"
+                                    alt="{{ featured_concert['title'] }}"
+                                >
+
+                                <div class="concert-featured-overlay"></div>
+
+                                <span class="concert-featured-label">
+                                    <i class="fa-solid fa-music"></i>
+                                    Featured concert
+                                </span>
+
+                            </div>
+
+                            <div class="concert-featured-body">
+
+                                <span class="concert-featured-category">
+                                    Concerts
+                                </span>
+
+                                <h2>
+                                    {{ featured_concert['title'] }}
+                                </h2>
+
+                                <div class="concert-featured-meta">
+
+                                    <span>
+                                        <i class="fa-regular fa-calendar"></i>
+                                        {{ featured_concert['event_date'] }}
+                                    </span>
+
+                                    <span>
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        {{ featured_concert['location'] }}
+                                    </span>
+
+                                </div>
+
+                                <a
+                                    href="{{ url_for(
+                                        'event_detail',
+                                        event_id=featured_concert['id']
+                                    ) }}"
+                                    class="concert-featured-link"
+                                >
+                                    View featured concert
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                </a>
+
+                            </div>
+
+                        {% else %}
+
+                            <div class="concert-empty-hero">
+
+                                <div class="concert-empty-icon">
+                                    <i class="fa-solid fa-music"></i>
+                                </div>
+
+                                <span>
+                                    Concerts & live experiences
+                                </span>
+
+                                <h2>
+                                    The next live experience is coming.
+                                </h2>
+
+                                <p>
+                                    Concerts, music nights, festivals and
+                                    live experiences added to EventFlow
+                                    will appear here.
+                                </p>
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         EVENT DISCOVERY
+    ====================================================== -->
+    <section
+        class="concert-events-section"
+        id="concert-events"
+    >
+
+        <div class="concert-container">
+
+            <!-- SECTION HEADER -->
+            <div class="concert-section-header">
+
+                <div>
+
+                    <span class="concert-section-kicker">
+                        EXPLORE LIVE EXPERIENCES
+                    </span>
+
+                    <h2>
+                        Upcoming concerts
+                    </h2>
+
+                    <p>
+                        Find live performances, music nights, DJ events,
+                        festivals and unforgettable experiences.
+                    </p>
+
+                </div>
+
+
+                {% if concert_events %}
+
+                <div class="concert-event-count">
+
+                    <strong>
+                        {{ concert_events|length }}
+                    </strong>
+
+                    <span>
+                        {% if concert_events|length == 1 %}
+                            event available
+                        {% else %}
+                            events available
+                        {% endif %}
+                    </span>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- EVENT GRID -->
+            {% if concert_events %}
+
+            <div class="concert-event-grid">
+
+                {% for event in concert_events %}
+
+                <article class="concert-event-card">
+
+                    <!-- IMAGE -->
+                    <div class="concert-event-image">
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename='images/' + event['image']
+                            ) }}"
+                            alt="{{ event['title'] }}"
+                            loading="lazy"
+                        >
+
+                        <div class="concert-event-image-overlay"></div>
+
+                        <span class="concert-event-tag">
+                            <i class="fa-solid fa-music"></i>
+                            Concert
+                        </span>
+
+                        <a
+                            href="{{ url_for(
+                                'event_detail',
+                                event_id=event['id']
+                            ) }}"
+                            class="concert-image-action"
+                            aria-label="View {{ event['title'] }}"
+                        >
+                            <i class="fa-solid fa-arrow-up-right"></i>
+                        </a>
+
+                    </div>
+
+
+                    <!-- CONTENT -->
+                    <div class="concert-event-body">
+
+                        <div class="concert-event-date">
+
+                            <i class="fa-regular fa-calendar"></i>
+
+                            <span>
+                                {{ event['event_date'] }}
+
+                            </span>
+
+                        </div>
+
+
+                        <h3>
+                            {{ event['title'] }}
+                        </h3>
+
+
+                        {% if event['description'] %}
+
+                        <p class="concert-event-description">
+                            {{ event['description'] }}
+                        </p>
+
+                        {% endif %}
+
+
+                        <div class="concert-event-location">
+
+                            <i class="fa-solid fa-location-dot"></i>
+
+                            <span>
+                                {{ event['location'] }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="concert-event-footer">
+
+                            <span class="concert-event-type">
+                                Live music event
+                            </span>
+
+                            <a
+                                href="{{ url_for(
+                                    'event_detail',
+                                    event_id=event['id']
+                                ) }}"
+                                class="concert-view-event"
+                            >
+                                View event
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                {% endfor %}
+
+            </div>
+
+
+            {% else %}
+
+            <!-- EMPTY STATE -->
+            <div class="concert-empty-state">
+
+                <div class="concert-empty-state-icon">
+                    <i class="fa-solid fa-music"></i>
+                </div>
+
+                <div>
+
+                    <span class="concert-empty-kicker">
+                        CONCERTS
+                    </span>
+
+                    <h3>
+                        No concerts available yet
+                    </h3>
+
+                    <p>
+                        New concerts, music nights, festivals and live
+                        experiences will appear here when they are added
+                        to EventFlow.
+                    </p>
+
+                    <a
+                        href="{{ url_for('index') }}"
+                        class="concert-empty-link"
+                    >
+                        Explore other events
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CATEGORY FOOTER CTA
+    ====================================================== -->
+    <section class="concert-bottom-cta">
+
+        <div class="concert-container">
+
+            <div class="concert-bottom-inner">
+
+                <div>
+
+                    <span class="concert-section-kicker">
+                        KEEP EXPLORING
+                    </span>
+
+                    <h2>
+                        Looking for something beyond music?
+                    </h2>
+
+                    <p>
+                        Explore more experiences across EventFlow.
+                    </p>
+
+                </div>
+
+                <a
+                    href="{{ url_for('index') }}"
+                    class="concert-bottom-btn"
+                >
+                    Explore all events
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+{% endblock %}

@@ -1,0 +1,2561 @@
+/* =========================================================
+   EVENTFLOW — WEDDING THEMES PAGE
+   Premium dark wedding collection
+========================================================= */
+
+
+/* =========================================================
+   PAGE VARIABLES
+========================================================= */
+
+.wedding-page {
+
+    --wf-bg: #080909;
+    --wf-surface: #0d0f0f;
+    --wf-surface-2: #111414;
+
+    --wf-white: #f7f4ed;
+    --wf-text: #e9e6df;
+    --wf-muted: #9d9a92;
+
+    --wf-gold: #f2aa16;
+    --wf-gold-light: #ffc43d;
+
+    --wf-border: rgba(242, 170, 22, .58);
+    --wf-border-soft: rgba(255, 255, 255, .12);
+
+    background:
+        radial-gradient(
+            circle at 50% 12%,
+            rgba(242, 170, 22, .035),
+            transparent 32%
+        ),
+        var(--wf-bg);
+
+    color: var(--wf-white);
+
+    min-height: 100vh;
+
+}
+
+
+/* =========================================================
+   DARK HEADER ONLY ON WEDDING PAGE
+========================================================= */
+
+body.wedding-page-active .ef-header {
+
+    background:
+        rgba(8, 9, 9, .88);
+
+    border-bottom-color:
+        rgba(255, 255, 255, .08);
+
+}
+
+
+body.wedding-page-active .ef-brand-name,
+body.wedding-page-active .ef-nav-link,
+body.wedding-page-active .ef-nav-dropdown > button {
+
+    color: #eeeae1;
+
+}
+
+
+body.wedding-page-active .ef-nav-link:hover,
+body.wedding-page-active .ef-nav-dropdown > button:hover {
+
+    color: var(--wf-gold-light);
+
+}
+
+
+/* Account controls */
+
+body.wedding-page-active .ef-account-link {
+
+    color: #eeeae1;
+
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.wf-hero {
+
+    position: relative;
+
+    min-height: 610px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: flex-end;
+
+    overflow: hidden;
+
+    background-position: center;
+
+    background-size: cover;
+
+    background-repeat: no-repeat;
+
+}
+
+
+/* =========================================================
+   CINEMATIC OVERLAY
+========================================================= */
+
+.wf-hero-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            rgba(0, 0, 0, .94) 0%,
+            rgba(0, 0, 0, .50) 36%,
+            rgba(0, 0, 0, .42) 50%,
+            rgba(0, 0, 0, .58) 100%
+        ),
+
+        linear-gradient(
+            180deg,
+            rgba(0, 0, 0, .18) 0%,
+            rgba(0, 0, 0, .84) 100%
+        );
+
+}
+
+
+/* =========================================================
+   HERO CONTENT
+========================================================= */
+
+.wf-hero-content {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: min(
+        var(--ef-container),
+        calc(100% - 64px)
+    );
+
+    margin: 0 auto;
+
+    padding-top: 110px;
+
+    padding-bottom: 45px;
+
+}
+
+
+.wf-eyebrow {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 7px 13px;
+
+    border:
+        1px solid
+        rgba(242, 170, 22, .55);
+
+    border-radius: 999px;
+
+    color: var(--wf-gold-light);
+
+    background:
+        rgba(0, 0, 0, .28);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.6px;
+
+}
+
+
+.wf-hero h1 {
+
+    max-width: 720px;
+
+    margin: 20px 0 18px;
+
+    color: #f8f5ee;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(48px, 6vw, 78px);
+
+    line-height: .98;
+
+    letter-spacing: -2.6px;
+
+}
+
+
+.wf-hero h1 span {
+
+    color: var(--wf-gold);
+
+}
+
+
+.wf-hero-content > p {
+
+    max-width: 625px;
+
+    margin: 0;
+
+    color: #d0cdc5;
+
+    font-size: 15px;
+
+    line-height: 1.7;
+
+}
+
+
+/* =========================================================
+   HERO BUTTONS
+========================================================= */
+
+.wf-hero-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 27px;
+
+}
+
+
+.wf-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    min-height: 44px;
+
+    padding: 0 21px;
+
+    border-radius: 999px;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 750;
+
+    transition:
+        transform .25s var(--ef-ease),
+        background .25s ease,
+        border-color .25s ease,
+        color .25s ease;
+
+}
+
+
+.wf-btn:hover {
+
+    transform: translateY(-2px);
+
+}
+
+
+.wf-btn-primary {
+
+    background: var(--wf-gold);
+
+    color: #111;
+
+}
+
+
+.wf-btn-primary:hover {
+
+    background: var(--wf-gold-light);
+
+    color: #111;
+
+}
+
+
+.wf-btn-secondary {
+
+    color: #f7f4ed;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, .45);
+
+    background:
+        rgba(0, 0, 0, .22);
+
+}
+
+
+.wf-btn-secondary:hover {
+
+    border-color:
+        rgba(242, 170, 22, .8);
+
+    color: var(--wf-gold-light);
+
+}
+
+
+/* =========================================================
+   HERO INFORMATION STRIP
+========================================================= */
+
+.wf-hero-bottom {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: min(
+        var(--ef-container),
+        calc(100% - 64px)
+    );
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    border-top:
+        1px solid
+        rgba(255, 255, 255, .16);
+
+}
+
+
+.wf-hero-feature {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    min-height: 78px;
+
+    padding: 15px 28px;
+
+    border-right:
+        1px solid
+        rgba(255, 255, 255, .13);
+
+}
+
+
+.wf-hero-feature:first-child {
+
+    padding-left: 0;
+
+}
+
+
+.wf-hero-feature:last-child {
+
+    border-right: 0;
+
+}
+
+
+.wf-feature-icon {
+
+    display: grid;
+
+    place-items: center;
+
+    width: 30px;
+
+    height: 30px;
+
+    flex: 0 0 30px;
+
+    color: var(--wf-gold);
+
+    font-size: 18px;
+
+}
+
+
+.wf-hero-feature strong {
+
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #eeeae2;
+
+    font-size: 12px;
+
+}
+
+
+.wf-hero-feature small {
+
+    display: block;
+
+    color: #8f8c85;
+
+    font-size: 10px;
+
+}
+
+
+/* =========================================================
+   INTRODUCTION
+========================================================= */
+
+.wf-theme-intro {
+
+    width: min(
+        1000px,
+        calc(100% - 48px)
+    );
+
+    margin: 0 auto;
+
+    padding: 88px 0 55px;
+
+    text-align: center;
+
+}
+
+
+.wf-section-label {
+
+    display: block;
+
+    color: var(--wf-gold);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 2.8px;
+
+}
+
+
+.wf-theme-intro h2 {
+
+    margin: 13px 0 11px;
+
+    color: var(--wf-white);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(34px, 4vw, 51px);
+
+    line-height: 1.08;
+
+    letter-spacing: -1.2px;
+
+}
+
+
+.wf-theme-intro p {
+
+    margin: 0;
+
+    color: var(--wf-muted);
+
+    font-size: 14px;
+
+}
+
+
+.wf-intro-decoration {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    margin-bottom: 22px;
+
+}
+
+
+.wf-intro-decoration span {
+
+    display: block;
+
+    height: 1px;
+
+    background: var(--wf-gold);
+
+}
+
+
+.wf-intro-decoration span:first-child {
+
+    width: 72px;
+
+}
+
+
+.wf-intro-decoration span:last-child {
+
+    width: 72px;
+
+}
+
+
+/* =========================================================
+   THEME LIST
+========================================================= */
+
+.wf-theme-list {
+
+    width: min(
+        1250px,
+        calc(100% - 48px)
+    );
+
+    margin: 0 auto;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+
+}
+
+
+/* =========================================================
+   OUTER DOUBLE-BOX
+========================================================= */
+
+.wf-theme-card {
+
+    position: relative;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.08fr)
+        minmax(0, .92fr);
+
+    gap: 24px;
+
+    min-height: 370px;
+
+    padding: 14px;
+
+    border:
+        1px solid
+        var(--wf-border);
+
+    border-radius: 18px;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, .035),
+            rgba(255, 255, 255, .008)
+        );
+
+    box-shadow:
+        0 18px 55px
+        rgba(0, 0, 0, .28);
+
+    transition:
+        border-color .3s ease,
+        transform .3s var(--ef-ease),
+        box-shadow .3s ease;
+
+}
+
+
+/* Image-right version */
+
+.wf-theme-card.wf-image-right {
+
+    grid-template-columns:
+        minmax(0, .92fr)
+        minmax(0, 1.08fr);
+
+}
+
+
+.wf-theme-card:hover {
+
+    border-color:
+        rgba(242, 170, 22, .85);
+
+    box-shadow:
+        0 24px 65px
+        rgba(0, 0, 0, .36);
+
+    transform: translateY(-2px);
+
+}
+
+
+/* =========================================================
+   IMAGE AREA
+========================================================= */
+
+.wf-theme-image-area {
+
+    min-width: 0;
+
+    display: flex;
+
+    align-items: stretch;
+
+}
+
+
+.wf-theme-image-box {
+
+    position: relative;
+
+    width: 100%;
+
+    min-height: 340px;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        rgba(242, 170, 22, .62);
+
+    border-radius: 13px;
+
+    background: #111;
+
+}
+
+
+/* Inner subtle frame */
+
+.wf-theme-image-box::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 7px;
+
+    z-index: 2;
+
+    pointer-events: none;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, .10);
+
+    border-radius: 9px;
+
+}
+
+
+/* Image */
+
+.wf-theme-image-box img {
+
+    width: 100%;
+
+    height: 100%;
+
+    min-height: 340px;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition:
+        transform .65s
+        cubic-bezier(.2,.7,.2,1);
+
+}
+
+
+.wf-theme-card:hover
+.wf-theme-image-box img {
+
+    transform: scale(1.045);
+
+}
+
+
+/* Dark image gradient */
+
+.wf-theme-image-box::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    background:
+
+        linear-gradient(
+            180deg,
+            rgba(0,0,0,0) 55%,
+            rgba(0,0,0,.28)
+        );
+
+}
+
+
+/* =========================================================
+   THEME NUMBER
+========================================================= */
+
+.wf-theme-number {
+
+    position: absolute;
+
+    z-index: 4;
+
+    top: 18px;
+
+    left: 18px;
+
+    display: grid;
+
+    place-items: center;
+
+    width: 45px;
+
+    height: 45px;
+
+    border:
+        1px solid
+        var(--wf-gold);
+
+    border-radius: 50%;
+
+    color: var(--wf-gold-light);
+
+    background:
+        rgba(7, 8, 8, .78);
+
+    backdrop-filter: blur(10px);
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+}
+
+
+/* =========================================================
+   THEME CONTENT
+========================================================= */
+
+.wf-theme-content {
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    padding: 38px 40px;
+
+}
+
+
+.wf-theme-category {
+
+    display: block;
+
+    margin-bottom: 14px;
+
+    color: #aaa79f;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.9px;
+
+}
+
+
+.wf-theme-content h3 {
+
+    margin: 0 0 16px;
+
+    color: var(--wf-white);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(29px, 3vw, 43px);
+
+    line-height: 1.05;
+
+    letter-spacing: -.8px;
+
+}
+
+
+/*
+    Keep enough vertical space for a rich,
+    approximately four-line database description.
+
+    IMPORTANT:
+    This does not create fake content.
+    It only gives the existing database description
+    enough visual breathing room.
+*/
+
+.wf-theme-content p {
+
+    max-width: 440px;
+
+    min-height: 0;
+
+    margin: 0;
+
+    color: #a6a39b;
+
+    font-size: 13px;
+
+    line-height: 1.75;
+}
+
+
+.wf-theme-link {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    width: fit-content;
+
+    margin-top: 24px;
+
+    color: var(--wf-gold-light);
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+}
+
+
+.wf-theme-link i {
+
+    transition:
+        transform .2s ease;
+
+}
+
+
+.wf-theme-link:hover i {
+
+    transform:
+        translateX(5px);
+
+}
+
+
+/* =========================================================
+   FINAL JOURNEY SECTION
+========================================================= */
+
+/* .wf-journey-section {
+
+    width: min(
+        1250px,
+        calc(100% - 48px)
+    );
+
+    margin: 76px auto 0;
+
+}
+
+
+.wf-journey-card {
+
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 42px;
+
+    border:
+        1px solid
+        var(--wf-border);
+
+    border-radius: 18px;
+
+    background:
+
+        radial-gradient(
+            circle at 10% 50%,
+            rgba(242,170,22,.075),
+            transparent 27%
+        ),
+
+        var(--wf-surface);
+
+}
+
+
+.wf-journey-main {
+
+    max-width: 650px;
+
+}
+
+
+.wf-journey-main h2 {
+
+    margin: 11px 0 13px;
+
+    color: var(--wf-white);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(29px, 3vw, 40px);
+
+    line-height: 1.1;
+
+}
+
+
+.wf-journey-main p {
+
+    max-width: 650px;
+
+    margin: 0;
+
+    color: var(--wf-muted);
+
+    font-size: 13px;
+
+    line-height: 1.75;
+
+}
+
+
+
+
+.wf-journey-steps {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        auto
+        1fr
+        auto
+        1fr
+        auto
+        1fr;
+
+    align-items: center;
+
+    gap: 0;
+
+    margin-top: 34px;
+
+    padding:
+        25px 0;
+
+    border-top:
+        1px solid
+        var(--wf-border-soft);
+
+    border-bottom:
+        1px solid
+        var(--wf-border-soft);
+
+}
+
+
+.wf-step {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+}
+
+
+.wf-step-number {
+
+    color: var(--wf-gold);
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+}
+
+
+.wf-step strong {
+
+    display: block;
+
+    color: #eeeae2;
+
+    font-size: 11px;
+
+}
+
+
+.wf-step small {
+
+    display: block;
+
+    margin-top: 3px;
+
+    color: #88857e;
+
+    font-size: 9px;
+
+}
+
+
+.wf-step-arrow {
+
+    padding: 0 17px;
+
+    color: var(--wf-gold);
+
+    font-size: 18px;
+
+}
+
+
+
+.wf-journey-action {
+
+    display: flex;
+
+    justify-content: center;
+
+    margin-top: 28px;
+
+}
+ */
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.wf-empty-state {
+
+    width: min(
+        850px,
+        calc(100% - 40px)
+    );
+
+    min-height: 600px;
+
+    margin: 0 auto;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+}
+
+
+.wf-empty-state h2 {
+
+    margin: 15px 0 14px;
+
+    color: var(--wf-white);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(34px, 4vw, 52px);
+
+    line-height: 1.05;
+
+}
+
+
+.wf-empty-state p {
+
+    max-width: 500px;
+
+    margin: 0 0 28px;
+
+    color: var(--wf-muted);
+
+    font-size: 13px;
+
+    line-height: 1.75;
+
+}
+
+
+/* =========================================================
+   DARK FOOTER
+========================================================= */
+
+body.wedding-page-active .ef-footer {
+
+    background: #080909;
+
+    color: #ddd9d1;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.08);
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 950px) {
+
+
+    .wf-hero {
+
+        min-height: 650px;
+
+    }
+
+
+    .wf-hero-content,
+    .wf-hero-bottom {
+
+        width:
+            calc(100% - 40px);
+
+    }
+
+
+    .wf-theme-list,
+    .wf-journey-section {
+
+        width:
+            calc(100% - 32px);
+
+    }
+
+
+    .wf-theme-card,
+    .wf-theme-card.wf-image-right {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    /*
+       On tablet/mobile:
+       image always comes first.
+    */
+
+    .wf-theme-image-area {
+
+        order: 1;
+
+    }
+
+
+    .wf-theme-content {
+
+        order: 2;
+
+        padding:
+            28px 25px 32px;
+
+    }
+
+
+    .wf-theme-image-box,
+    .wf-theme-image-box img {
+
+        min-height: 300px;
+
+    }
+
+
+    .wf-theme-content p {
+
+        min-height: auto;
+
+    }
+
+
+    .wf-journey-steps {
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap: 22px;
+
+    }
+
+
+    .wf-step-arrow {
+
+        display: none;
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+
+    .wedding-page .wf-theme-style {
+    gap: 11px;
+    margin-top: 16px;
+    margin-bottom: 22px;
+    }
+
+    .wedding-page .wf-theme-style-values {
+        font-size: 10px;
+    }
+
+    .wedding-page .wf-theme-style-values span:not(:last-child)::after {
+        margin: 0 7px;
+    }
+
+
+    .wf-hero {
+
+        min-height: 720px;
+
+    }
+
+
+    .wf-hero-content {
+
+        padding-top: 100px;
+
+        padding-bottom: 38px;
+
+    }
+
+
+    .wf-hero h1 {
+
+        font-size: 48px;
+
+        letter-spacing: -1.7px;
+
+    }
+
+
+    .wf-hero-content > p {
+
+        font-size: 14px;
+
+    }
+
+
+    .wf-hero-actions {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+    }
+
+
+    .wf-hero-bottom {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .wf-hero-feature,
+    .wf-hero-feature:first-child {
+
+        min-height: 62px;
+
+        padding: 12px 0;
+
+        border-right: 0;
+
+        border-bottom:
+            1px solid
+            rgba(255,255,255,.1);
+
+    }
+
+
+    .wf-hero-feature:last-child {
+
+        border-bottom: 0;
+
+    }
+
+
+    .wf-theme-intro {
+
+        width:
+            calc(100% - 30px);
+
+        padding:
+            65px 0 42px;
+
+    }
+
+
+    .wf-theme-intro h2 {
+
+        font-size: 34px;
+
+    }
+
+
+    .wf-theme-list {
+
+        width:
+            calc(100% - 20px);
+
+        gap: 16px;
+
+    }
+
+
+    .wf-theme-card {
+
+        padding: 9px;
+
+        border-radius: 15px;
+
+    }
+
+
+    .wf-theme-image-box,
+    .wf-theme-image-box img {
+
+        min-height: 250px;
+
+    }
+
+
+    .wf-theme-content {
+
+        padding:
+            25px 15px 28px;
+
+    }
+
+
+    .wf-theme-content h3 {
+
+        font-size: 30px;
+
+    }
+
+
+    .wf-theme-content p {
+
+        min-height: auto;
+
+        font-size: 13px;
+
+    }
+
+
+    .wf-journey-section {
+
+        width:
+            calc(100% - 20px);
+
+        margin-top: 55px;
+
+    }
+
+
+    .wf-journey-card {
+
+        padding:
+            28px 20px;
+
+        border-radius: 15px;
+
+    }
+
+
+    .wf-journey-main h2 {
+
+        font-size: 30px;
+
+    }
+
+
+    .wf-journey-steps {
+
+        grid-template-columns: 1fr;
+
+        gap: 18px;
+
+    }
+
+
+    .wf-journey-action .wf-btn {
+
+        width: 100%;
+
+    }
+
+
+    .wf-empty-state {
+
+        min-height: 500px;
+
+    }
+
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .wf-btn,
+    .wf-theme-card,
+    .wf-theme-image-box img,
+    .wf-theme-link i {
+
+        transition: none;
+
+    }
+
+}
+
+
+/* =========================================================
+   EXPERIENCE SECTION
+========================================================= */
+
+.wedding-page .experience-section {
+
+    padding:
+        78px 0;
+
+    border-bottom:
+        1px solid
+        var(--ef-border);
+
+}
+
+/* =========================================================
+   EXPERIENCE — LEFT / RIGHT SPACE
+========================================================= */
+
+.wedding-page .experience-section .home-container {
+
+    width: calc(100% - 96px);
+
+    max-width: 1250px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    padding-left: 0;
+    padding-right: 0;
+
+    box-sizing: border-box;
+}
+
+.home-container{
+    width: 100%;
+    max-width: 1400px;
+    margin: auto;
+
+}
+/* =========================================================
+   EXPERIENCE BOX
+   Balanced two-column layout
+========================================================= */
+
+.wedding-page .experience-box {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, 1fr);
+
+    column-gap:
+        56px;
+
+    width:
+        100%;
+
+    box-sizing:
+        border-box;
+
+    padding:
+        48px;
+
+    border:
+        1px solid
+        var(--ef-border);
+
+    border-radius:
+        28px;
+
+    background:
+
+        radial-gradient(
+            circle at 88% 50%,
+            rgba(120,185,157,.11),
+            transparent 30%
+        ),
+
+        var(--ef-surface);
+
+    box-shadow:
+        0 10px 35px
+        rgba(42,34,25,.04);
+
+}
+
+
+/* =========================================================
+   EXPERIENCE CONTENT
+========================================================= */
+
+.wedding-page .experience-content {
+
+    min-width:
+        0;
+
+}
+
+
+.wedding-page .experience-content h2 {
+
+    max-width:
+        none;
+
+    margin:
+        9px 0 13px;
+
+    color:
+        var(--ef-text);
+
+    font-size:
+        clamp(
+            31px,
+            3.4vw,
+            43px
+        );
+
+    line-height:
+        1.06;
+
+    letter-spacing:
+        -.05em;
+
+}
+
+
+.wedding-page .experience-content h2 span {
+
+    color:
+        var(--ef-accent);
+
+}
+
+
+.wedding-page .experience-content p {
+
+    max-width:
+        none;
+
+    margin:
+        17px 0 23px;
+
+    color:
+        var(--ef-text-soft);
+
+    font-size:
+        13px;
+
+    line-height:
+        1.7;
+
+}
+
+
+/* =========================================================
+   EXPERIENCE BUTTON
+========================================================= */
+
+.wedding-page .experience-btn {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        9px;
+
+    min-height:
+        45px;
+
+    padding:
+        0 19px;
+
+    border-radius:
+        999px;
+
+    background:
+        var(--ef-text);
+
+    color:
+        var(--ef-bg);
+
+    text-decoration:
+        none;
+
+    font-size:
+        12px;
+
+    font-weight:
+        800;
+
+    transition:
+        transform .2s ease,
+        background .2s ease;
+
+}
+
+
+.wedding-page .experience-btn:hover {
+
+    transform:
+        translateY(-2px);
+
+    color:
+        var(--ef-bg);
+
+}
+
+
+/* =========================================================
+   EXPERIENCE STEPS
+   KEEPING YOUR EXISTING REPRESENTATION
+========================================================= */
+
+.wedding-page .experience-steps {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    align-items:
+        center;
+
+    gap:
+        18px;
+
+}
+
+
+.wedding-page .experience-step {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        12px;
+
+}
+
+
+.wedding-page .step-number {
+
+    color:
+        var(--ef-accent);
+
+    font-size:
+        26px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        -.04em;
+
+}
+
+
+.wedding-page .experience-step h4 {
+
+    margin:
+        0 0 5px;
+
+    color:
+        var(--ef-text);
+
+    font-size:
+        14px;
+
+}
+
+
+.wedding-page .experience-step p {
+
+    margin:
+        0;
+
+    color:
+        var(--ef-text-soft);
+
+    font-size:
+        11px;
+
+    line-height:
+        1.55;
+
+}
+
+
+.wedding-page .experience-line {
+
+    height:
+        1px;
+
+    background:
+        var(--ef-border);
+
+}
+
+
+/* =========================================================
+   EXPERIENCE RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 1080px) {
+
+    .wedding-page .experience-box {
+
+        grid-template-columns:
+            1fr;
+
+        row-gap:
+            40px;
+
+    }
+
+}
+
+
+/* =========================================================
+   EXPERIENCE RESPONSIVE — MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .wedding-page .experience-section {
+
+        padding:
+            62px 0;
+
+    }
+
+
+    .wedding-page .experience-box {
+
+        grid-template-columns:
+            1fr;
+
+        width:
+            100%;
+
+        padding:
+            30px 24px;
+
+        border-radius:
+            22px;
+
+        row-gap:
+            34px;
+
+    }
+
+
+    .wedding-page .experience-content {
+
+        text-align:
+            left;
+
+    }
+
+
+    .wedding-page .experience-content h2 {
+
+        font-size:
+            34px;
+
+    }
+
+
+    .wedding-page .experience-steps {
+
+        grid-template-columns:
+            1fr;
+
+        gap:
+            22px;
+
+    }
+
+
+    .wedding-page .experience-line {
+
+        width:
+            100%;
+
+    }
+
+}
+
+/* =========================================================
+   EVENTFLOW WEDDING THEMES
+   DAYLIGHT THEME ADAPTATION
+   Uses existing EventFlow theme variables.
+   
+   IMPORTANT:
+   Layout, spacing, typography, cards and structure
+   remain unchanged.
+========================================================= */
+
+body[data-theme="daylight"] .wedding-page {
+
+    --wf-bg:
+        var(--ef-bg);
+
+    --wf-surface:
+        var(--ef-surface);
+
+    --wf-surface-2:
+        var(--ef-surface);
+
+    --wf-white:
+        var(--ef-text);
+
+    --wf-text:
+        var(--ef-text);
+
+    --wf-muted:
+        var(--ef-text-soft);
+
+    --wf-gold:
+        var(--ef-accent);
+
+    --wf-gold-light:
+        var(--ef-accent);
+
+    --wf-border:
+        var(--ef-border);
+
+    --wf-border-soft:
+        var(--ef-border);
+
+}
+
+
+/* =========================================================
+   PAGE BACKGROUND
+========================================================= */
+
+body[data-theme="daylight"] .wedding-page {
+
+    background:
+        radial-gradient(
+            circle at 50% 12%,
+            rgba(0, 0, 0, .025),
+            transparent 32%
+        ),
+        var(--wf-bg);
+
+    color:
+        var(--ef-text);
+
+}
+
+
+/* =========================================================
+   HEADER
+   Existing EventFlow header — only remove the
+   wedding dark override in Daylight.
+========================================================= */
+
+body[data-theme="daylight"].wedding-page-active .ef-header {
+
+    background:
+        rgba(255, 255, 255, .92);
+
+    border-bottom-color:
+        var(--ef-border);
+
+}
+
+
+body[data-theme="daylight"].wedding-page-active .ef-brand-name,
+body[data-theme="daylight"].wedding-page-active .ef-nav-link,
+body[data-theme="daylight"].wedding-page-active .ef-nav-dropdown > button {
+
+    color:
+        var(--ef-text);
+
+}
+
+
+body[data-theme="daylight"].wedding-page-active .ef-nav-link:hover,
+body[data-theme="daylight"].wedding-page-active .ef-nav-dropdown > button:hover {
+
+    color:
+        var(--ef-accent);
+
+}
+
+
+body[data-theme="daylight"].wedding-page-active .ef-account-link {
+
+    color:
+        var(--ef-text);
+
+}
+
+
+/* =========================================================
+   HERO
+   Same hero size and structure.
+   Only the visual tone changes for Daylight.
+========================================================= */
+
+body[data-theme="daylight"] .wf-hero-overlay {
+
+    background:
+
+        linear-gradient(
+            90deg,
+            rgba(255, 255, 255, .74) 0%,
+            rgba(255, 255, 255, .68) 36%,
+            rgba(255, 255, 255, .24) 70%,
+            rgba(255, 255, 255, .38) 100%
+        ),
+
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, .20) 0%,
+            rgba(255, 255, 255, .62) 100%
+        );
+
+}
+
+
+body[data-theme="daylight"] .wf-eyebrow {
+
+    color:
+        var(--ef-accent);
+
+    background:
+        rgba(255, 255, 255, .58);
+
+    border-color:
+        var(--ef-border);
+
+}
+
+
+body[data-theme="daylight"] .wf-hero h1 {
+
+    color:
+        var(--ef-text);
+
+}
+
+
+body[data-theme="daylight"] .wf-hero h1 span {
+
+    color:
+        var(--ef-accent);
+
+}
+
+
+body[data-theme="daylight"] .wf-hero-content > p {
+
+    color:
+        var(--ef-text-soft);
+
+}
+
+
+/* =========================================================
+   HERO BUTTONS
+========================================================= */
+
+body[data-theme="daylight"] .wf-btn-primary {
+
+    background:
+        var(--ef-accent);
+
+    color:
+        var(--ef-bg);
+
+}
+
+
+body[data-theme="daylight"] .wf-btn-primary:hover {
+
+    background:
+        var(--ef-accent);
+
+    color:
+        var(--ef-bg);
+
+}
+
+
+body[data-theme="daylight"] .wf-btn-secondary {
+
+    color:
+        var(--ef-text);
+
+    border-color:
+        var(--ef-border);
+
+    background:
+        rgba(255, 255, 255, .42);
+
+}
+
+
+body[data-theme="daylight"] .wf-btn-secondary:hover {
+
+    border-color:
+        var(--ef-accent);
+
+    color:
+        var(--ef-accent);
+
+}
+
+
+/* =========================================================
+   HERO INFORMATION STRIP
+========================================================= */
+
+body[data-theme="daylight"] .wf-hero-bottom {
+
+    border-top-color:
+        var(--ef-border);
+
+}
+
+
+body[data-theme="daylight"] .wf-hero-feature {
+
+    border-right-color:
+        var(--ef-border);
+
+}
+
+
+body[data-theme="daylight"] .wf-feature-icon {
+
+    color:
+        var(--ef-accent);
+
+}
+
+
+body[data-theme="daylight"] .wf-hero-feature strong {
+
+    color:
+        var(--ef-text);
+
+}
+
+
+body[data-theme="daylight"] .wf-hero-feature small {
+
+    color:
+        var(--ef-text-soft);
+
+}
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+body[data-theme="daylight"] .wf-section-label {
+
+    color:
+        var(--ef-accent);
+
+}
+
+
+body[data-theme="daylight"] .wf-theme-intro h2 {
+
+    color:
+        var(--ef-text);
+
+}
+
+
+body[data-theme="daylight"] .wf-theme-intro p {
+
+    color:
+        var(--ef-text-soft);
+
+}
+
+
+body[data-theme="daylight"] .wf-intro-decoration span {
+
+    background:
+        var(--ef-accent);
+
+}
+
+
+/* =========================================================
+   THEME CARD
+   Same card design — only colors adapt.
+========================================================= */
+
+body[data-theme="daylight"] .wf-theme-card {
+
+    border-color:
+        var(--ef-border);
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, .88),
+            rgba(255, 255, 255, .62)
+        );
+
+    box-shadow:
+        0 18px 55px
+        rgba(42, 34, 25, .08);
+
+}
+
+
+body[data-theme="daylight"] .wf-theme-card:hover {
+
+    border-color:
+        var(--ef-accent);
+
+    box-shadow:
+        0 24px 65px
+        rgba(42, 34, 25, .12);
+
+}
+
+
+/* =========================================================
+   IMAGE BOX
+========================================================= */
+
+body[data-theme="daylight"] .wf-theme-image-box {
+
+    border-color:
+        var(--ef-border);
+
+    background:
+        var(--ef-surface);
+
+}
+
+
+body[data-theme="daylight"] .wf-theme-image-box::before {
+
+    border-color:
+        rgba(255, 255, 255, .38);
+
+}
+
+
+body[data-theme="daylight"] .wf-theme-image-box::after {
+
+    background:
+
+        linear-gradient(
+            180deg,
+            rgba(0,0,0,0) 55%,
+            rgba(0,0,0,.20)
+        );
+
+}
+
+
+/* =========================================================
+   THEME NUMBER
+========================================================= */
+
+body[data-theme="daylight"] .wf-theme-number {
+
+    color:
+        var(--ef-accent);
+
+    background:
+        rgba(255, 255, 255, .88);
+
+    border-color:
+        var(--ef-accent);
+
+}
+
+
+/* =========================================================
+   THEME CONTENT
+========================================================= */
+
+body[data-theme="daylight"] .wf-theme-category {
+
+    color:
+        var(--ef-text-soft);
+
+}
+
+
+body[data-theme="daylight"] .wf-theme-content h3 {
+
+    color:
+        var(--ef-text);
+
+}
+
+
+body[data-theme="daylight"] .wf-theme-content p {
+
+    color:
+        var(--ef-text-soft);
+
+}
+
+
+body[data-theme="daylight"] .wf-theme-link {
+
+    color:
+        var(--ef-accent);
+
+}
+
+
+/* =========================================================
+   EXPERIENCE
+   Existing layout remains untouched.
+========================================================= */
+
+body[data-theme="daylight"] .wedding-page .experience-section {
+
+    border-bottom-color:
+        var(--ef-border);
+
+}
+
+
+body[data-theme="daylight"] .wedding-page .experience-box {
+
+    border-color:
+        var(--ef-border);
+
+    background:
+
+        radial-gradient(
+            circle at 88% 50%,
+            rgba(120,185,157,.08),
+            transparent 30%
+        ),
+
+        var(--ef-surface);
+
+    box-shadow:
+        0 10px 35px
+        rgba(42,34,25,.05);
+
+}
+
+
+body[data-theme="daylight"] .wedding-page .experience-content h2 {
+
+    color:
+        var(--ef-text);
+
+}
+
+
+body[data-theme="daylight"] .wedding-page .experience-content h2 span {
+
+    color:
+        var(--ef-accent);
+
+}
+
+
+body[data-theme="daylight"] .wedding-page .experience-content p {
+
+    color:
+        var(--ef-text-soft);
+
+}
+
+
+body[data-theme="daylight"] .wedding-page .experience-btn {
+
+    background:
+        var(--ef-text);
+
+    color:
+        var(--ef-bg);
+
+}
+
+
+body[data-theme="daylight"] .wedding-page .experience-btn:hover {
+
+    color:
+        var(--ef-bg);
+
+}
+
+
+body[data-theme="daylight"] .wedding-page .step-number {
+
+    color:
+        var(--ef-accent);
+
+}
+
+
+body[data-theme="daylight"] .wedding-page .experience-step h4 {
+
+    color:
+        var(--ef-text);
+
+}
+
+
+body[data-theme="daylight"] .wedding-page .experience-step p {
+
+    color:
+        var(--ef-text-soft);
+
+}
+
+
+body[data-theme="daylight"] .wedding-page .experience-line {
+
+    background:
+        var(--ef-border);
+
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+body[data-theme="daylight"] .wf-empty-state h2 {
+
+    color:
+        var(--ef-text);
+
+}
+
+
+body[data-theme="daylight"] .wf-empty-state p {
+
+    color:
+        var(--ef-text-soft);
+
+}
+
+
+/* =========================================================
+   FOOTER
+   Remove wedding-only dark footer in Daylight.
+========================================================= */
+
+body[data-theme="daylight"].wedding-page-active .ef-footer {
+
+    background:
+        var(--ef-bg);
+
+    color:
+        var(--ef-text);
+
+    border-top-color:
+        var(--ef-border);
+
+}
+
+
+
+.wedding-page .wf-theme-style {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.wedding-page .wf-theme-style-label {
+    flex-shrink: 0;
+
+    color: var(--ef-text-soft);
+
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .16em;
+    line-height: 1;
+}
+
+.wedding-page .wf-theme-style-values {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    color: var(--ef-text);
+
+    font-size: 11px;
+    font-weight: 650;
+    letter-spacing: -.01em;
+    line-height: 1.5;
+}
+
+.wedding-page .wf-theme-style-values span {
+    display: inline-flex;
+    align-items: center;
+}
+
+.wedding-page .wf-theme-style-values span:not(:last-child)::after {
+    content: "·";
+
+    margin: 0 9px;
+
+    color: var(--ef-accent);
+
+    font-weight: 800;
+}
+
+
+
+/* =========================================================
+   THEME CONTENT — NATURAL VERTICAL FLOW
+   ========================================================= */
+
+.wedding-page .wf-theme-content p {
+    min-height: 0;
+    margin-bottom: 0;
+}
+
+/* Keep STYLE close to the description */
+.wedding-page .wf-theme-style {
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+/* Explore link stays lower */
+.wedding-page .wf-theme-link {
+    margin-top: 0;
+}
+
+
+

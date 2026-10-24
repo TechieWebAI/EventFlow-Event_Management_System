@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f2ec">
+  <title>All Wedding Requests - EventFlow</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/admin_shell.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/admin_wedding_requests.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+<div class="admin-app wedding-requests-page">
+  <aside class="admin-sidebar">
+    <div class="admin-brand">
+      <a href="{{ url_for('index') }}">
+        <span class="admin-brand-mark">E</span>
+        <span><strong>EventFlow</strong><small>Wedding Management</small></span>
+      </a>
+    </div>
+
+    <nav class="admin-nav" aria-label="Admin navigation">
+      <span class="admin-nav-label">OVERVIEW</span>
+      <a class="admin-nav-link" href="{{ url_for('admin_dashboard') }}">
+        <i class="fa-solid fa-chart-pie"></i><span>Dashboard</span>
+      </a>
+
+      <span class="admin-nav-label">MANAGEMENT</span>
+      <a class="admin-nav-link" href="{{ url_for('view_events') }}">
+        <i class="fa-regular fa-calendar"></i><span>Manage Events</span>
+      </a>
+      <a class="admin-nav-link" href="{{ url_for('add_event') }}">
+        <i class="fa-solid fa-plus"></i><span>Add Event</span>
+      </a>
+      <a class="admin-nav-link" href="{{ url_for('admin_bookings') }}">
+        <i class="fa-solid fa-ticket"></i><span>Bookings</span>
+      </a>
+      <a class="admin-nav-link active" aria-current="page"
+         href="{{ url_for('admin_wedding_bookings') }}">
+        <i class="fa-regular fa-heart"></i><span>Wedding Management</span>
+      </a>
+      <a class="admin-nav-link" href="{{ url_for('trashed_events') }}">
+        <i class="fa-regular fa-trash-can"></i><span>Trash / Recovery</span>
+      </a>
+    </nav>
+
+    <div class="admin-sidebar-bottom">
+      <a class="admin-site-link" href="{{ url_for('index') }}">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i><span>View EventFlow</span>
+      </a>
+      <a class="admin-logout" href="{{ url_for('logout') }}">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span>
+      </a>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <header class="admin-topbar requests-topbar">
+      <a class="requests-back-link"
+        href="{{ url_for('admin_wedding_bookings') }}">
+        <i class="fa-solid fa-arrow-left"></i>
+        Wedding dashboard
+      </a>
+
+      <div class="admin-topbar-actions">
+        <span class="wedding-admin-label">
+          EVENTFLOW <i class="fa-solid fa-chevron-right"></i> ALL REQUESTS
+        </span>
+
+        <button type="button"
+                class="admin-theme-button"
+                id="adminThemeToggle"
+                aria-label="Switch theme"
+                title="Switch theme">
+          <i class="fa-regular fa-moon"></i>
+        </button>
+
+        <a class="wedding-admin-avatar"
+          href="{{ url_for('logout') }}"
+          title="Admin - Log out">A</a>
+      </div>
+    </header>
+
+    <div class="requests-content">
+      <section class="requests-heading">
+        <span class="panel-eyebrow">WEDDING MANAGEMENT</span>
+        <h1>All Wedding Requests</h1>
+        <p>Search and filter wedding requests, including older bookings.</p>
+      </section>
+
+      <form class="requests-filters" method="get"
+            action="{{ url_for('admin_wedding_requests') }}">
+        <label class="requests-search-field">
+          <span>Search</span>
+          <input type="search" name="q" value="{{ search_query }}"
+                 placeholder="Customer, email, venue, theme, or booking ID">
+        </label>
+
+        <label>
+          <span>Submitted from</span>
+          <input type="date" name="from_date" value="{{ from_date }}">
+        </label>
+
+        <label>
+          <span>Submitted to</span>
+          <input type="date" name="to_date" value="{{ to_date }}">
+        </label>
+
+        <label>
+          <span>Status</span>
+          <select name="status">
+            <option value="all" {% if selected_status == 'all' %}selected{% endif %}>All statuses</option>
+            {% for key in status_order %}
+            <option value="{{ key }}" {% if selected_status == key %}selected{% endif %}>
+              {{ status_labels[key] }}
+            </option>
+            {% endfor %}
+            <option value="legacy" {% if selected_status == 'legacy' %}selected{% endif %}>Needs Review</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Wedding theme</span>
+          <select name="theme_id">
+            <option value="">All themes</option>
+            {% for theme in themes %}
+            <option value="{{ theme.id }}"
+              {% if selected_theme == theme.id|string %}selected{% endif %}>
+              {{ theme.name }}
+            </option>
+            {% endfor %}
+          </select>
+        </label>
+
+        <button class="requests-filter-button" type="submit">
+          <i class="fa-solid fa-filter"></i> Apply filters
+        </button>
+
+        <a class="requests-clear-button"
+           href="{{ url_for('admin_wedding_requests', from_date='', to_date='') }}">
+          Clear filters / include older
+        </a>
+      </form>
+
+      <section class="wedding-panel requests-list-panel">
+        <div class="requests-list-heading">
+          <div>
+            <span class="panel-eyebrow">BOOKINGS</span>
+            <h2>
+              {{ bookings|length }} matching request{% if bookings|length != 1 %}s{% endif %}
+            </h2>
+          </div>
+        </div>
+
+        <div class="requests-table-wrap">
+          <table class="requests-table">
+            <thead>
+              <tr>
+                <th>Wedding date</th>
+                <th>Customer</th>
+                <th>Theme</th>
+                <th>Submitted</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for booking in bookings %}
+              <tr>
+                <td>{{ booking.wedding_date_display }}</td>
+                <td>
+                  <strong class="requests-customer-name">{{ booking.customer_name }}</strong>
+                  <small class="requests-customer-email">{{ booking.customer_email }}</small>
+                </td>
+                <td>{{ booking.theme_name }}</td>
+                <td>{{ booking.submitted_display }}</td>
+                <td>
+                  <span class="request-status status-{{ booking.status_key }}">
+                    {{ booking.status_label }}
+                  </span>
+                </td>
+                <td>
+                    <a class="booking-view-button"
+                    href="{{ url_for(
+                        'admin_wedding_request_detail',
+                        booking_id=booking.id,
+                        q=search_query,
+                        from_date=from_date,
+                        to_date=to_date,
+                        status=selected_status,
+                        theme_id=selected_theme
+                    ) }}">
+                    View <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </td>
+              </tr>
+              {% else %}
+              <tr>
+                <td colspan="6" class="requests-empty">
+                  No requests match these filters.
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer class="admin-footer">
+        <span>EventFlow Admin Console</span>
+        <span>© 2026 EventFlow</span>
+      </footer>
+    </div>
+  </main>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="wedding-toast wedding-toast-{{ messages[-1][0] }}"
+       role="status" aria-live="polite">
+    <i class="fa-solid fa-circle-check"></i>
+    <span>{{ messages[-1][1] }}</span>
+    <button type="button" aria-label="Dismiss notification"
+            onclick="this.parentElement.remove()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+  {% endif %}
+{% endwith %}
+
+<script>
+(() => {
+  const body = document.body;
+  const button = document.getElementById("adminThemeToggle");
+
+  function applyTheme(theme) {
+    body.setAttribute("data-theme", theme);
+    localStorage.setItem("eventflow-theme", theme);
+    button.innerHTML = theme === "midnight"
+      ? '<i class="fa-regular fa-sun"></i>'
+      : '<i class="fa-regular fa-moon"></i>';
+    button.title = theme === "midnight"
+      ? "Switch to day mode"
+      : "Switch to night mode";
+    button.setAttribute("aria-label", button.title);
+  }
+
+  applyTheme(localStorage.getItem("eventflow-theme") || "daylight");
+  button.addEventListener("click", () => {
+    applyTheme(
+      body.getAttribute("data-theme") === "midnight"
+        ? "daylight"
+        : "midnight"
+    );
+  });
+
+  const toast = document.querySelector(".wedding-toast");
+  if (toast) window.setTimeout(() => toast.remove(), 5000);
+})();
+</script>
+</body>
+</html>

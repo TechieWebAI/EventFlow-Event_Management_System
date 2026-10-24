@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color"
+          content="#0b0d10">
+
+    <title>Edit Event — EventFlow Admin</title>
+
+
+    <!-- =====================================================
+         SHARED ADMIN SHELL
+         DO NOT CHANGE
+    ====================================================== -->
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/pages/admin_shell.css') }}">
+
+
+    <!-- =====================================================
+         PAGE-SPECIFIC CSS
+    ====================================================== -->
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/pages/admin_edit_event.css') }}">
+
+
+    <!-- =====================================================
+         FONT AWESOME
+    ====================================================== -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+
+<body>
+
+<div class="admin-app">
+
+
+    <!-- =====================================================
+         SIDEBAR
+         SAME ADMIN SIDEBAR
+         DO NOT CHANGE
+    ====================================================== -->
+
+    <aside class="admin-sidebar">
+
+
+        <div class="admin-brand">
+
+            <a href="{{ url_for('index') }}">
+
+                <span class="admin-brand-mark">
+                    E
+                </span>
+
+                <span>
+
+                    <strong>
+                        EventFlow
+                    </strong>
+
+                    <small>
+                        Admin Console
+                    </small>
+
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <nav class="admin-nav">
+
+
+            <span class="admin-nav-label">
+                OVERVIEW
+            </span>
+
+
+            <a href="{{ url_for('admin_dashboard') }}"
+               class="admin-nav-link">
+
+                <i class="fa-solid fa-chart-pie"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <span class="admin-nav-label">
+                MANAGEMENT
+            </span>
+
+
+            <a href="{{ url_for('view_events') }}"
+               class="admin-nav-link active">
+
+                <i class="fa-regular fa-calendar"></i>
+
+                <span>
+                    Manage Events
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('add_event') }}"
+               class="admin-nav-link">
+
+                <i class="fa-solid fa-plus"></i>
+
+                <span>
+                    Add Event
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('admin_bookings') }}"
+               class="admin-nav-link">
+
+                <i class="fa-solid fa-ticket"></i>
+
+                <span>
+                    Bookings
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('admin_wedding_bookings') }}"
+               class="admin-nav-link">
+
+                <i class="fa-regular fa-heart"></i>
+
+                <span>
+                    Wedding Bookings
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('trashed_events') }}"
+               class="admin-nav-link">
+
+                <i class="fa-regular fa-trash-can"></i>
+
+                <span>
+                    Trash / Recovery
+                </span>
+
+                {% if trashed_events_count %}
+
+                    <span class="nav-count">
+                        {{ trashed_events_count }}
+                    </span>
+
+                {% endif %}
+
+            </a>
+
+
+        </nav>
+
+
+        <div class="admin-sidebar-bottom">
+
+
+            <a href="{{ url_for('index') }}"
+               class="admin-site-link">
+
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                <span>
+                    View EventFlow
+                </span>
+
+            </a>
+
+
+            <a href="{{ url_for('logout') }}"
+               class="admin-logout">
+
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="admin-main">
+
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+        <header class="admin-topbar">
+
+
+            <div>
+
+                <span class="admin-kicker">
+                    EVENT OPERATIONS
+                </span>
+
+                <h1>
+                    Edit Event
+                </h1>
+
+                <p>
+                    Update event information, capacity and booking details.
+                </p>
+
+            </div>
+
+
+            <div class="admin-topbar-actions">
+
+
+                <a href="{{ url_for('view_events') }}"
+                   class="admin-primary-button">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                    Manage Events
+
+                </a>
+
+
+                <button type="button"
+                        class="admin-theme-button"
+                        id="adminThemeToggle"
+                        title="Switch theme"
+                        aria-label="Switch theme">
+
+                    <i class="fa-regular fa-moon"></i>
+
+                </button>
+
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- =================================================
+             PAGE CONTENT
+        ================================================== -->
+
+        <div class="page-content edit-event-content">
+
+
+            <!-- =================================================
+                 FORM
+            ================================================== -->
+
+            <form method="POST"
+                  action="{{ url_for('edit_event', event_id=event.id) }}"
+                  enctype="multipart/form-data"
+                  id="editEventForm">
+
+
+                <!-- =================================================
+                     MAIN FORM CARD
+                ================================================== -->
+
+                <section class="edit-form-card">
+
+
+                    <!-- =================================================
+                         FORM HEADER
+                    ================================================== -->
+
+                    <div class="edit-form-heading">
+
+
+                        <div class="edit-form-heading-left">
+
+                            <span class="edit-form-icon">
+
+                                <i class="fa-regular fa-pen-to-square"></i>
+
+                            </span>
+
+
+                            <div>
+
+                                <span class="edit-section-label">
+                                    EVENT DETAILS
+                                </span>
+
+                                <h2>
+                                    Update event
+                                </h2>
+
+                                <p>
+                                    Keep your event information accurate and up to date.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <span class="edit-event-id">
+                            #{{ event.id }}
+                        </span>
+
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         BASIC INFORMATION
+                    ================================================== -->
+
+                    <div class="edit-section">
+
+
+                        <div class="edit-section-title">
+
+                            <div>
+
+                                <span>
+                                    01
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        Basic information
+                                    </strong>
+
+                                    <small>
+                                        Core details shown to attendees.
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="edit-grid">
+
+
+                            <!-- TITLE -->
+
+                            <div class="edit-field edit-field-full">
+
+                                <label for="title">
+                                    Event Title
+                                    <em>*</em>
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="title"
+                                    name="title"
+                                    value="{{ event.title }}"
+                                    placeholder="Enter event title"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- CATEGORY -->
+
+                            <div class="edit-field">
+
+                                <label for="category">
+                                    Category
+                                    <em>*</em>
+                                </label>
+
+                                <select
+                                    id="category"
+                                    name="category"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Select category
+                                    </option>
+
+                                    <option value="Tech"
+                                        {% if event.category == 'Tech' %}selected{% endif %}>
+                                        Tech
+                                    </option>
+
+                                    <option value="Art"
+                                        {% if event.category == 'Art' %}selected{% endif %}>
+                                        Art
+                                    </option>
+
+                                    <option value="Fitness"
+                                        {% if event.category == 'Fitness' %}selected{% endif %}>
+                                        Fitness
+                                    </option>
+
+                                    <option value="Culture"
+                                        {% if event.category == 'Culture' %}selected{% endif %}>
+                                        Culture
+                                    </option>
+
+                                    <option value="Events"
+                                        {% if event.category == 'Events' %}selected{% endif %}>
+                                        Events
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <!-- LOCATION -->
+
+                            <div class="edit-field">
+
+                                <label for="location">
+                                    Location
+                                    <em>*</em>
+                                </label>
+
+                                <div class="edit-input-icon">
+
+                                    <input
+                                        type="text"
+                                        id="location"
+                                        name="location"
+                                        value="{{ event.location }}"
+                                        placeholder="Enter event location"
+                                        required
+                                    >
+
+                                    <i class="fa-solid fa-location-dot"></i>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- DESCRIPTION -->
+
+                            <div class="edit-field edit-field-full">
+
+                                <label for="description">
+                                    Description
+                                    <em>*</em>
+                                </label>
+
+                                <textarea
+                                    id="description"
+                                    name="description"
+                                    placeholder="Describe the event..."
+                                    required
+                                >{{ event.description }}</textarea>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         DATE & TIME
+                    ================================================== -->
+
+                    <div class="edit-section">
+
+
+                        <div class="edit-section-title">
+
+                            <div>
+
+                                <span>
+                                    02
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        Date & time
+                                    </strong>
+
+                                    <small>
+                                        Schedule information for the event.
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="edit-grid">
+
+
+                            <!-- START DATE -->
+
+                            <div class="edit-field">
+
+                                <label for="start_date">
+                                    Start Date
+                                    <em>*</em>
+                                </label>
+
+                                <div class="edit-picker">
+
+                                    <input
+                                        type="date"
+                                        id="start_date"
+                                        name="start_date"
+                                        value="{{ event.start_date }}"
+                                        required
+                                    >
+
+                                    <i class="fa-regular fa-calendar"></i>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- END DATE -->
+
+                            <div class="edit-field">
+
+                                <label for="end_date">
+                                    End Date
+                                    <em>*</em>
+                                </label>
+
+                                <div class="edit-picker">
+
+                                    <input
+                                        type="date"
+                                        id="end_date"
+                                        name="end_date"
+                                        value="{{ event.end_date }}"
+                                        required
+                                    >
+
+                                    <i class="fa-regular fa-calendar"></i>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- EVENT DATE -->
+
+                            <div class="edit-field">
+
+                                <label for="event_date">
+                                    Event Date
+                                    <em>*</em>
+                                </label>
+
+                                <div class="edit-picker">
+
+                                    <input
+                                        type="date"
+                                        id="event_date"
+                                        name="event_date"
+                                        value="{{ event.event_date }}"
+                                        required
+                                    >
+
+                                    <i class="fa-regular fa-calendar"></i>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- TIME -->
+
+                            <div class="edit-field">
+
+                                <label for="time">
+                                    Time
+                                    <em>*</em>
+                                </label>
+
+                                <div class="edit-picker">
+
+                                    <input
+                                        type="time"
+                                        id="time"
+                                        name="time"
+                                        value="{{ event.time }}"
+                                        required
+                                    >
+
+                                    <i class="fa-regular fa-clock"></i>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         TICKETING
+                    ================================================== -->
+
+                    <div class="edit-section">
+
+
+                        <div class="edit-section-title">
+
+                            <div>
+
+                                <span>
+                                    03
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        Ticketing
+                                    </strong>
+
+                                    <small>
+                                        Capacity and ticket pricing.
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="edit-grid">
+
+
+                            <!-- CAPACITY -->
+
+                            <div class="edit-field">
+
+                                <label for="capacity">
+                                    Ticket Capacity
+                                    <em>*</em>
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="capacity"
+                                    name="capacity"
+                                    value="{{ event.capacity }}"
+                                    min="1"
+                                    placeholder="500"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- PRICE -->
+
+                            <div class="edit-field">
+
+                                <label for="price">
+                                    Price per Ticket
+                                    <em>*</em>
+                                </label>
+
+                                <div class="price-input">
+
+                                    <span>₹</span>
+
+                                    <input
+                                        type="number"
+                                        id="price"
+                                        name="price"
+                                        value="{{ event.price }}"
+                                        min="0"
+                                        step="0.01"
+                                        placeholder="500"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         EVENT IMAGE
+                    ================================================== -->
+
+                    <div class="edit-section">
+
+
+                        <div class="edit-section-title">
+
+                            <div>
+
+                                <span>
+                                    04
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        Event media
+                                    </strong>
+
+                                    <small>
+                                        Update the event image if required.
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="edit-grid">
+
+
+                            <div class="edit-field edit-field-full">
+
+                                <label for="image">
+                                    Event Image
+                                </label>
+
+
+                                <div class="edit-upload">
+
+
+                                    <div class="edit-upload-icon">
+
+                                        <i class="fa-regular fa-image"></i>
+
+                                    </div>
+
+
+                                    <div class="edit-upload-copy">
+
+                                        <strong>
+                                            Replace event image
+                                        </strong>
+
+                                        <span>
+                                            Choose a new image or keep the existing one.
+                                        </span>
+
+                                    </div>
+
+
+                                    <label class="edit-upload-button">
+
+                                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+
+                                        Choose image
+
+                                        <input
+                                            type="file"
+                                            id="image"
+                                            name="image"
+                                            accept="image/*"
+                                        >
+
+                                    </label>
+
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         VISIBILITY
+                    ================================================== -->
+
+                    <div class="edit-section edit-section-last">
+
+
+                        <div class="edit-section-title">
+
+                            <div>
+
+                                <span>
+                                    05
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        Visibility
+                                    </strong>
+
+                                    <small>
+                                        Control how this event is highlighted.
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="popular-option">
+
+
+                            <input
+                                type="checkbox"
+                                id="is_popular"
+                                name="is_popular"
+                                value="1"
+                                {% if event.is_popular == 1 %}checked{% endif %}
+                            >
+
+
+                            <span class="popular-checkmark">
+
+                                <i class="fa-solid fa-check"></i>
+
+                            </span>
+
+
+                            <span class="popular-copy">
+
+                                <strong>
+                                    Mark as Popular Event
+                                </strong>
+
+                                <small>
+                                    Feature this event in the popular events section.
+                                </small>
+
+                            </span>
+
+
+                        </label>
+
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         ACTIONS
+                    ================================================== -->
+
+                    <div class="edit-form-actions">
+
+
+                        <a href="{{ url_for('view_events') }}"
+                           class="edit-cancel">
+
+                            Cancel
+
+                        </a>
+
+
+                        <button
+                            type="submit"
+                            class="edit-save">
+
+                            <i class="fa-solid fa-check"></i>
+
+                            Save Changes
+
+                        </button>
+
+
+                    </div>
+
+
+                </section>
+
+
+            </form>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
+
+        <footer class="admin-footer">
+
+            <span>
+                EventFlow Admin Console
+            </span>
+
+            <span>
+                © 2026 EventFlow
+            </span>
+
+        </footer>
+
+
+    </main>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     PAGE JAVASCRIPT
+========================================================= -->
+<script>
+(function () {
+    'use strict';
+
+    /* =========================================================
+       DATE VALIDATION — SAME RULES AS ADD EVENT
+    ========================================================= */
+
+    const startDate = document.getElementById('start_date');
+    const endDate = document.getElementById('end_date');
+    const eventDate = document.getElementById('event_date');
+
+    const today = "{{ current_date }}";
+
+    function validateDates() {
+        if (!startDate || !endDate || !eventDate) {
+            return true;
+        }
+
+        // Start Date cannot be in the past.
+        startDate.min = today;
+
+        // End Date must be on or after Start Date.
+        endDate.min = startDate.value || today;
+
+        // Event Date must be within the schedule, inclusive.
+        eventDate.min = startDate.value || today;
+        eventDate.max = endDate.value || '';
+
+        startDate.setCustomValidity('');
+        endDate.setCustomValidity('');
+        eventDate.setCustomValidity('');
+
+        let valid = true;
+
+        if (startDate.value && startDate.value < today) {
+            startDate.setCustomValidity(
+                'Start date cannot be in the past.'
+            );
+            valid = false;
+        }
+
+        if (
+            startDate.value &&
+            endDate.value &&
+            endDate.value < startDate.value
+        ) {
+            endDate.setCustomValidity(
+                'End date cannot be before the start date.'
+            );
+            valid = false;
+        }
+
+        if (
+            startDate.value &&
+            endDate.value &&
+            eventDate.value &&
+            (
+                eventDate.value < startDate.value ||
+                eventDate.value > endDate.value
+            )
+        ) {
+            eventDate.setCustomValidity(
+                'Event date must be between the start date and end date, inclusive.'
+            );
+            valid = false;
+        }
+
+        return valid;
+    }
+
+    if (startDate) {
+        startDate.addEventListener('change', validateDates);
+    }
+
+    if (endDate) {
+        endDate.addEventListener('change', validateDates);
+    }
+
+    if (eventDate) {
+        eventDate.addEventListener('change', validateDates);
+    }
+
+    // Validate again when the form is submitted.
+    const editForm = startDate
+        ? startDate.closest('form')
+        : null;
+
+    if (editForm) {
+        editForm.addEventListener('submit', function (event) {
+            if (!validateDates()) {
+                event.preventDefault();
+
+                const invalidDate = [
+                    startDate,
+                    endDate,
+                    eventDate
+                ].find(input => !input.validity.valid);
+
+                if (invalidDate) {
+                    invalidDate.reportValidity();
+                }
+            }
+        });
+    }
+
+    validateDates();
+
+/* =========================================================
+       NATIVE DATE / TIME PICKER
+       
+       The entire field remains clickable.
+       Browser native picker is NOT disabled.
+    ========================================================= */
+
+    function enableNativePicker(input) {
+
+        if (!input) {
+            return;
+        }
+
+
+        input.addEventListener(
+            'click',
+            function () {
+
+                if (
+                    typeof this.showPicker === 'function'
+                ) {
+
+                    try {
+
+                        this.showPicker();
+
+                    } catch (error) {
+
+                        /*
+                         * Browser may have already opened
+                         * the native picker.
+                         */
+
+                    }
+
+                }
+
+            }
+        );
+
+    }
+
+
+    enableNativePicker(startDate);
+
+    enableNativePicker(endDate);
+
+    enableNativePicker(eventDate);
+
+
+    const timeInput =
+        document.getElementById('time');
+
+
+    enableNativePicker(timeInput);
+
+
+
+    /* =========================================================
+       THEME
+       SAME LOGIC AS MANAGE EVENTS
+    ========================================================= */
+
+    const themeButton =
+        document.getElementById('adminThemeToggle');
+
+
+    function applyTheme(theme) {
+
+        const normalizedTheme =
+            theme === 'dark'
+                ? 'dark'
+                : 'light';
+
+
+        document.body.setAttribute(
+            'data-theme',
+            normalizedTheme
+        );
+
+
+        try {
+
+            localStorage.setItem(
+                'eventflow-admin-theme',
+                normalizedTheme
+            );
+
+        } catch (error) {}
+
+
+        if (themeButton) {
+
+            const isDark =
+                normalizedTheme === 'dark';
+
+
+            themeButton.innerHTML =
+                isDark
+                    ? '<i class="fa-regular fa-sun"></i>'
+                    : '<i class="fa-regular fa-moon"></i>';
+
+
+            themeButton.setAttribute(
+                'aria-label',
+                isDark
+                    ? 'Switch to day mode'
+                    : 'Switch to night mode'
+            );
+
+
+            themeButton.setAttribute(
+                'title',
+                isDark
+                    ? 'Switch to day mode'
+                    : 'Switch to night mode'
+            );
+
+        }
+
+    }
+
+
+    let savedTheme = 'light';
+
+
+    try {
+
+        const stored =
+            localStorage.getItem(
+                'eventflow-admin-theme'
+            );
+
+
+        if (stored === 'night') {
+
+            savedTheme = 'dark';
+
+        } else if (stored === 'day') {
+
+            savedTheme = 'light';
+
+        } else if (
+            stored === 'dark' ||
+            stored === 'light'
+        ) {
+
+            savedTheme = stored;
+
+        }
+
+    } catch (error) {}
+
+
+    applyTheme(savedTheme);
+
+
+    if (themeButton) {
+
+        themeButton.addEventListener(
+            'click',
+            function () {
+
+                const currentTheme =
+                    document.body.getAttribute(
+                        'data-theme'
+                    );
+
+
+                applyTheme(
+                    currentTheme === 'dark'
+                        ? 'light'
+                        : 'dark'
+                );
+
+            }
+        );
+
+    }
+
+
+
+    /* =========================================================
+       IMAGE FILE NAME
+    ========================================================= */
+
+    const imageInput =
+        document.getElementById('image');
+
+    const uploadCopy =
+        document.querySelector('.edit-upload-copy span');
+
+
+    if (imageInput && uploadCopy) {
+
+        imageInput.addEventListener(
+            'change',
+            function () {
+
+                if (
+                    this.files &&
+                    this.files.length
+                ) {
+
+                    uploadCopy.textContent =
+                        this.files[0].name;
+
+                } else {
+
+                    uploadCopy.textContent =
+                        'Choose a new image or keep the existing one.';
+
+                }
+
+            }
+        );
+
+    }
+
+})();
+</script>
+
+
+
+
+</body>
+
+</html>

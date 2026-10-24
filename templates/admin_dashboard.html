@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color"
+          content="#f5f2ec">
+
+    <title>Admin Console — EventFlow</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/pages/admin_shell.css') }}">
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/pages/admin_dashboard.css') }}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="admin-app">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="admin-sidebar">
+
+        <div class="admin-brand">
+            <a href="{{ url_for('index') }}">
+                <span class="admin-brand-mark">E</span>
+
+                <span>
+                    <strong>EventFlow</strong>
+                    <small>Admin Console</small>
+                </span>
+            </a>
+        </div>
+
+
+        <nav class="admin-nav">
+
+            <span class="admin-nav-label">
+                OVERVIEW
+            </span>
+
+            <a href="{{ url_for('admin_dashboard') }}"
+               class="admin-nav-link active">
+
+                <i class="fa-solid fa-chart-pie"></i>
+
+                <span>Dashboard</span>
+            </a>
+
+
+            <span class="admin-nav-label">
+                MANAGEMENT
+            </span>
+
+            <a href="{{ url_for('view_events') }}"
+               class="admin-nav-link">
+
+                <i class="fa-regular fa-calendar"></i>
+
+                <span>Manage Events</span>
+            </a>
+
+            <a href="{{ url_for('add_event') }}"
+               class="admin-nav-link">
+
+                <i class="fa-solid fa-plus"></i>
+
+                <span>Add Event</span>
+            </a>
+
+            <a href="{{ url_for('admin_bookings') }}"
+               class="admin-nav-link">
+
+                <i class="fa-solid fa-ticket"></i>
+
+                <span>Bookings</span>
+            </a>
+
+
+
+            <a href="{{ url_for('admin_wedding_bookings') }}"
+            class="admin-nav-link">
+
+                <i class="fa-solid fa-list-check"></i>
+
+                <span>Wedding Management</span>
+            </a>
+            <a href="{{ url_for('trashed_events') }}"
+               class="admin-nav-link">
+
+                <i class="fa-regular fa-trash-can"></i>
+
+                <span>Trash / Recovery</span>
+
+
+            </a>
+
+        </nav>
+
+
+        <div class="admin-sidebar-bottom">
+
+            <a href="{{ url_for('index') }}"
+               class="admin-site-link">
+
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                <span>View EventFlow</span>
+            </a>
+
+            <a href="{{ url_for('logout') }}"
+               class="admin-logout">
+
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+                <span>Logout</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="admin-main">
+
+        <!-- TOPBAR -->
+
+        <header class="admin-topbar">
+
+            <div>
+                <span class="admin-kicker">
+                    EVENTFLOW ADMIN
+                </span>
+
+                <h1>
+                    Overview
+                </h1>
+
+                <p>
+                    Monitor your event platform from one place.
+                </p>
+            </div>
+
+
+            <div class="admin-topbar-actions">
+
+                <a href="{{ url_for('add_event') }}"
+                   class="admin-primary-button">
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    Add event
+                </a>
+
+                <button type="button"
+                        class="admin-theme-button"
+                        id="adminThemeToggle"
+                        title="Switch theme"
+                        aria-label="Switch theme">
+
+                    <i class="fa-regular fa-moon"></i>
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             KPI CARDS
+        ================================================== -->
+
+        <section class="admin-kpi-grid">
+
+            <article class="admin-kpi-card">
+
+                <div class="kpi-icon">
+                    <i class="fa-regular fa-calendar"></i>
+                </div>
+
+                <div class="kpi-content">
+
+                    <span>Total events</span>
+
+                    <strong>
+                        {{ total_events }}
+                    </strong>
+
+                    <small>
+                        {{ upcoming_events_count }}
+                        upcoming
+                    </small>
+
+                </div>
+
+            </article>
+
+
+            <article class="admin-kpi-card">
+
+                <div class="kpi-icon">
+                    <i class="fa-solid fa-ticket"></i>
+                </div>
+
+                <div class="kpi-content">
+
+                    <span>Total bookings</span>
+
+                    <strong>
+                        {{ total_bookings }}
+                    </strong>
+
+                    <small>
+                        Confirmed booking activity
+                    </small>
+
+                </div>
+
+            </article>
+
+
+            <article class="admin-kpi-card">
+
+                <div class="kpi-icon">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+
+                <div class="kpi-content">
+
+                    <span>Tickets booked</span>
+
+                    <strong>
+                        {{ tickets_booked }}
+                    </strong>
+
+                    <small>
+                        Across all events
+                    </small>
+
+                </div>
+
+            </article>
+
+
+            <article class="admin-kpi-card">
+
+                <div class="kpi-icon">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+
+                <div class="kpi-content">
+
+                    <span>Registered users</span>
+
+                    <strong>
+                        {{ registered_users }}
+                    </strong>
+
+                    <small>
+                        Excluding admin account
+                    </small>
+
+                </div>
+
+            </article>
+
+
+            <article class="admin-kpi-card">
+
+                <div class="kpi-icon">
+                    <i class="fa-solid fa-indian-rupee-sign"></i>
+                </div>
+
+                <div class="kpi-content">
+
+                    <span>Booking value</span>
+
+                    <strong>
+                        ₹{{ "{:,.0f}".format(booking_value) }}
+                    </strong>
+
+                    <small>
+                        Active ticket value
+                    </small>
+
+                </div>
+
+            </article>
+
+
+            <article class="admin-kpi-card">
+
+                <div class="kpi-icon">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                </div>
+
+                <div class="kpi-content">
+
+                    <span>Upcoming events</span>
+
+                    <strong>
+                        {{ upcoming_events_count }}
+                    </strong>
+
+                    <small>
+                        Scheduled on EventFlow
+                    </small>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- =================================================
+             ACTIVITY + CATEGORY
+        ================================================== -->
+
+        <section class="admin-dashboard-grid">
+
+            <!-- BOOKING ACTIVITY -->
+
+            <article class="admin-panel activity-panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <span class="panel-eyebrow">
+                            ACTIVITY
+                        </span>
+
+                        <h2>
+                            Booking activity
+                        </h2>
+
+                        <p>
+                            Bookings received over the last 7 days.
+                        </p>
+                    </div>
+
+                    <span class="panel-badge">
+                        7 days
+                    </span>
+
+                </div>
+
+
+                <div class="activity-chart">
+
+                    <div class="chart-y-labels">
+                        <span>{{ booking_chart_max }}</span>
+                        <span>{{ (booking_chart_max / 2)|round|int }}</span>
+                        <span>0</span>
+                    </div>
+
+
+                    <div class="chart-area">
+
+                        <div class="chart-grid-lines">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+
+
+                        <div class="chart-bars">
+
+                            {% for day in booking_chart %}
+
+                            {% set height =
+                                ((day.bookings / booking_chart_max) * 100)
+                                if booking_chart_max > 0
+                                else 0
+                            %}
+
+                            <div class="chart-bar-column">
+
+                                <div class="chart-value">
+                                    {{ day.bookings }}
+                                </div>
+
+                                <div class="chart-bar-track">
+
+                                    <div class="chart-bar"
+                                         style="height: {{ height }}%;">
+                                    </div>
+
+                                </div>
+
+                                <span class="chart-day">
+                                    {{ day.label }}
+                                </span>
+
+                            </div>
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- CATEGORY DONUT -->
+
+            <article class="admin-panel category-panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <span class="panel-eyebrow">
+                            EVENTS
+                        </span>
+
+                        <h2>
+                            Category overview
+                        </h2>
+
+                        <p>
+                            Distribution of active event listings.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="category-overview">
+
+                    <div class="category-donut-wrap">
+
+                        <div class="category-donut"
+                             style="background: {{ category_gradient }};">
+
+                            <div class="category-donut-center">
+                                <strong>
+                                    {{ total_events }}
+                                </strong>
+
+                                <span>
+                                    events
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="category-legend">
+
+                        {% for category in category_overview %}
+
+                        <div class="legend-row">
+
+                            <span class="legend-name">
+
+                                <i class="legend-dot legend-{{ loop.index }}"></i>
+
+                                {{ category.name }}
+
+                            </span>
+
+                            <strong>
+                                {{ category.count }}
+                            </strong>
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- =================================================
+             UPCOMING + RECENT
+        ================================================== -->
+
+        <section class="admin-dashboard-grid">
+
+            <!-- UPCOMING EVENTS -->
+
+            <article class="admin-panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <span class="panel-eyebrow">
+                            SCHEDULE
+                        </span>
+
+                        <h2>
+                            Upcoming events
+                        </h2>
+                    </div>
+
+                    <a href="{{ url_for('view_events') }}"
+                       class="panel-link">
+
+                        View all
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+
+                {% if upcoming_events %}
+
+                <div class="upcoming-list">
+
+                    {% for event in upcoming_events %}
+
+                    <a href="{{ url_for('edit_event', event_id=event.id) }}"
+                       class="upcoming-row">
+
+                        <div class="event-date-box">
+
+                            <strong>
+                                {{ event.event_date or event.start_date }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="upcoming-info">
+
+                            <strong>
+                                {{ event.title }}
+                            </strong>
+
+                            <span>
+                                {{ event.category }}
+                                ·
+                                {{ event.location }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="upcoming-capacity">
+
+                            <strong>
+                                {{ event.tickets_booked }}/{{ event.capacity }}
+                            </strong>
+
+                            <span>
+                                tickets
+                            </span>
+
+                        </div>
+
+
+                        <i class="fa-solid fa-chevron-right upcoming-arrow"></i>
+
+                    </a>
+
+                    {% endfor %}
+
+                </div>
+
+                {% else %}
+
+                <div class="admin-empty-state">
+                    <i class="fa-regular fa-calendar-xmark"></i>
+                    <strong>No upcoming events</strong>
+                    <span>Add an event to start building your schedule.</span>
+                </div>
+
+                {% endif %}
+
+            </article>
+
+
+            <!-- RECENT BOOKINGS -->
+
+            <article class="admin-panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <span class="panel-eyebrow">
+                            BOOKINGS
+                        </span>
+
+                        <h2>
+                            Recent bookings
+                        </h2>
+                    </div>
+
+                    <a href="{{ url_for('admin_bookings') }}"
+                       class="panel-link">
+
+                        View all
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+
+                {% if recent_bookings %}
+
+                <div class="recent-booking-list">
+
+                    {% for booking in recent_bookings %}
+
+                    <div class="recent-booking-row">
+
+                        <div class="booking-avatar">
+                            {{ booking.username[:1]|upper }}
+                        </div>
+
+
+                        <div class="recent-booking-info">
+
+                            <strong>
+                                {{ booking.username }}
+                            </strong>
+
+                            <span>
+                                {{ booking.event_title }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="recent-booking-meta">
+
+                            <strong>
+                                {{ booking.ticket_quantity }}
+                                {% if booking.ticket_quantity == 1 %}
+                                    ticket
+                                {% else %}
+                                    tickets
+                                {% endif %}
+                            </strong>
+
+                            {% if booking.status|lower == 'cancelled' %}
+
+                            <span class="status cancelled">
+                                Cancelled
+                            </span>
+
+                            {% else %}
+
+                            <span class="status confirmed">
+                                Active
+                            </span>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+                {% else %}
+
+                <div class="admin-empty-state">
+                    <i class="fa-regular fa-ticket"></i>
+                    <strong>No bookings yet</strong>
+                    <span>New customer bookings will appear here.</span>
+                </div>
+
+                {% endif %}
+
+            </article>
+
+        </section>
+
+
+        <!-- =================================================
+             EVENT PERFORMANCE
+        ================================================== -->
+
+        <section class="admin-panel performance-panel">
+
+            <div class="panel-header">
+
+                <div>
+                    <span class="panel-eyebrow">
+                        PERFORMANCE
+                    </span>
+
+                    <h2>
+                        Event performance
+                    </h2>
+
+                    <p>
+                        Events ranked by active tickets booked.
+                    </p>
+                </div>
+
+                <a href="{{ url_for('view_events') }}"
+                   class="panel-link">
+
+                    Manage events
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+
+            {% if event_performance %}
+
+            <div class="performance-list">
+
+                {% for event in event_performance %}
+
+                {% set performance =
+                    ((event.tickets_booked / event.capacity) * 100)
+                    if event.capacity and event.capacity > 0
+                    else 0
+                %}
+
+                {% if performance > 100 %}
+                    {% set performance = 100 %}
+                {% endif %}
+
+
+                <div class="performance-row">
+
+                    <div class="performance-title">
+
+                        <strong>
+                            {{ event.title }}
+                        </strong>
+
+                        <span>
+                            {{ event.category }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="performance-bar-wrap">
+
+                        <div class="performance-bar">
+
+                            <span style="width: {{ performance }}%;"></span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="performance-number">
+
+                        <strong>
+                            {{ event.tickets_booked }}
+                        </strong>
+
+                        <span>
+                            / {{ event.capacity }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="performance-revenue">
+
+                        ₹{{ "{:,.0f}".format(event.revenue) }}
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="admin-empty-state">
+                <i class="fa-solid fa-chart-simple"></i>
+                <strong>No event performance data</strong>
+                <span>Performance will appear after bookings are made.</span>
+            </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- =================================================
+             WEDDING + QUICK ACTIONS
+        ================================================== -->
+
+        <section class="admin-dashboard-grid">
+
+            <!-- WEDDING ACTIVITY -->
+
+            <article class="admin-panel wedding-admin-panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <span class="panel-eyebrow">
+                            WEDDINGS
+                        </span>
+
+                        <h2>
+                            Wedding booking activity
+                        </h2>
+
+                        <p>
+                            Overview of wedding planning requests.
+                        </p>
+                    </div>
+
+                    <a href="{{ url_for('admin_wedding_bookings') }}"
+                       class="panel-link">
+
+                        Manage
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+
+                <div class="wedding-stats">
+
+                    <div class="wedding-stat-main">
+
+                        <span>Total wedding bookings</span>
+
+                        <strong>
+                            {{ wedding_stats.total or 0 }}
+                        </strong>
+
+                        <small>
+                            {{ wedding_stats.guests or 0 }}
+                            guests planned
+                        </small>
+
+                    </div>
+
+
+                    <div class="wedding-status-grid">
+
+                        <div>
+                            <span class="wedding-status-dot confirmed-dot"></span>
+                            <strong>{{ wedding_stats.confirmed or 0 }}</strong>
+                            <small>Confirmed</small>
+                        </div>
+
+                        <div>
+                            <span class="wedding-status-dot pending-dot"></span>
+                            <strong>{{ wedding_stats.pending or 0 }}</strong>
+                            <small>Pending</small>
+                        </div>
+
+                        <div>
+                            <span class="wedding-status-dot cancelled-dot"></span>
+                            <strong>{{ wedding_stats.cancelled or 0 }}</strong>
+                            <small>Cancelled</small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- QUICK ACTIONS -->
+
+            <article class="admin-panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <span class="panel-eyebrow">
+                            SHORTCUTS
+                        </span>
+
+                        <h2>
+                            Quick actions
+                        </h2>
+                    </div>
+
+                </div>
+
+
+                <div class="quick-actions">
+
+                    <a href="{{ url_for('add_event') }}"
+                       class="quick-action primary">
+
+                        <span>
+                            <i class="fa-solid fa-plus"></i>
+                        </span>
+
+                        <div>
+                            <strong>Add Events</strong>
+                            <small>Add new events</small>
+                        </div>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+
+                    <a href="{{ url_for('admin_bookings') }}"
+                       class="quick-action">
+
+                        <span>
+                            <i class="fa-solid fa-ticket"></i>
+                        </span>
+
+                        <div>
+                            <strong>Bookings</strong>
+                            <small>Review customer bookings</small>
+                        </div>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+
+                    <a href="{{ url_for('admin_wedding_bookings') }}"
+                       class="quick-action">
+
+                        <span>
+                            <i class="fa-regular fa-heart"></i>
+                        </span>
+
+                        <div>
+                            <strong>Wedding bookings</strong>
+                            <small>Review wedding requests</small>
+                        </div>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+
+                    <a href="{{ url_for('trashed_events') }}"
+                       class="quick-action">
+
+                        <span>
+                            <i class="fa-regular fa-trash-can"></i>
+                        </span>
+
+                        <div>
+                            <strong>Trash / recovery</strong>
+                            <small>Restore deleted events</small>
+                        </div>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <footer class="admin-footer">
+
+            <span>
+                EventFlow Admin Console
+            </span>
+
+            <span>
+                © 2026 EventFlow
+            </span>
+
+        </footer>
+
+    </main>
+
+</div>
+
+
+<script>
+
+(function () {
+
+    const body = document.body;
+    const button = document.getElementById('adminThemeToggle');
+
+    const savedTheme =
+        localStorage.getItem('eventflow-theme') || 'daylight';
+
+    function applyTheme(theme) {
+
+        body.setAttribute('data-theme', theme);
+
+        localStorage.setItem(
+            'eventflow-theme',
+            theme
+        );
+
+        if (button) {
+
+            button.innerHTML =
+                theme === 'midnight'
+                    ? '<i class="fa-regular fa-sun"></i>'
+                    : '<i class="fa-regular fa-moon"></i>';
+
+            button.title =
+                theme === 'midnight'
+                    ? 'Switch to day mode'
+                    : 'Switch to night mode';
+
+        }
+
+    }
+
+    applyTheme(savedTheme);
+
+    if (button) {
+
+        button.addEventListener(
+            'click',
+            function () {
+
+                const current =
+                    body.getAttribute('data-theme');
+
+                applyTheme(
+                    current === 'midnight'
+                        ? 'daylight'
+                        : 'midnight'
+                );
+
+            }
+        );
+
+    }
+
+})();
+
+</script>
+
+</body>
+</html>

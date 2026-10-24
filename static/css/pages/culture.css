@@ -1,0 +1,1413 @@
+/* =========================================================
+   EVENTFLOW — CULTURE EVENTS
+   Professional category/discovery page
+   Frontend-only
+========================================================= */
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.culture-page {
+    min-height: calc(100vh - 76px);
+    background: var(--ef-bg);
+    color: var(--ef-text);
+}
+
+.culture-container {
+    width: min(
+        var(--ef-container),
+        calc(100% - 48px)
+    );
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.culture-hero {
+    padding: 46px 0 48px;
+
+    border-bottom: 1px solid var(--ef-border-soft);
+
+    background:
+        radial-gradient(
+            circle at 84% 18%,
+            rgba(197, 92, 61, .07),
+            transparent 30%
+        ),
+        var(--ef-bg);
+}
+
+
+.culture-hero-layout {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(400px, 500px);
+
+    align-items: center;
+
+    gap: 68px;
+
+    min-height: 470px;
+}
+
+
+/* ---------- hero content ---------- */
+
+.culture-hero-content {
+    max-width: 620px;
+}
+
+
+.culture-eyebrow {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 9px;
+
+    margin-bottom: 18px;
+
+    color: var(--ef-accent);
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: .13em;
+
+    text-transform: uppercase;
+}
+
+
+.culture-eyebrow-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: var(--ef-accent);
+
+    box-shadow:
+        0 0 0 4px var(--ef-accent-soft);
+}
+
+
+.culture-hero h1 {
+    max-width: 650px;
+
+    margin: 0;
+
+    color: var(--ef-text);
+
+    font-size: clamp(
+        42px,
+        5vw,
+        66px
+    );
+
+    line-height: .99;
+
+    letter-spacing: -.055em;
+}
+
+
+.culture-hero h1 span {
+    display: block;
+
+    color: var(--ef-accent);
+}
+
+
+.culture-hero p {
+    max-width: 570px;
+
+    margin: 20px 0 0;
+
+    color: var(--ef-text-soft);
+
+    font-size: 15px;
+
+    line-height: 1.7;
+}
+
+
+/* ---------- hero buttons ---------- */
+
+.culture-hero-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 27px;
+}
+
+
+.culture-primary-btn,
+.culture-secondary-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    min-height: 44px;
+
+    padding: 0 17px;
+
+    border-radius: 999px;
+
+    text-decoration: none;
+
+    font-size: 12px;
+    font-weight: 750;
+
+    transition:
+        transform .2s var(--ef-ease),
+        background .2s ease,
+        border-color .2s ease;
+}
+
+
+.culture-primary-btn {
+    background: var(--ef-text);
+
+    color: var(--ef-surface);
+
+    border: 1px solid var(--ef-text);
+}
+
+
+.culture-primary-btn:hover {
+    transform: translateY(-2px);
+
+    background: var(--ef-accent);
+
+    border-color: var(--ef-accent);
+}
+
+
+.culture-secondary-btn {
+    background: transparent;
+
+    color: var(--ef-text);
+
+    border: 1px solid var(--ef-border);
+}
+
+
+.culture-secondary-btn:hover {
+    transform: translateY(-2px);
+
+    background: var(--ef-surface);
+
+    border-color: var(--ef-text);
+}
+
+
+/* =========================================================
+   FEATURED HERO CARD
+========================================================= */
+
+.culture-hero-visual {
+    position: relative;
+}
+
+
+.culture-visual-card {
+    overflow: hidden;
+
+    border:
+        1px solid
+        var(--ef-border);
+
+    border-radius:
+        var(--ef-radius-lg);
+
+    background:
+        var(--ef-surface);
+
+    box-shadow:
+        0 20px 55px
+        rgba(42, 34, 25, .10);
+
+    transition:
+        transform .35s var(--ef-ease),
+        box-shadow .35s var(--ef-ease);
+}
+
+
+.culture-visual-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+        var(--ef-shadow-hover);
+}
+
+
+.culture-featured-image {
+    position: relative;
+
+    height: 255px;
+
+    overflow: hidden;
+
+    background:
+        var(--ef-surface-2);
+}
+
+
+.culture-featured-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition:
+        transform .65s var(--ef-ease);
+}
+
+
+.culture-visual-card:hover
+.culture-featured-image img {
+    transform: scale(1.035);
+}
+
+
+.culture-featured-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(0, 0, 0, .02) 30%,
+            rgba(0, 0, 0, .50) 100%
+        );
+}
+
+
+.culture-featured-label {
+    position: absolute;
+
+    top: 15px;
+    left: 15px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding:
+        8px 11px;
+
+    border-radius:
+        999px;
+
+    background:
+        rgba(24, 21, 18, .76);
+
+    color: #fff;
+
+    font-size: 10px;
+    font-weight: 750;
+
+    backdrop-filter:
+        blur(10px);
+}
+
+
+.culture-featured-label i {
+    color:
+        #e7a51f;
+}
+
+
+/* ---------- featured content ---------- */
+
+.culture-featured-body {
+    padding: 21px;
+}
+
+
+.culture-featured-category {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: var(--ef-accent);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: .09em;
+
+    text-transform: uppercase;
+}
+
+
+.culture-featured-body h2 {
+    margin: 0;
+
+    color: var(--ef-text);
+
+    font-size: 23px;
+
+    line-height: 1.18;
+
+    letter-spacing: -.035em;
+}
+
+
+.culture-featured-meta {
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 13px;
+
+    margin-top: 14px;
+}
+
+
+.culture-featured-meta span {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    color: var(--ef-text-soft);
+
+    font-size: 11px;
+}
+
+
+.culture-featured-meta i {
+    color: var(--ef-accent);
+}
+
+
+.culture-featured-link {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-top: 18px;
+
+    color: var(--ef-text);
+
+    text-decoration: none;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    transition:
+        color .2s ease,
+        gap .2s ease;
+}
+
+
+.culture-featured-link:hover {
+    gap: 10px;
+
+    color: var(--ef-accent);
+}
+
+
+/* =========================================================
+   HERO EMPTY
+========================================================= */
+
+.culture-empty-hero {
+    min-height: 410px;
+
+    padding: 45px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    justify-content: center;
+}
+
+
+.culture-empty-icon {
+    width: 54px;
+    height: 54px;
+
+    display: grid;
+
+    place-items: center;
+
+    margin-bottom: 18px;
+
+    border-radius: 15px;
+
+    background:
+        var(--ef-accent-soft);
+
+    color:
+        var(--ef-accent);
+
+    font-size: 20px;
+}
+
+
+.culture-empty-hero > span {
+    color:
+        var(--ef-accent);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: .1em;
+
+    text-transform: uppercase;
+}
+
+
+.culture-empty-hero h2 {
+    max-width: 330px;
+
+    margin: 9px 0 0;
+
+    font-size: 27px;
+
+    line-height: 1.15;
+
+    letter-spacing: -.04em;
+}
+
+
+.culture-empty-hero p {
+    max-width: 350px;
+
+    margin: 10px 0 0;
+
+    color: var(--ef-text-soft);
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   EVENTS SECTION
+========================================================= */
+
+.culture-events-section {
+    padding: 58px 0 72px;
+}
+
+
+/* ---------- section heading ---------- */
+
+.culture-section-header {
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+    margin-bottom: 25px;
+}
+
+
+.culture-section-kicker {
+    display: block;
+
+    margin-bottom: 9px;
+
+    color: var(--ef-accent);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: .12em;
+
+    text-transform: uppercase;
+}
+
+
+.culture-section-header h2 {
+    margin: 0;
+
+    color: var(--ef-text);
+
+    font-size: 29px;
+
+    line-height: 1.1;
+
+    letter-spacing: -.045em;
+}
+
+
+.culture-section-header p {
+    max-width: 500px;
+
+    margin: 8px 0 0;
+
+    color: var(--ef-text-soft);
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+.culture-event-count {
+    flex: 0 0 auto;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding:
+        8px 12px;
+
+    border:
+        1px solid
+        var(--ef-border);
+
+    border-radius:
+        999px;
+
+    background:
+        var(--ef-surface);
+
+    color:
+        var(--ef-text-soft);
+
+    font-size: 11px;
+}
+
+
+.culture-event-count strong {
+    color:
+        var(--ef-text);
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   EVENT GRID
+========================================================= */
+
+.culture-event-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 20px;
+}
+
+
+/* =========================================================
+   EVENT CARD
+========================================================= */
+
+.culture-event-card {
+    overflow: hidden;
+
+    border:
+        1px solid
+        var(--ef-border);
+
+    border-radius:
+        var(--ef-radius-md);
+
+    background:
+        var(--ef-surface);
+
+    box-shadow:
+        0 7px 25px
+        rgba(42, 34, 25, .045);
+
+    transition:
+        transform .28s var(--ef-ease),
+        border-color .28s ease,
+        box-shadow .28s ease;
+}
+
+
+.culture-event-card:hover {
+    transform:
+        translateY(-5px);
+
+    border-color:
+        rgba(197, 92, 61, .28);
+
+    box-shadow:
+        var(--ef-shadow-hover);
+}
+
+
+/* ---------- image ---------- */
+
+.culture-event-image {
+    position: relative;
+
+    height: 225px;
+
+    overflow: hidden;
+
+    background:
+        var(--ef-surface-2);
+}
+
+
+.culture-event-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition:
+        transform .55s var(--ef-ease);
+}
+
+
+.culture-event-card:hover
+.culture-event-image img {
+    transform:
+        scale(1.035);
+}
+
+
+.culture-event-image-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            transparent 48%,
+            rgba(0, 0, 0, .42)
+        );
+}
+
+
+.culture-event-tag {
+    position: absolute;
+
+    top: 13px;
+    left: 13px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding:
+        7px 10px;
+
+    border-radius:
+        999px;
+
+    background:
+        rgba(25, 22, 19, .76);
+
+    color:
+        #fff;
+
+    font-size: 9px;
+
+    font-weight: 750;
+
+    backdrop-filter:
+        blur(8px);
+}
+
+
+.culture-event-tag i {
+    color:
+        #e7a51f;
+}
+
+
+.culture-image-action {
+    position: absolute;
+
+    right: 13px;
+    bottom: 13px;
+
+    width: 35px;
+    height: 35px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,.94);
+
+    color:
+        var(--ef-text);
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    opacity: 0;
+
+    transform:
+        translateY(5px);
+
+    transition:
+        opacity .25s ease,
+        transform .25s ease;
+}
+
+
+.culture-event-card:hover
+.culture-image-action {
+    opacity: 1;
+
+    transform:
+        translateY(0);
+}
+
+
+.culture-image-action:hover {
+    color:
+        var(--ef-accent);
+}
+
+
+/* =========================================================
+   EVENT BODY
+========================================================= */
+
+.culture-event-body {
+    padding: 18px;
+}
+
+
+.culture-event-date {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 8px;
+
+    color:
+        var(--ef-accent);
+
+    font-size: 10px;
+
+    font-weight: 800;
+}
+
+
+.culture-event-date i {
+    font-size: 10px;
+}
+
+
+.culture-event-body h3 {
+    margin: 0;
+
+    color:
+        var(--ef-text);
+
+    font-size: 18px;
+
+    line-height: 1.25;
+
+    letter-spacing: -.025em;
+}
+
+
+.culture-event-description {
+    display: -webkit-box;
+
+    overflow: hidden;
+
+    margin: 9px 0 0;
+
+    color:
+        var(--ef-text-soft);
+
+    font-size: 11.5px;
+
+    line-height: 1.55;
+
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+
+.culture-event-location {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-top: 13px;
+
+    color:
+        var(--ef-text-soft);
+
+    font-size: 11px;
+}
+
+
+.culture-event-location i {
+    flex: 0 0 auto;
+
+    color:
+        var(--ef-accent);
+}
+
+
+/* ---------- card footer ---------- */
+
+.culture-event-footer {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-top: 16px;
+
+    padding-top: 13px;
+
+    border-top:
+        1px solid
+        var(--ef-border-soft);
+}
+
+
+.culture-event-type {
+    color:
+        var(--ef-text-muted);
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+
+.culture-view-event {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    color:
+        var(--ef-text);
+
+    text-decoration: none;
+
+    font-size: 10.5px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+
+    transition:
+        color .2s ease,
+        gap .2s ease;
+}
+
+
+.culture-view-event:hover {
+    gap: 9px;
+
+    color:
+        var(--ef-accent);
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.culture-empty-state {
+    display: flex;
+
+    align-items: center;
+
+    gap: 22px;
+
+    padding: 30px;
+
+    border:
+        1px dashed
+        var(--ef-border);
+
+    border-radius:
+        var(--ef-radius-md);
+
+    background:
+        var(--ef-surface);
+}
+
+
+.culture-empty-state-icon {
+    flex: 0 0 auto;
+
+    width: 58px;
+    height: 58px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 16px;
+
+    background:
+        var(--ef-accent-soft);
+
+    color:
+        var(--ef-accent);
+
+    font-size: 20px;
+}
+
+
+.culture-empty-kicker {
+    color:
+        var(--ef-accent);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: .12em;
+}
+
+
+.culture-empty-state h3 {
+    margin: 6px 0 5px;
+
+    color:
+        var(--ef-text);
+
+    font-size: 19px;
+
+    letter-spacing: -.025em;
+}
+
+
+.culture-empty-state p {
+    max-width: 570px;
+
+    margin: 0;
+
+    color:
+        var(--ef-text-soft);
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+.culture-empty-link {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-top: 13px;
+
+    color:
+        var(--ef-accent);
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    font-weight: 800;
+}
+
+
+.culture-empty-link:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   BOTTOM CTA
+========================================================= */
+
+.culture-bottom-cta {
+    padding: 0 0 70px;
+}
+
+
+.culture-bottom-inner {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+    padding:
+        28px 32px;
+
+    border:
+        1px solid
+        var(--ef-border);
+
+    border-radius:
+        var(--ef-radius-lg);
+
+    background:
+        var(--ef-surface-2);
+}
+
+
+.culture-bottom-inner h2 {
+    margin: 0;
+
+    color:
+        var(--ef-text);
+
+    font-size: 22px;
+
+    letter-spacing: -.035em;
+}
+
+
+.culture-bottom-inner p {
+    margin: 7px 0 0;
+
+    color:
+        var(--ef-text-soft);
+
+    font-size: 12px;
+}
+
+
+.culture-bottom-btn {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    flex: 0 0 auto;
+
+    min-height: 42px;
+
+    padding: 0 16px;
+
+    border-radius:
+        999px;
+
+    background:
+        var(--ef-text);
+
+    color:
+        var(--ef-surface);
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    font-weight: 750;
+
+    transition:
+        transform .2s ease,
+        background .2s ease;
+}
+
+
+.culture-bottom-btn:hover {
+    transform:
+        translateY(-2px);
+
+    background:
+        var(--ef-accent);
+}
+
+
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .culture-hero-layout {
+        grid-template-columns:
+            1fr 420px;
+
+        gap: 38px;
+    }
+
+    .culture-hero h1 {
+        font-size: 48px;
+    }
+
+    .culture-event-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — SMALL TABLET
+========================================================= */
+
+@media (max-width: 780px) {
+
+    .culture-container {
+        width:
+            calc(100% - 32px);
+    }
+
+
+    .culture-hero {
+        padding:
+            38px 0 40px;
+    }
+
+
+    .culture-hero-layout {
+        grid-template-columns:
+            1fr;
+
+        gap: 32px;
+
+        min-height: 0;
+    }
+
+
+    .culture-hero-content {
+        max-width: 650px;
+    }
+
+
+    .culture-hero h1 {
+        max-width: 600px;
+
+        font-size:
+            clamp(40px, 9vw, 54px);
+    }
+
+
+    .culture-hero-visual {
+        max-width: 520px;
+
+        width: 100%;
+
+        margin: 0 auto;
+    }
+
+
+    .culture-section-header {
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+
+        gap: 13px;
+    }
+
+
+    .culture-bottom-inner {
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+========================================================= */
+
+@media (max-width: 560px) {
+
+    .culture-container {
+        width:
+            calc(100% - 28px);
+    }
+
+
+    .culture-hero {
+        padding:
+            32px 0 34px;
+    }
+
+
+    .culture-eyebrow {
+        margin-bottom:
+            14px;
+    }
+
+
+    .culture-hero h1 {
+        font-size:
+            39px;
+
+        line-height:
+            1.01;
+    }
+
+
+    .culture-hero p {
+        margin-top:
+            16px;
+
+        font-size:
+            13px;
+    }
+
+
+    .culture-hero-actions {
+        align-items:
+            stretch;
+
+        flex-direction:
+            column;
+
+        margin-top:
+            22px;
+    }
+
+
+    .culture-primary-btn,
+    .culture-secondary-btn {
+        width:
+            100%;
+    }
+
+
+    .culture-featured-image {
+        height:
+            215px;
+    }
+
+
+    .culture-featured-body {
+        padding:
+            17px;
+    }
+
+
+    .culture-featured-body h2 {
+        font-size:
+            20px;
+    }
+
+
+    .culture-events-section {
+        padding:
+            42px 0 55px;
+    }
+
+
+    .culture-section-header h2 {
+        font-size:
+            25px;
+    }
+
+
+    .culture-event-grid {
+        grid-template-columns:
+            1fr;
+
+        gap:
+            16px;
+    }
+
+
+    .culture-event-image {
+        height:
+            220px;
+    }
+
+
+    .culture-bottom-cta {
+        padding-bottom:
+            50px;
+    }
+
+
+    .culture-bottom-inner {
+        padding:
+            23px;
+    }
+
+
+    .culture-bottom-inner h2 {
+        font-size:
+            19px;
+    }
+
+
+    .culture-bottom-btn {
+        width:
+            100%;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .culture-event-card,
+    .culture-visual-card,
+    .culture-event-image img,
+    .culture-featured-image img,
+    .culture-primary-btn,
+    .culture-secondary-btn,
+    .culture-bottom-btn {
+        transition:
+            none !important;
+    }
+
+}

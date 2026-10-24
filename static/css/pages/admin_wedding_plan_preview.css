@@ -1,0 +1,209 @@
+.pdf-preview-page {
+  min-height: 100vh;
+  padding: 0 28px 28px;
+  background: var(--admin-bg);
+  color: var(--admin-text);
+}
+
+.pdf-preview-header {
+  min-height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.pdf-preview-back,
+.pdf-preview-download {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 13px;
+  border: 1px solid var(--admin-accent-border);
+  border-radius: 8px;
+  background: var(--admin-surface);
+  color: var(--admin-text);
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease;
+}
+
+.pdf-preview-back i,
+.pdf-preview-download i {
+  color: var(--admin-accent);
+}
+
+.pdf-preview-back:hover {
+  transform: translateY(-1px);
+  border-color: var(--admin-accent);
+  background: var(--admin-accent-soft);
+}
+
+.pdf-preview-download {
+  border-color: var(--admin-accent);
+  background: var(--admin-accent);
+  color: #211909;
+}
+
+.pdf-preview-download i {
+  color: inherit;
+}
+
+.pdf-preview-download:hover {
+  transform: translateY(-1px);
+  border-color: var(--admin-accent-hover);
+  background: var(--admin-accent-hover);
+}
+
+.pdf-preview-heading {
+  width: min(1200px, 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 24px auto 14px;
+}
+
+.pdf-preview-heading span {
+  color: var(--admin-accent);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.15em;
+}
+
+.pdf-preview-heading h1 {
+  margin: 5px 0 0;
+  color: var(--admin-text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 27px;
+  font-weight: 500;
+}
+
+.pdf-preview-heading p {
+  margin: 5px 0 0;
+  color: var(--admin-text-muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.pdf-frame-wrap {
+  width: min(1200px, 100%);
+  height: calc(100vh - 190px);
+  min-height: 480px;
+  overflow: hidden;
+  margin: 0 auto;
+  border: 1px solid var(--admin-accent-border);
+  border-radius: 11px;
+  background: var(--admin-surface);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.2);
+}
+
+.pdf-frame-wrap iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fff;
+}
+
+body[data-theme="daylight"] .pdf-frame-wrap,
+body[data-theme="light"] .pdf-frame-wrap {
+  box-shadow: 0 12px 30px rgba(55, 43, 24, 0.12);
+}
+
+.pdf-preview-page a:focus-visible {
+  outline: 2px solid var(--admin-accent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 620px) {
+  .pdf-preview-page {
+    padding: 0 14px 18px;
+  }
+
+  .pdf-preview-header {
+    min-height: 58px;
+  }
+
+  .pdf-preview-back,
+  .pdf-preview-download {
+    min-height: 35px;
+    gap: 6px;
+    padding: 0 9px;
+    font-size: 9px;
+  }
+
+  .pdf-preview-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    margin-top: 18px;
+  }
+
+  .pdf-preview-heading h1 {
+    font-size: 24px;
+  }
+
+  .pdf-frame-wrap {
+    height: calc(100vh - 190px);
+    min-height: 400px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pdf-preview-page *,
+  .pdf-preview-page *::before,
+  .pdf-preview-page *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+.pdf-preview-actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.pdf-preview-actions form {
+  margin: 0;
+}
+
+.pdf-preview-send {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 13px;
+  border: 1px solid var(--admin-accent);
+  border-radius: 8px;
+  background: var(--admin-accent);
+  color: #211909;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.pdf-preview-send:hover {
+  background: var(--admin-accent-hover);
+}
+
+@media (max-width: 620px) {
+  .pdf-preview-actions {
+    gap: 6px;
+  }
+
+  .pdf-preview-send {
+    min-height: 35px;
+    padding: 0 9px;
+    font-size: 9px;
+  }
+}

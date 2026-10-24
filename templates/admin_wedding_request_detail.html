@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f2ec">
+  <title>Booking Details - EventFlow</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/admin_shell.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/admin_wedding_request_detail.css') }}">
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/app.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+<div class="admin-app wedding-detail-page">
+  <aside class="admin-sidebar">
+    <div class="admin-brand">
+      <a href="{{ url_for('index') }}">
+        <span class="admin-brand-mark">E</span>
+        <span><strong>EventFlow</strong><small>Wedding Management</small></span>
+      </a>
+    </div>
+
+    <nav class="admin-nav" aria-label="Admin navigation">
+      <span class="admin-nav-label">OVERVIEW</span>
+      <a class="admin-nav-link" href="{{ url_for('admin_dashboard') }}">
+        <i class="fa-solid fa-chart-pie"></i><span>Dashboard</span>
+      </a>
+
+      <span class="admin-nav-label">MANAGEMENT</span>
+      <a class="admin-nav-link" href="{{ url_for('view_events') }}">
+        <i class="fa-regular fa-calendar"></i><span>Manage Events</span>
+      </a>
+      <a class="admin-nav-link" href="{{ url_for('add_event') }}">
+        <i class="fa-solid fa-plus"></i><span>Add Event</span>
+      </a>
+      <a class="admin-nav-link" href="{{ url_for('admin_bookings') }}">
+        <i class="fa-solid fa-ticket"></i><span>Bookings</span>
+      </a>
+      <a class="admin-nav-link active" href="{{ url_for('admin_wedding_bookings') }}">
+        <i class="fa-regular fa-heart"></i><span>Wedding Management</span>
+      </a>
+      <a class="admin-nav-link" href="{{ url_for('trashed_events') }}">
+        <i class="fa-regular fa-trash-can"></i><span>Trash / Recovery</span>
+      </a>
+    </nav>
+
+    <div class="admin-sidebar-bottom">
+      <a class="admin-site-link" href="{{ url_for('index') }}">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i><span>View EventFlow</span>
+      </a>
+      <a class="admin-logout" href="{{ url_for('logout') }}">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span>
+      </a>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <header class="admin-topbar detail-topbar">
+      <a class="detail-back-link"
+         href="{{ url_for(
+           'admin_wedding_requests',
+           q=q,
+           from_date=from_date,
+           to_date=to_date,
+           status=selected_status,
+           theme_id=selected_theme
+         ) }}">
+        <i class="fa-solid fa-arrow-left"></i> Back to bookings
+      </a>
+
+      <div class="admin-topbar-actions">
+        <span class="wedding-admin-label">
+          EVENTFLOW <i class="fa-solid fa-chevron-right"></i> BOOKING DETAILS
+        </span>
+        <button type="button"
+                class="admin-theme-button"
+                id="adminThemeToggle"
+                aria-label="Switch theme"
+                title="Switch theme">
+          <i class="fa-regular fa-moon"></i>
+        </button>
+        <a class="wedding-admin-avatar"
+           href="{{ url_for('logout') }}"
+           title="Admin - Log out">A</a>
+      </div>
+    </header>
+
+    <div class="detail-content">
+      <section class="detail-title-row">
+        <div>
+          <span class="panel-eyebrow">
+            WEDDING MANAGEMENT / REQUEST #WF-{{ '%04d'|format(booking.id) }}
+          </span>
+          <h1>Booking Details</h1>
+          <p>Review the customer’s submitted wedding plan and take action.</p>
+        </div>
+
+        <span class="request-status status-{{ booking.status_key }}">
+          {{ booking.status_label }}
+        </span>
+      </section>
+
+      <section class="wedding-panel detail-summary">
+        <div class="summary-theme-image">
+          {% if booking.theme_image_url %}
+          <img src="{{ booking.theme_image_url }}"
+               alt="{{ booking.theme_name }} wedding theme">
+          {% else %}
+          <div class="summary-theme-placeholder" aria-label="Theme image unavailable">
+            <i class="fa-regular fa-image"></i>
+            <span>Theme image</span>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="summary-customer">
+          <span class="customer-avatar large">
+            {{ (booking.customer_name[:1] or 'W')|upper }}
+          </span>
+          <div class="summary-customer-copy">
+            <span class="summary-label">CUSTOMER</span>
+            <h2>{{ booking.customer_name }}</h2>
+            <p><i class="fa-regular fa-envelope"></i>{{ booking.customer_email }}</p>
+            <p><i class="fa-solid fa-phone"></i>{{ booking.phone or 'Not provided' }}</p>
+          </div>
+        </div>
+
+        <div class="summary-facts">
+          <div>
+            <i class="fa-regular fa-calendar"></i>
+            <span><small>Wedding date</small><strong>{{ booking.wedding_date_display }}</strong></span>
+          </div>
+          <div>
+            <i class="fa-solid fa-location-dot"></i>
+            <span><small>Venue</small><strong>{{ booking.venue or 'Not provided' }}</strong></span>
+          </div>
+          <div>
+            <i class="fa-solid fa-users"></i>
+            <span><small>Guest count</small><strong>{{ booking.guest_count or 'Not provided' }}</strong></span>
+          </div>
+          <div>
+            <i class="fa-regular fa-gem"></i>
+            <span><small>Selected theme</small><strong>{{ booking.theme_name }}</strong></span>
+          </div>
+        </div>
+
+        <div class="summary-actions">
+          {% if booking.customer_email != 'No email provided' %}
+          <a class="detail-action-secondary"
+             href="mailto:{{ booking.customer_email }}?subject={{ ('Wedding booking WF-' ~ '%04d'|format(booking.id))|url_encode }}&amp;body={{ ('Hello ' ~ booking.customer_name ~ ', I am contacting you about your wedding booking. Please reply to discuss a date change or provide additional information.')|url_encode }}">
+            <i class="fa-regular fa-envelope"></i> Email customer
+          </a>
+          {% endif %}
+
+          <a class="detail-action-secondary"
+            href="{{ url_for('preview_pdf_page', booking_id=booking.id) }}"
+            target="_blank"
+            rel="noopener">
+            <i class="fa-regular fa-file-pdf"></i> Preview plan / PDF
+          </a>
+
+          {% if booking.status_key == 'confirmed' %}
+          <form method="post"
+                action="{{ url_for('admin_send_wedding_plan', booking_id=booking.id) }}"
+                onsubmit="return confirm('Send the confirmed wedding plan PDF to this customer?')">
+
+            <input type="hidden" name="q" value="{{ q }}">
+            <input type="hidden" name="from_date" value="{{ from_date }}">
+            <input type="hidden" name="to_date" value="{{ to_date }}">
+            <input type="hidden" name="status" value="{{ selected_status }}">
+            <input type="hidden" name="theme_id" value="{{ selected_theme }}">
+
+            <button class="detail-action-send" type="submit">
+              <i class="fa-regular fa-envelope"></i> Send confirmed plan
+            </button>
+          </form>
+          {% else %}
+          <p class="send-plan-note">
+            Confirm the booking before emailing the plan.
+          </p>
+          {% endif %}
+                  </div>
+                </section>
+
+      <div class="detail-card-grid">
+        <section class="wedding-panel detail-card">
+          <h2><i class="fa-regular fa-user"></i> Customer Information</h2>
+          <dl>
+            <div><dt>Full name</dt><dd>{{ booking.customer_name }}</dd></div>
+            <div><dt>Email</dt><dd>{{ booking.customer_email }}</dd></div>
+            <div><dt>Phone</dt><dd>{{ booking.phone or 'Not provided' }}</dd></div>
+            <div><dt>Preferred contact</dt><dd>{{ booking.preferred_contact_display }}</dd></div>
+            <div><dt>Booking submitted</dt><dd>{{ booking.submitted_display }}</dd></div>
+            <div><dt>Customer note</dt><dd>{{ booking.contact_note_display }}</dd></div>
+          </dl>
+        </section>
+
+        <section class="wedding-panel detail-card">
+          <h2><i class="fa-regular fa-calendar"></i> Wedding Details</h2>
+          <dl>
+            <div><dt>Wedding date</dt><dd>{{ booking.wedding_date_display }}</dd></div>
+            <div><dt>Wedding days</dt><dd>{{ booking.wedding_days_display }}</dd></div>
+            <div><dt>Venue</dt><dd>{{ booking.venue or 'Not provided' }}</dd></div>
+            <div><dt>Location</dt><dd>{{ booking.wedding_location_display }}</dd></div>
+            <div><dt>Guest count</dt><dd>{{ booking.guest_count or 'Not provided' }}</dd></div>
+            <div><dt>Budget</dt><dd>{{ booking.budget_display }}</dd></div>
+          </dl>
+        </section>
+
+        <section class="wedding-panel detail-card">
+          <h2><i class="fa-regular fa-calendar-check"></i> Selected Events</h2>
+          {% if booking.selected_events_list %}
+          <div class="detail-chip-list">
+            {% for event in booking.selected_events_list %}
+              <span>{{ event }}</span>
+            {% endfor %}
+          </div>
+          {% else %}
+          <p>Not provided</p>
+          {% endif %}
+
+          <div class="detail-subsection">
+            <h3>Event-specific services</h3>
+            {% if booking.per_event_customization_data %}
+              {% for event_name, services in booking.per_event_customization_data.items() %}
+              <p>
+                <strong>{{ event_name }}:</strong>
+                {% if services is sequence and services is not string %}
+                  {{ services|join(', ') if services else 'Not provided' }}
+                {% else %}
+                  {{ services or 'Not provided' }}
+                {% endif %}
+              </p>
+              {% endfor %}
+            {% else %}
+              <p>Not provided</p>
+            {% endif %}
+          </div>
+        </section>
+
+        <section class="wedding-panel detail-card">
+          <h2><i class="fa-solid fa-list-check"></i> Services &amp; Add-ons</h2>
+
+          <div class="detail-subsection">
+            <h3>General services</h3>
+            {% if booking.general_services_list %}
+            <div class="detail-chip-list">
+              {% for service in booking.general_services_list %}
+                <span>{{ service }}</span>
+              {% endfor %}
+            </div>
+            {% else %}
+            <p>Not provided</p>
+            {% endif %}
+          </div>
+
+          <div class="detail-subsection">
+            <h3>Optional add-ons</h3>
+            {% if booking.optional_addons_list %}
+            <div class="detail-chip-list">
+              {% for addon in booking.optional_addons_list %}
+                <span>{{ addon }}</span>
+              {% endfor %}
+            </div>
+            {% else %}
+            <p>Not provided</p>
+            {% endif %}
+          </div>
+        </section>
+
+        <section class="wedding-panel detail-card">
+          <h2><i class="fa-regular fa-gem"></i> Theme &amp; Preferences</h2>
+          <div class="theme-name">{{ booking.theme_name }}</div>
+
+          <div class="detail-subsection">
+            <h3>Customer preferences</h3>
+            <p>{{ booking.preferences_display }}</p>
+          </div>
+        </section>
+
+        <section class="wedding-panel detail-card status-management-card">
+          <h2><i class="fa-solid fa-sliders"></i> Booking Status &amp; Actions</h2>
+
+          <div class="status-current-row">
+            <span class="status-current-label">Current status</span>
+            <span class="request-status status-{{ booking.status_key }}">
+              {{ booking.status_label }}
+            </span>
+          </div>
+
+          <form class="status-update-form"
+                method="post"
+                action="{{ url_for('admin_update_booking_status', booking_id=booking.id) }}">
+            <input type="hidden" name="return_to" value="detail">
+            <input type="hidden" name="return_q" value="{{ q }}">
+            <input type="hidden" name="return_from_date" value="{{ from_date }}">
+            <input type="hidden" name="return_to_date" value="{{ to_date }}">
+            <input type="hidden" name="return_status" value="{{ selected_status }}">
+            <input type="hidden" name="return_theme_id" value="{{ selected_theme }}">
+
+            <label for="booking-status-choice">Change booking status</label>
+
+            <div class="status-update-controls">
+              <select id="booking-status-choice"
+                      name="status"
+                      required
+                      {% if not booking.allowed_statuses %}disabled{% endif %}>
+                <option value="" selected disabled>
+                  {% if booking.allowed_statuses %}
+                    Choose an allowed status
+                  {% else %}
+                    No status changes available
+                  {% endif %}
+                </option>
+                <option value="new_request"
+                        {% if 'new_request' not in booking.allowed_statuses %}disabled{% endif %}>
+                  New Request / Pending
+                </option>
+                <option value="under_review"
+                        {% if 'under_review' not in booking.allowed_statuses %}disabled{% endif %}>
+                  Under Review
+                </option>
+                <option value="changes_requested"
+                        {% if 'changes_requested' not in booking.allowed_statuses %}disabled{% endif %}>
+                  Change Requested
+                </option>
+                <option value="confirmed"
+                        {% if 'confirmed' not in booking.allowed_statuses %}disabled{% endif %}>
+                  Confirmed
+                </option>
+                <option value="declined"
+                        {% if 'declined' not in booking.allowed_statuses %}disabled{% endif %}>
+                  Declined / Rejected
+                </option>
+                <option value="cancelled"
+                        {% if 'cancelled' not in booking.allowed_statuses %}disabled{% endif %}>
+                  Cancelled
+                </option>
+              </select>
+
+              <button type="submit" {% if not booking.allowed_statuses %}disabled{% endif %}>
+                <i class="fa-solid fa-check"></i> Save status
+              </button>
+            </div>
+
+            {% if booking.allowed_statuses %}
+            <p class="status-update-help">
+              Only status changes allowed by the booking workflow can be saved.
+            </p>
+            {% else %}
+            <p class="status-update-help">
+              This booking has no further status changes available in the current workflow.
+            </p>
+            {% endif %}
+          </form>
+        </section>
+      </div>
+
+      <footer class="admin-footer">
+        <span>EventFlow Admin Console</span>
+        <span>© 2026 EventFlow</span>
+      </footer>
+    </div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="ef-flashes" aria-live="polite" aria-atomic="true">
+      {% for category, message in messages %}
+        <div class="ef-flash ef-flash-{{ category }}" role="status">
+          <span class="ef-flash-message">{{ message }}</span>
+          <button class="ef-flash-close" type="button"
+                  aria-label="Dismiss message"
+                  onclick="dismissToast(this.closest('.ef-flash'))">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+  </main>
+</div>
+
+<script>
+(() => {
+  const body = document.body;
+  const button = document.getElementById("adminThemeToggle");
+
+  function applyTheme(theme) {
+    body.setAttribute("data-theme", theme);
+    localStorage.setItem("eventflow-theme", theme);
+    button.innerHTML = theme === "midnight"
+      ? '<i class="fa-regular fa-sun"></i>'
+      : '<i class="fa-regular fa-moon"></i>';
+    button.title = theme === "midnight"
+      ? "Switch to day mode"
+      : "Switch to night mode";
+    button.setAttribute("aria-label", button.title);
+  }
+
+  applyTheme(localStorage.getItem("eventflow-theme") || "daylight");
+  button.addEventListener("click", () => {
+    applyTheme(
+      body.getAttribute("data-theme") === "midnight"
+        ? "daylight"
+        : "midnight"
+    );
+  });
+})();
+
+document.querySelectorAll(".ef-flash").forEach((toast) => {
+  setTimeout(() => dismissToast(toast), 4000);
+});
+
+function dismissToast(toast) {
+  if (!toast) return;
+  toast.classList.add("is-hiding");
+  setTimeout(() => toast.remove(), 220);
+}
+</script>
+</body>
+</html>

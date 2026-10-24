@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}EventFlow{% endblock %}
+    </title>
+
+
+    <!-- =====================================================
+         FONTS
+    ====================================================== -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+
+    <!-- =====================================================
+         ICONS
+    ====================================================== -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+    <!-- =====================================================
+         GLOBAL CSS
+    ====================================================== -->
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/app.css') }}">
+
+
+
+    {% block extra_css %}{% endblock %}
+
+</head>
+
+
+<body data-theme="daylight">
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="ef-header">
+
+    <nav class="ef-nav"
+         aria-label="Main navigation">
+
+
+        <!-- =================================================
+             BRAND
+        ================================================== -->
+
+        <a class="ef-brand"
+           href="{{ url_for('index') }}"
+           aria-label="EventFlow home">
+
+            <span class="ef-brand-mark">
+                E
+            </span>
+
+            <span class="ef-brand-name">
+                EventFlow
+            </span>
+
+        </a>
+
+
+        <!-- =================================================
+             MOBILE MENU
+        ================================================== -->
+
+        <button
+            class="ef-mobile-toggle"
+            id="efMobileToggle"
+            type="button"
+            aria-label="Open navigation"
+            aria-expanded="false"
+        >
+
+            <i class="fa-solid fa-bars"></i>
+
+        </button>
+
+
+        <!-- =================================================
+             NAVIGATION
+        ================================================== -->
+
+        <div class="ef-nav-links"
+             id="efNavLinks">
+
+
+            <!-- HOME -->
+
+            <a class="ef-nav-link"
+               href="{{ url_for('index') }}">
+
+                Home
+
+            </a>
+
+
+            <!-- EVENTS -->
+
+            <a class="ef-nav-link"
+               href="#popular-events"
+               onclick="if(location.pathname !== '{{ url_for('index') }}'){ location.href='{{ url_for('index') }}#popular-events'; return false; }">
+
+                Events
+
+            </a>
+
+
+            <!-- =================================================
+                 CATEGORIES
+            ================================================== -->
+
+            <div class="ef-nav-dropdown">
+
+                <button
+                    type="button"
+                    aria-haspopup="true"
+                >
+
+                    Categories
+
+                    <i class="fa-solid fa-chevron-down"></i>
+
+                </button>
+
+
+                <div class="ef-dropdown-menu">
+
+
+                    <a href="{{ url_for('tech_page') }}">
+
+                        <i class="fa-solid fa-microchip"></i>
+
+                        Tech
+
+                    </a>
+
+
+                    <a href="{{ url_for('art_page') }}">
+
+                        <i class="fa-solid fa-palette"></i>
+
+                        Art
+
+                    </a>
+
+
+                    <a href="{{ url_for('culture_page') }}">
+
+                        <i class="fa-solid fa-earth-americas"></i>
+
+                        Culture
+
+                    </a>
+
+
+                    <a href="{{ url_for('fitness_page') }}">
+
+                        <i class="fa-solid fa-dumbbell"></i>
+
+                        Fitness
+
+                    </a>
+
+
+                    <a href="{{ url_for('concerts_page') }}">
+
+                        <i class="fa-solid fa-music"></i>
+
+                        Concerts
+
+                    </a>
+
+
+                    <a href="{{ url_for('wedding_themes') }}">
+
+                        <i class="fa-solid fa-heart"></i>
+
+                        Weddings
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- HOW IT WORKS -->
+
+            <a class="ef-nav-link"
+               href="{{ url_for('index') }}#experience">
+
+                How it works
+
+            </a>
+
+
+            <!-- ABOUT -->
+
+            <a class="ef-nav-link"
+               href="{{ url_for('index') }}#about">
+
+                About
+
+            </a>
+
+
+            <!-- =================================================
+                 ACCOUNT
+            ================================================== -->
+
+            <div class="ef-account">
+
+                {% if 'user_id' in session %}
+
+
+                    {% if session['username'] == 'admin' %}
+
+                        <a class="ef-account-link"
+                           href="{{ url_for('admin_dashboard') }}">
+
+                            <span class="ef-profile-mark">
+
+                                <i class="fa-solid fa-gauge-high"></i>
+
+                            </span>
+
+                            Dashboard
+
+                        </a>
+
+
+                    {% else %}
+
+                        <a class="ef-account-link"
+                           href="{{ url_for('profile') }}">
+
+                            <span class="ef-profile-mark">
+
+                                <i class="fa-solid fa-user"></i>
+
+                            </span>
+
+                            Profile
+
+                        </a>
+
+                    {% endif %}
+
+
+                    <a class="ef-header-btn outline"
+                       href="{{ url_for('logout') }}">
+
+                        Logout
+
+                    </a>
+
+
+                {% else %}
+
+                    <a class="ef-header-btn"
+                       href="{{ url_for('login') }}">
+
+                        Sign in
+
+                    </a>
+
+                {% endif %}
+
+
+                <!-- =================================================
+                     THEME SWITCHER
+
+                     ONLY TWO THEMES:
+                     DAYLIGHT / MIDNIGHT
+
+                     Intentionally placed AFTER account controls.
+                ================================================== -->
+
+                <div class="ef-theme-switcher" aria-label="Appearance">
+                    <button
+                        type="button"
+                        class="ef-theme-btn admin-theme-button"
+                        id="adminThemeToggle"
+                        aria-label="Switch to night mode"
+                        title="Switch to night mode"
+                    >
+                        <i class="fa-regular fa-moon"></i>
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+</header>
+
+
+<!-- =========================================================
+     GLOBAL FLASH / TOAST
+
+     IMPORTANT:
+     This is the ONLY flash notification system.
+
+     Do NOT create another get_flashed_messages()
+     inside individual pages.
+========================================================= -->
+
+{% with messages = get_flashed_messages() %}
+
+    {% if messages %}
+
+        <div class="ef-flashes"
+             aria-live="polite"
+             aria-atomic="true">
+
+            <div class="ef-flash"
+                 role="status">
+
+                <span class="ef-flash-message">
+
+                    {{ messages[0] }}
+
+                </span>
+
+
+                <button
+                    class="ef-flash-close"
+                    type="button"
+                    aria-label="Dismiss notification"
+                    onclick="dismissToast(this.closest('.ef-flash'))"
+                >
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+{% endwith %}
+
+
+<!-- =========================================================
+     MAIN CONTENT
+========================================================= -->
+
+<main>
+
+    {% block content %}{% endblock %}
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="ef-footer">
+
+    <div class="ef-footer-inner">
+
+
+        <!-- BRAND -->
+
+        <div class="ef-footer-brand">
+
+            <a class="ef-brand"
+               href="{{ url_for('index') }}">
+
+                <span class="ef-brand-mark">
+                    E
+                </span>
+
+                <span class="ef-brand-name">
+                    EventFlow
+                </span>
+
+            </a>
+
+
+            <p class="ef-footer-copy">
+
+                Discover events, book experiences,
+                and make every moment memorable.
+
+            </p>
+
+
+            <div class="ef-footer-social">
+
+
+                <a
+                    href="https://github.com/TechieWebAI"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="GitHub"
+                    title="GitHub"
+                >
+
+                    <i class="fa-brands fa-github"></i>
+
+                </a>
+
+
+                <a
+                    href="#"
+                    aria-label="LinkedIn"
+                    title="LinkedIn"
+                >
+
+                    <i class="fa-brands fa-linkedin-in"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- FOOTER LINKS -->
+
+        <div class="ef-footer-links">
+
+
+            <!-- EXPLORE -->
+
+            <div class="ef-footer-column">
+
+                <strong>
+                    Explore
+                </strong>
+
+                <a href="{{ url_for('tech_page') }}">
+                    Tech
+                </a>
+
+                <a href="{{ url_for('art_page') }}">
+                    Art
+                </a>
+
+                <a href="{{ url_for('culture_page') }}">
+                    Culture
+                </a>
+
+                <a href="{{ url_for('fitness_page') }}">
+                    Fitness
+                </a>
+
+                <a href="{{ url_for('concerts_page') }}">
+                    Concerts
+                </a>
+
+                <a href="{{ url_for('wedding_themes') }}">
+                    Weddings
+                </a>
+
+            </div>
+
+
+            <!-- PRODUCT -->
+
+            <div class="ef-footer-column">
+
+                <strong>
+                    Product
+                </strong>
+
+                <a href="{{ url_for('index') }}#popular-events">
+                    Events
+                </a>
+
+                <a href="{{ url_for('index') }}#categories">
+                    Categories
+                </a>
+
+                <a href="{{ url_for('index') }}#experience">
+                    How it works
+                </a>
+
+                <a href="{{ url_for('index') }}#about">
+                    About
+                </a>
+
+            </div>
+
+
+            <!-- ACCOUNT -->
+
+            <div class="ef-footer-column">
+
+                <strong>
+                    Account
+                </strong>
+
+
+                {% if 'user_id' in session %}
+
+                    {% if session['username'] != 'admin' %}
+
+                        <a href="{{ url_for('profile') }}">
+                            Profile
+                        </a>
+
+                    {% endif %}
+
+
+                    <a href="{{ url_for('logout') }}">
+                        Logout
+                    </a>
+
+
+                {% else %}
+
+                    <a href="{{ url_for('login') }}">
+                        Sign in
+                    </a>
+
+                    <a href="{{ url_for('signup') }}">
+                        Create account
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FOOTER BOTTOM -->
+
+    <div class="ef-footer-bottom">
+
+        <span>
+            © 2026 EventFlow
+        </span>
+
+        <span>
+            Discover. Experience. Remember.
+        </span>
+
+    </div>
+
+</footer>
+
+
+<!-- =========================================================
+     GLOBAL JAVASCRIPT
+========================================================= -->
+ <script>
+(function () {
+    const body = document.body;
+    const themeButton = document.getElementById('adminThemeToggle');
+
+    function applyTheme(theme) {
+        const isNight = theme === 'midnight';
+
+        body.setAttribute('data-theme', theme);
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('eventflow-theme', theme);
+
+        if (themeButton) {
+            themeButton.innerHTML = isNight
+                ? '<i class="fa-regular fa-sun"></i>'
+                : '<i class="fa-regular fa-moon"></i>';
+
+            themeButton.title = isNight
+                ? 'Switch to day mode'
+                : 'Switch to night mode';
+
+            themeButton.setAttribute('aria-label', themeButton.title);
+        }
+    }
+
+    applyTheme(localStorage.getItem('eventflow-theme') || 'daylight');
+
+    if (themeButton) {
+        themeButton.addEventListener('click', function () {
+            const currentTheme = body.getAttribute('data-theme');
+            applyTheme(currentTheme === 'midnight' ? 'daylight' : 'midnight');
+        });
+    }
+
+    /* Mobile navigation */
+    const toggle = document.getElementById('efMobileToggle');
+    const links = document.getElementById('efNavLinks');
+
+    if (toggle && links) {
+        toggle.addEventListener('click', function () {
+            const open = links.classList.toggle('open');
+
+            toggle.setAttribute('aria-expanded', String(open));
+            toggle.innerHTML = open
+                ? '<i class="fa-solid fa-xmark"></i>'
+                : '<i class="fa-solid fa-bars"></i>';
+        });
+    }
+})();
+
+/* Global toast */
+function dismissToast(toast) {
+    if (!toast) return;
+
+    toast.classList.add('is-hiding');
+
+    setTimeout(function () {
+        if (toast) toast.remove();
+    }, 220);
+}
+
+/* Auto-dismiss toast */
+document.addEventListener('DOMContentLoaded', function () {
+    const toast = document.querySelector('.ef-flash');
+    if (!toast) return;
+
+    setTimeout(function () {
+        dismissToast(toast);
+    }, 4000);
+});
+</script> 

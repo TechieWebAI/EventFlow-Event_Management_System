@@ -1,0 +1,1113 @@
+/* ============================================================
+   EVENTFLOW — EVENT DETAIL
+   Premium compact event page
+   Frontend only
+   ============================================================ */
+
+
+/* ============================================================
+   PAGE
+   ============================================================ */
+
+.event-detail-page {
+    min-height: calc(100vh - 80px);
+    padding: 24px 0 70px;
+}
+
+.event-detail-shell {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+}
+
+
+/* ============================================================
+   BACK NAVIGATION
+   ============================================================ */
+
+.event-back-row {
+    margin-bottom: 18px;
+}
+
+.event-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    color: var(--ef-muted);
+
+    text-decoration: none;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.event-back-link i {
+    font-size: 11px;
+}
+
+.event-back-link:hover {
+    color: var(--ef-accent);
+    transform: translateX(-3px);
+}
+
+
+/* ============================================================
+   COMPACT HERO
+   ============================================================ */
+
+.event-hero-card {
+    display: grid;
+
+    grid-template-columns: 43% minmax(0, 1fr);
+
+    min-height: 355px;
+
+    overflow: hidden;
+
+    border: 1px solid var(--ef-border);
+    border-radius: 22px;
+
+    background: var(--ef-surface);
+
+    box-shadow:
+        0 20px 55px rgba(0, 0, 0, 0.06);
+}
+
+
+/* ============================================================
+   HERO IMAGE
+   ============================================================ */
+
+.event-hero-media {
+    position: relative;
+
+    min-height: 355px;
+
+    overflow: hidden;
+
+    background: #15181c;
+}
+
+.event-hero-image {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    object-position: center;
+}
+
+
+/* subtle image treatment */
+
+.event-hero-media::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 0.02) 0%,
+            rgba(0, 0, 0, 0.20) 100%
+        );
+
+    pointer-events: none;
+}
+
+
+/* category badge */
+
+.event-hero-category {
+    position: absolute;
+
+    left: 18px;
+    bottom: 18px;
+
+    z-index: 2;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 9px 12px;
+
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+
+    background: rgba(10, 11, 13, 0.78);
+
+    color: #ffffff;
+
+    font-size: 11px;
+    font-weight: 750;
+
+    backdrop-filter: blur(12px);
+}
+
+.event-hero-category i {
+    color: var(--ef-accent);
+}
+
+
+/* ============================================================
+   HERO CONTENT
+   ============================================================ */
+
+.event-hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 34px 38px;
+}
+
+
+/* category */
+
+.event-category-line {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 12px;
+
+    color: var(--ef-accent);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.category-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: var(--ef-accent);
+
+    box-shadow:
+        0 0 0 4px rgba(242, 182, 43, 0.10);
+}
+
+
+/* title */
+
+.event-detail-title {
+    max-width: 680px;
+
+    margin: 0;
+
+    color: var(--ef-text);
+
+    font-size: clamp(31px, 4vw, 49px);
+
+    line-height: 1.04;
+
+    letter-spacing: -0.045em;
+
+    font-weight: 800;
+}
+
+
+/* hero description */
+
+.event-hero-description {
+    max-width: 650px;
+
+    margin: 15px 0 0;
+
+    display: -webkit-box;
+    overflow: hidden;
+
+    color: var(--ef-muted);
+
+    font-size: 13px;
+    line-height: 1.65;
+
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+
+/* ============================================================
+   QUICK DETAILS
+   ============================================================ */
+
+.event-quick-details {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+
+    margin-top: 23px;
+}
+
+.quick-detail {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    min-width: 0;
+
+    padding: 10px 11px;
+
+    border: 1px solid var(--ef-border);
+    border-radius: 11px;
+
+    background: var(--ef-bg);
+}
+
+.quick-detail-icon {
+    width: 29px;
+    height: 29px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 29px;
+
+    border-radius: 8px;
+
+    background: rgba(242, 182, 43, 0.09);
+
+    color: var(--ef-accent);
+
+    font-size: 11px;
+}
+
+.quick-detail div:last-child {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.quick-detail span {
+    color: var(--ef-muted);
+
+    font-size: 9px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.quick-detail strong {
+    overflow: hidden;
+
+    color: var(--ef-text);
+
+    font-size: 11px;
+    font-weight: 750;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* ============================================================
+   MAIN GRID
+   ============================================================ */
+
+.event-main-grid {
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr) 330px;
+
+    gap: 24px;
+
+    margin-top: 24px;
+
+    align-items: start;
+}
+
+.event-main-content {
+    display: flex;
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+
+/* ============================================================
+   CONTENT CARD
+   ============================================================ */
+
+.event-content-card {
+    padding: 25px;
+
+    border: 1px solid var(--ef-border);
+    border-radius: 18px;
+
+    background: var(--ef-surface);
+}
+
+.section-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    margin-bottom: 17px;
+}
+
+.section-eyebrow {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: var(--ef-accent);
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 0.13em;
+
+    text-transform: uppercase;
+}
+
+.section-heading h2 {
+    margin: 0;
+
+    color: var(--ef-text);
+
+    font-size: 20px;
+    line-height: 1.25;
+
+    letter-spacing: -0.025em;
+
+    font-weight: 780;
+}
+
+
+/* ============================================================
+   DESCRIPTION
+   ============================================================ */
+
+.event-description {
+    color: var(--ef-muted);
+
+    font-size: 13px;
+    line-height: 1.8;
+
+    white-space: pre-line;
+}
+
+
+/* ============================================================
+   EVENT DETAILS GRID
+   ============================================================ */
+
+.event-details-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+}
+
+.event-detail-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    min-width: 0;
+
+    padding: 13px;
+
+    border: 1px solid var(--ef-border);
+    border-radius: 12px;
+
+    background: var(--ef-bg);
+}
+
+.detail-icon {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 34px;
+
+    border-radius: 9px;
+
+    background: rgba(242, 182, 43, 0.09);
+
+    color: var(--ef-accent);
+
+    font-size: 12px;
+}
+
+.event-detail-item > div:last-child {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.event-detail-item span {
+    color: var(--ef-muted);
+
+    font-size: 9px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.event-detail-item strong {
+    overflow: hidden;
+
+    color: var(--ef-text);
+
+    font-size: 12px;
+    font-weight: 700;
+
+    line-height: 1.4;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* ============================================================
+   INFO NOTE
+   ============================================================ */
+
+.event-info-note {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    padding: 13px 15px;
+
+    border: 1px solid rgba(242, 182, 43, 0.16);
+    border-radius: 13px;
+
+    background: rgba(242, 182, 43, 0.055);
+}
+
+.note-icon {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 30px;
+
+    border-radius: 8px;
+
+    background: rgba(242, 182, 43, 0.10);
+
+    color: var(--ef-accent);
+
+    font-size: 11px;
+}
+
+.event-info-note div:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.event-info-note strong {
+    color: var(--ef-text);
+
+    font-size: 11px;
+    font-weight: 750;
+}
+
+.event-info-note span {
+    color: var(--ef-muted);
+
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+
+/* ============================================================
+   BOOKING COLUMN
+   ============================================================ */
+
+.event-booking-column {
+    position: sticky;
+    top: 100px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+
+/* ============================================================
+   BOOKING CARD
+   ============================================================ */
+
+.event-booking-card {
+    padding: 22px;
+
+    border: 1px solid var(--ef-border);
+    border-radius: 18px;
+
+    background: var(--ef-surface);
+
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.07);
+}
+
+.booking-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding-bottom: 18px;
+
+    border-bottom: 1px solid var(--ef-border);
+}
+
+.booking-card-label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: var(--ef-muted);
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 0.12em;
+}
+
+.event-price {
+    color: var(--ef-text);
+
+    font-size: 29px;
+    line-height: 1;
+
+    font-weight: 800;
+
+    letter-spacing: -0.035em;
+}
+
+.event-price .currency {
+    margin-right: 2px;
+
+    color: var(--ef-accent);
+
+    font-size: 20px;
+}
+
+.price-unit {
+    margin-left: 4px;
+
+    color: var(--ef-muted);
+
+    font-size: 10px;
+
+    font-weight: 650;
+
+    letter-spacing: 0;
+}
+
+.booking-ticket-icon {
+    width: 39px;
+    height: 39px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 39px;
+
+    border-radius: 11px;
+
+    background: rgba(242, 182, 43, 0.10);
+
+    color: var(--ef-accent);
+
+    font-size: 14px;
+}
+
+
+/* ============================================================
+   AVAILABILITY
+   ============================================================ */
+
+.ticket-availability {
+    padding: 18px 0;
+}
+
+.availability-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 9px;
+}
+
+.availability-header span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    color: var(--ef-muted);
+
+    font-size: 10px;
+    font-weight: 650;
+}
+
+.availability-header span i {
+    color: var(--ef-accent);
+}
+
+.availability-header strong {
+    color: var(--ef-text);
+
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.availability-track {
+    width: 100%;
+    height: 5px;
+
+    overflow: hidden;
+
+    border-radius: 999px;
+
+    background: var(--ef-border);
+}
+
+.availability-fill {
+    width: 58%;
+    height: 100%;
+
+    border-radius: inherit;
+
+    background: var(--ef-accent);
+}
+
+
+/* ============================================================
+   BOOKING ACTION
+   ============================================================ */
+
+.booking-action {
+    padding-top: 2px;
+}
+
+.booking-action form {
+    width: 100%;
+}
+
+.event-book-button {
+    width: 100%;
+    min-height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    border: 1px solid var(--ef-accent);
+    border-radius: 11px;
+
+    background: var(--ef-accent);
+
+    color: #17130a;
+
+    text-decoration: none;
+
+    font-family: inherit;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.event-book-button:hover {
+    background: var(--ef-accent-hover, #d99a17);
+    border-color: var(--ef-accent-hover, #d99a17);
+
+    color: #17130a;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(242, 182, 43, 0.18);
+}
+
+.event-book-button i {
+    font-size: 10px;
+
+    transition: transform 0.2s ease;
+}
+
+.event-book-button:hover i {
+    transform: translateX(3px);
+}
+
+
+/* ============================================================
+   BOOKING NOTE
+   ============================================================ */
+
+.booking-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    margin: 11px 0 0;
+
+    color: var(--ef-muted);
+
+    font-size: 9px;
+
+    line-height: 1.5;
+
+    text-align: center;
+}
+
+.booking-note i {
+    color: var(--ef-accent);
+
+    font-size: 10px;
+}
+
+
+/* ============================================================
+   TRUST CARD
+   ============================================================ */
+
+.event-trust-card {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 10px;
+
+    padding: 13px 14px;
+
+    border: 1px solid var(--ef-border);
+    border-radius: 14px;
+
+    background: transparent;
+}
+
+.trust-icon {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 30px;
+
+    border-radius: 8px;
+
+    background: rgba(242, 182, 43, 0.08);
+
+    color: var(--ef-accent);
+
+    font-size: 11px;
+}
+
+.trust-content {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.trust-content strong {
+    color: var(--ef-text);
+
+    font-size: 10px;
+
+    font-weight: 750;
+}
+
+.trust-content span {
+    color: var(--ef-muted);
+
+    font-size: 9px;
+
+    line-height: 1.5;
+}
+
+
+/* ============================================================
+   DAYLIGHT THEME
+   ============================================================ */
+
+body[data-theme="daylight"] .event-hero-card,
+body[data-theme="daylight"] .event-content-card,
+body[data-theme="daylight"] .event-booking-card {
+    box-shadow:
+        0 16px 40px rgba(47, 39, 25, 0.055);
+}
+
+
+/* ============================================================
+   MIDNIGHT THEME
+   ============================================================ */
+
+body[data-theme="midnight"] .event-hero-card,
+body[data-theme="midnight"] .event-content-card,
+body[data-theme="midnight"] .event-booking-card {
+    box-shadow:
+        0 20px 55px rgba(0, 0, 0, 0.24);
+}
+
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width: 950px) {
+
+    .event-detail-shell {
+        width: min(100% - 32px, 760px);
+    }
+
+    .event-hero-card {
+        grid-template-columns: 1fr;
+
+        min-height: auto;
+    }
+
+    .event-hero-media {
+        height: 300px;
+        min-height: 300px;
+    }
+
+    .event-hero-content {
+        padding: 28px;
+    }
+
+    .event-main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .event-booking-column {
+        position: static;
+
+        width: min(100%, 560px);
+
+        margin: 0 auto;
+    }
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 680px) {
+
+    .event-detail-page {
+        padding: 20px 0 50px;
+    }
+
+    .event-detail-shell {
+        width: min(100% - 20px, 100%);
+    }
+
+    .event-back-row {
+        margin-bottom: 14px;
+    }
+
+
+    /* HERO */
+
+    .event-hero-card {
+        border-radius: 17px;
+    }
+
+    .event-hero-media {
+        height: 230px;
+        min-height: 230px;
+    }
+
+    .event-hero-content {
+        padding: 22px 20px;
+    }
+
+    .event-detail-title {
+        font-size: 31px;
+        line-height: 1.08;
+    }
+
+    .event-hero-description {
+        margin-top: 12px;
+
+        font-size: 12px;
+    }
+
+    .event-quick-details {
+        grid-template-columns: 1fr;
+
+        gap: 8px;
+
+        margin-top: 18px;
+    }
+
+    .quick-detail {
+        padding: 9px 10px;
+    }
+
+
+    /* MAIN */
+
+    .event-main-grid {
+        gap: 14px;
+
+        margin-top: 14px;
+    }
+
+    .event-main-content {
+        gap: 14px;
+    }
+
+    .event-content-card {
+        padding: 20px;
+
+        border-radius: 16px;
+    }
+
+    .section-heading h2 {
+        font-size: 18px;
+    }
+
+    .event-description {
+        font-size: 12px;
+        line-height: 1.75;
+    }
+
+
+    /* DETAILS */
+
+    .event-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .event-detail-item {
+        padding: 11px;
+    }
+
+
+    /* BOOKING */
+
+    .event-booking-card {
+        padding: 19px;
+
+        border-radius: 16px;
+    }
+
+    .event-price {
+        font-size: 27px;
+    }
+
+    .event-trust-card {
+        padding: 12px;
+    }
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 420px) {
+
+    .event-detail-shell {
+        width: min(100% - 14px, 100%);
+    }
+
+    .event-hero-media {
+        height: 205px;
+        min-height: 205px;
+    }
+
+    .event-hero-content {
+        padding: 19px 17px;
+    }
+
+    .event-detail-title {
+        font-size: 28px;
+    }
+
+    .event-content-card {
+        padding: 17px;
+    }
+
+    .event-booking-card {
+        padding: 17px;
+    }
+}
+
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+
+.event-back-link:focus-visible,
+.event-book-button:focus-visible {
+    outline: 3px solid rgba(242, 182, 43, 0.30);
+    outline-offset: 3px;
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .event-back-link,
+    .event-book-button,
+    .event-book-button i {
+        transition: none;
+    }
+
+    .event-back-link:hover,
+    .event-book-button:hover {
+        transform: none;
+    }
+
+    .event-book-button:hover i {
+        transform: none;
+    }
+}

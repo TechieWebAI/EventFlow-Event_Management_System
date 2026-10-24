@@ -1,0 +1,495 @@
+{% extends "base.html" %}
+
+{% block title %}Select Tickets · EventFlow{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/step2.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<main class="booking-step-page">
+
+    <div class="booking-step-shell">
+
+        <!-- HEADER -->
+        <section class="booking-page-header">
+
+            <div class="booking-eyebrow">
+                EVENT BOOKING
+            </div>
+
+            <h1>Select your tickets</h1>
+
+            <p>
+                Choose how many tickets you would like to reserve for this event.
+            </p>
+
+        </section>
+
+
+        <!-- =====================================================
+             SAME PROGRESS AS STEP 1 / PAYMENT
+        ====================================================== -->
+
+        <section class="booking-progress" aria-label="Booking progress">
+
+            <div class="booking-progress-step
+                {% if step >= 1 %}completed{% endif %}
+                {% if step == 1 %}active{% endif %}"
+            >
+                <span class="progress-number">
+                    {% if step > 1 %}
+                        <i class="fa-solid fa-check"></i>
+                    {% else %}
+                        1
+                    {% endif %}
+                </span>
+
+                <div class="progress-label">
+                    <strong>Personal Info</strong>
+                    <small>Details</small>
+                </div>
+            </div>
+
+
+            <div class="booking-progress-line
+                {% if step > 1 %}completed{% endif %}">
+            </div>
+
+
+            <div class="booking-progress-step
+                {% if step >= 2 %}completed{% endif %}
+                {% if step == 2 %}active{% endif %}"
+            >
+                <span class="progress-number">
+                    {% if step > 2 %}
+                        <i class="fa-solid fa-check"></i>
+                    {% else %}
+                        2
+                    {% endif %}
+                </span>
+
+                <div class="progress-label">
+                    <strong>Tickets</strong>
+                    <small>Quantity</small>
+                </div>
+            </div>
+
+
+            <div class="booking-progress-line
+                {% if step > 2 %}completed{% endif %}">
+            </div>
+
+
+            <div class="booking-progress-step
+                {% if step >= 3 %}completed{% endif %}
+                {% if step == 3 %}active{% endif %}"
+            >
+                <span class="progress-number">
+                    {% if step > 3 %}
+                        <i class="fa-solid fa-check"></i>
+                    {% else %}
+                        3
+                    {% endif %}
+                </span>
+
+                <div class="progress-label">
+                    <strong>Payment</strong>
+                    <small>Secure checkout</small>
+                </div>
+            </div>
+
+
+            <div class="booking-progress-line
+                {% if step > 3 %}completed{% endif %}">
+            </div>
+
+
+            <div class="booking-progress-step
+                {% if step == 4 %}active{% endif %}"
+            >
+                <span class="progress-number">4</span>
+
+                <div class="progress-label">
+                    <strong>Confirmation</strong>
+                    <small>Done</small>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             CONTENT
+        ====================================================== -->
+
+        <div class="ticket-selection-layout">
+
+            <!-- EVENT SUMMARY -->
+            <section class="booking-card event-summary-card">
+
+                <div class="booking-card-header">
+
+                    <div class="booking-card-icon">
+                        <i class="fa-regular fa-calendar-check"></i>
+                    </div>
+
+                    <div>
+                        <span class="booking-card-kicker">
+                            YOUR EVENT
+                        </span>
+
+                        <h2>Event summary</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="event-summary">
+
+                    <div class="event-summary-title">
+                        {{ event.title }}
+                    </div>
+
+
+                    <div class="event-summary-price">
+
+                        <span>
+                            ₹{{ event.price }}
+                        </span>
+
+                        <small>
+                            per ticket
+                        </small>
+
+                    </div>
+
+
+                    <div class="event-summary-details">
+
+                        <div class="event-summary-row">
+
+                            <span>
+                                <i class="fa-solid fa-tag"></i>
+                                Category
+                            </span>
+
+                            <strong>
+                                {{ event.category }}
+                            </strong>
+
+                        </div>
+
+
+                        {% if event.event_date %}
+
+                        <div class="event-summary-row">
+
+                            <span>
+                                <i class="fa-regular fa-calendar"></i>
+                                Event date
+                            </span>
+
+                            <strong>
+                                {{ event.event_date }}
+                            </strong>
+
+                        </div>
+
+                        {% endif %}
+
+
+                        {% if event.location %}
+
+                        <div class="event-summary-row">
+
+                            <span>
+                                <i class="fa-solid fa-location-dot"></i>
+                                Location
+                            </span>
+
+                            <strong>
+                                {{ event.location }}
+                            </strong>
+
+                        </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="summary-note">
+
+                        <i class="fa-solid fa-circle-info"></i>
+
+                        <span>
+                            Your ticket quantity can be changed before payment.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- TICKET SELECTION -->
+            <section class="booking-card ticket-card">
+
+                <div class="ticket-card-header">
+
+                    <div>
+
+                        <span class="booking-card-kicker">
+                            STEP 2 OF 4
+                        </span>
+
+                        <h2>Choose your tickets</h2>
+
+                        <p>
+                            Select the number of tickets you need.
+                        </p>
+
+                    </div>
+
+                    <div class="booking-card-icon ticket-icon">
+                        <i class="fa-solid fa-ticket"></i>
+                    </div>
+
+                </div>
+
+
+                <form method="POST" class="ticket-form">
+
+                    <!-- QUANTITY -->
+
+                    <div class="quantity-section">
+
+                        <label for="quantity">
+                            Number of tickets
+                        </label>
+
+                        <div class="quantity-control">
+
+                            <button
+                                type="button"
+                                class="quantity-btn"
+                                id="decreaseQuantity"
+                                aria-label="Decrease ticket quantity"
+                            >
+                                <i class="fa-solid fa-minus"></i>
+                            </button>
+
+
+                            <input
+                                type="number"
+                                name="quantity"
+                                id="quantity"
+                                min="1"
+                                value="1"
+                                required
+                                inputmode="numeric"
+                            >
+
+
+                            <button
+                                type="button"
+                                class="quantity-btn"
+                                id="increaseQuantity"
+                                aria-label="Increase ticket quantity"
+                            >
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+
+                        </div>
+
+                        <p class="quantity-help">
+                            Enter the number of tickets you want to book.
+                        </p>
+
+                    </div>
+
+
+                    <!-- PRICE -->
+
+                    <div class="price-summary">
+
+                        <div class="price-row">
+
+                            <span>
+                                Price per ticket
+                            </span>
+
+                            <strong>
+                                ₹{{ event.price }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="price-row">
+
+                            <span>
+                                Tickets
+                            </span>
+
+                            <strong id="ticketCount">
+                                1
+                            </strong>
+
+                        </div>
+
+
+                        <div class="price-total-row">
+
+                            <span>
+                                Total
+                            </span>
+
+                            <strong id="totalPrice">
+                                ₹{{ event.price }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ACTIONS -->
+
+                    <div class="booking-actions">
+
+                        <button
+                            type="submit"
+                            class="continue-button"
+                        >
+                            <span>Continue to Payment</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            name="action"
+                            value="back"
+                            class="back-button"
+                        >
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span>Back</span>
+                        </button>
+
+                    </div>
+
+
+                    <div class="secure-note">
+
+                        <i class="fa-solid fa-shield-halved"></i>
+
+                        <span>
+                            Your booking information is securely processed.
+                        </span>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const quantityInput = document.getElementById("quantity");
+    const totalPrice = document.getElementById("totalPrice");
+    const ticketCount = document.getElementById("ticketCount");
+
+    const decreaseButton =
+        document.getElementById("decreaseQuantity");
+
+    const increaseButton =
+        document.getElementById("increaseQuantity");
+
+    const pricePerTicket =
+        Number({{ event.price|default(0)|float }});
+
+
+    function updatePrice() {
+
+        let quantity =
+            parseInt(quantityInput.value, 10);
+
+        if (isNaN(quantity) || quantity < 1) {
+
+            quantity = 1;
+
+            quantityInput.value = 1;
+        }
+
+        const total =
+            quantity * pricePerTicket;
+
+        ticketCount.textContent =
+            quantity;
+
+        totalPrice.textContent =
+            "₹" + total.toFixed(2);
+    }
+
+
+    quantityInput.addEventListener(
+        "input",
+        updatePrice
+    );
+
+
+    decreaseButton.addEventListener(
+        "click",
+        function () {
+
+            let quantity =
+                parseInt(quantityInput.value, 10) || 1;
+
+            if (quantity > 1) {
+
+                quantity--;
+
+                quantityInput.value =
+                    quantity;
+
+                updatePrice();
+            }
+        }
+    );
+
+
+    increaseButton.addEventListener(
+        "click",
+        function () {
+
+            let quantity =
+                parseInt(quantityInput.value, 10) || 1;
+
+            quantity++;
+
+            quantityInput.value =
+                quantity;
+
+            updatePrice();
+        }
+    );
+
+
+    updatePrice();
+
+});
+</script>
+
+{% endblock %}

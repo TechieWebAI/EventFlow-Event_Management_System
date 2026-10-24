@@ -1,0 +1,417 @@
+{% extends "base.html" %}
+
+{% block title %}Culture Events — EventFlow{% endblock %}
+
+{% block extra_css %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/pages/culture.css') }}"
+>
+{% endblock %}
+
+
+{% block content %}
+
+<main class="culture-page">
+
+    <!-- =====================================================
+         PAGE HERO
+    ====================================================== -->
+    <section class="culture-hero">
+
+        <div class="culture-container">
+
+            <div class="culture-hero-layout">
+
+                <!-- LEFT -->
+                <div class="culture-hero-content">
+
+                    <div class="culture-eyebrow">
+                        <span class="culture-eyebrow-dot"></span>
+                        CULTURE & EXPERIENCES
+                    </div>
+
+                    <h1>
+                        Discover what's
+                        <span>next in culture.</span>
+                    </h1>
+
+                    <p>
+                        Explore cultural celebrations, heritage events,
+                        community experiences, festivals, performances,
+                        and experiences that bring people together.
+                    </p>
+
+                    <div class="culture-hero-actions">
+
+                        <a
+                            href="#culture-events"
+                            class="culture-primary-btn"
+                        >
+                            Explore events
+                            <i class="fa-solid fa-arrow-down"></i>
+                        </a>
+
+                        <a
+                            href="{{ url_for('index') }}"
+                            class="culture-secondary-btn"
+                        >
+                            Back to discovery
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RIGHT VISUAL -->
+                <div class="culture-hero-visual">
+
+                    <div class="culture-visual-card">
+
+                        {% if culture_events %}
+
+                            {% set featured_culture = culture_events[0] %}
+
+                            <div class="culture-featured-image">
+
+                                <img
+                                    src="{{ url_for(
+                                        'static',
+                                        filename='images/' + featured_culture['image']
+                                    ) }}"
+                                    alt="{{ featured_culture['title'] }}"
+                                >
+
+                                <div class="culture-featured-overlay"></div>
+
+                                <span class="culture-featured-label">
+                                    <i class="fa-solid fa-landmark"></i>
+                                    Featured culture
+                                </span>
+
+                            </div>
+
+                            <div class="culture-featured-body">
+
+                                <span class="culture-featured-category">
+                                    Culture
+                                </span>
+
+                                <h2>
+                                    {{ featured_culture['title'] }}
+                                </h2>
+
+                                <div class="culture-featured-meta">
+
+                                    <span>
+                                        <i class="fa-regular fa-calendar"></i>
+                                        {{ featured_culture['event_date'] }}
+                                    </span>
+
+                                    <span>
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        {{ featured_culture['location'] }}
+                                    </span>
+
+                                </div>
+
+                                <a
+                                    href="{{ url_for(
+                                        'event_detail',
+                                        event_id=featured_culture['id']
+                                    ) }}"
+                                    class="culture-featured-link"
+                                >
+                                    View featured event
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                </a>
+
+                            </div>
+
+                        {% else %}
+
+                            <div class="culture-empty-hero">
+
+                                <div class="culture-empty-icon">
+                                    <i class="fa-solid fa-landmark"></i>
+                                </div>
+
+                                <span>
+                                    Culture events
+                                </span>
+
+                                <h2>
+                                    New experiences are coming.
+                                </h2>
+
+                                <p>
+                                    Cultural events added to EventFlow
+                                    will appear here.
+                                </p>
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         EVENT DISCOVERY
+    ====================================================== -->
+    <section
+        class="culture-events-section"
+        id="culture-events"
+    >
+
+        <div class="culture-container">
+
+            <!-- SECTION HEADER -->
+            <div class="culture-section-header">
+
+                <div>
+
+                    <span class="culture-section-kicker">
+                        EXPLORE CULTURE
+                    </span>
+
+                    <h2>
+                        Upcoming culture events
+                    </h2>
+
+                    <p>
+                        Discover festivals, cultural gatherings,
+                        community experiences and meaningful celebrations.
+                    </p>
+
+                </div>
+
+
+                {% if culture_events %}
+
+                <div class="culture-event-count">
+
+                    <strong>
+                        {{ culture_events|length }}
+                    </strong>
+
+                    <span>
+                        {% if culture_events|length == 1 %}
+                            event available
+                        {% else %}
+                            events available
+                        {% endif %}
+                    </span>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- EVENT GRID -->
+            {% if culture_events %}
+
+            <div class="culture-event-grid">
+
+                {% for event in culture_events %}
+
+                <article class="culture-event-card">
+
+                    <!-- IMAGE -->
+                    <div class="culture-event-image">
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename='images/' + event['image']
+                            ) }}"
+                            alt="{{ event['title'] }}"
+                            loading="lazy"
+                        >
+
+                        <div class="culture-event-image-overlay"></div>
+
+                        <span class="culture-event-tag">
+                            <i class="fa-solid fa-landmark"></i>
+                            Culture
+                        </span>
+
+                        <a
+                            href="{{ url_for(
+                                'event_detail',
+                                event_id=event['id']
+                            ) }}"
+                            class="culture-image-action"
+                            aria-label="View {{ event['title'] }}"
+                        >
+                            <i class="fa-solid fa-arrow-up-right"></i>
+                        </a>
+
+                    </div>
+
+
+                    <!-- CONTENT -->
+                    <div class="culture-event-body">
+
+                        <div class="culture-event-date">
+
+                            <i class="fa-regular fa-calendar"></i>
+
+                            <span>
+                                {{ event['event_date'] }}
+
+                            </span>
+
+                        </div>
+
+
+                        <h3>
+                            {{ event['title'] }}
+                        </h3>
+
+
+                        {% if event['description'] %}
+
+                        <p class="culture-event-description">
+                            {{ event['description'] }}
+                        </p>
+
+                        {% endif %}
+
+
+                        <div class="culture-event-location">
+
+                            <i class="fa-solid fa-location-dot"></i>
+
+                            <span>
+                                {{ event['location'] }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="culture-event-footer">
+
+                            <span class="culture-event-type">
+                                Culture event
+                            </span>
+
+                            <a
+                                href="{{ url_for(
+                                    'event_detail',
+                                    event_id=event['id']
+                                ) }}"
+                                class="culture-view-event"
+                            >
+                                View event
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                {% endfor %}
+
+            </div>
+
+
+            {% else %}
+
+            <!-- EMPTY STATE -->
+            <div class="culture-empty-state">
+
+                <div class="culture-empty-state-icon">
+                    <i class="fa-solid fa-landmark"></i>
+                </div>
+
+                <div>
+
+                    <span class="culture-empty-kicker">
+                        CULTURE
+                    </span>
+
+                    <h3>
+                        No culture events available yet
+                    </h3>
+
+                    <p>
+                        New festivals, cultural gatherings and community
+                        experiences will appear here when they are added
+                        to EventFlow.
+                    </p>
+
+                    <a
+                        href="{{ url_for('index') }}"
+                        class="culture-empty-link"
+                    >
+                        Explore other events
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CATEGORY FOOTER CTA
+    ====================================================== -->
+    <section class="culture-bottom-cta">
+
+        <div class="culture-container">
+
+            <div class="culture-bottom-inner">
+
+                <div>
+
+                    <span class="culture-section-kicker">
+                        KEEP EXPLORING
+                    </span>
+
+                    <h2>
+                        Looking for something beyond culture?
+                    </h2>
+
+                    <p>
+                        Explore more experiences across EventFlow.
+                    </p>
+
+                </div>
+
+                <a
+                    href="{{ url_for('index') }}"
+                    class="culture-bottom-btn"
+                >
+                    Explore all events
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+{% endblock %}
